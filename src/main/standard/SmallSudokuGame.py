@@ -12,7 +12,7 @@ class SmallSudokuGame(FormalGameInterface):
         self.cells = cross(self.rows, self.cols)
         self.unitlist = ([cross(self.rows, self.cols)]) # Only one unit in small sudoku 
 
-        # Create a dict that holds all units that each square belongs to
+        # Create a dict that holds all units that each cell belongs to
         self.units: Dict[str, List[List[str]]] = {}
         for c in self.cells:
             units_for_s: List[List[str]] = []  # List to hold units containing s
@@ -21,7 +21,7 @@ class SmallSudokuGame(FormalGameInterface):
                     units_for_s.append(u)
             self.units[c] = units_for_s
 
-        # Create a dict that holds all cells which shares unit with a square
+        # Create a dict that holds all cells which shares unit with a cell
         self.peers: Dict[str, Set[str]] = {}
         for c in self.cells:
             all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
