@@ -35,8 +35,14 @@ class SmallSudokuGame(FormalGameInterface):
         self.nsubgrids = 1 
         self.ncells = len(self.cells)
 
-        # Initialize grid
+        # Initialize grid representation
         self.grid = GameConstants.EMPTY_CELL*self.ncells
+
+        # Initialize grid value dict
+        self.grid_value_dict: Dict[str, str] = {}
+        for i, c in enumerate(self.cells):
+            value = self.grid[i]
+            self.grid_value_dict[c] = value
 
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         return "win"
@@ -44,8 +50,8 @@ class SmallSudokuGame(FormalGameInterface):
     def getSudokuDimension(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids
     
-    def getGridValues(self) -> Dict[str, str]:
-        return {"x": GameConstants.EMPTY_CELL}
+    def getGridValueDict(self) -> Dict[str, str]:
+        return self.grid_value_dict
 
 if __name__ == "__main__":
     game = SmallSudokuGame()
