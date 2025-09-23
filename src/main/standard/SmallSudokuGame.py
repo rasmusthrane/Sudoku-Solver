@@ -1,5 +1,6 @@
 from main.framework.game import FormalGameInterface
 from main.framework.utility import cross
+from main.standard.GameConstants import GameConstants
 
 from typing import Tuple, List, Dict, Set
 from typing_extensions import Literal
@@ -35,9 +36,7 @@ class SmallSudokuGame(FormalGameInterface):
         self.ncells = len(self.cells)
 
         # Initialize grid
-        #print(self.cells)
-        grid = '.'*self.ncells
-        print(grid)
+        self.grid = GameConstants.EMPTY_CELL*self.ncells
 
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         return "win"

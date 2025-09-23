@@ -6,6 +6,7 @@ import unittest
 class TestGame(unittest.TestCase):
     def setUp(self):
         self.game = SmallSudokuGame()
+        self.testHelper = TestHelper()
 
     def test_shouldReturnDimensions3x3x1(self):
         nrows, ncols, nsubgrids = self.game.getSudokuDimension()
@@ -13,8 +14,9 @@ class TestGame(unittest.TestCase):
         self.assertEqual(ncols, 3)
         self.assertEqual(nsubgrids, 1)
 
-    def test_a(self):
-        TestHelper.printGameState(self.game)
+    def test_shouldHaveEmptyGridAtStart(self):
+        grid = self.game.grid
+        self.assertEqual(grid, '.........')
 
     
 
