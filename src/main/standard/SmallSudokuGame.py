@@ -31,7 +31,7 @@ class SmallSudokuGame(FormalGameInterface):
         
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
-        self.nsubgrids = 1 # Todo: Infer from nrows, ncols
+        self.nsubgrids = 1 
 
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         return "win"
