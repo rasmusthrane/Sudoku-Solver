@@ -1,14 +1,22 @@
 import abc
 from typing_extensions import Literal
+from typing import Tuple
 
 class FormalGameInterface(metaclass=abc.ABCMeta):
-    # @classmethod
-    # def __subclasshook__(cls, subclass):
-    #     return (
-    #         hasattr(subclass, 'getWinStatus') and
-    #         callable(subclass.getWinStatus)
-    #     )
     @abc.abstractmethod
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         """Return the current win status of the game."""
+        pass
+
+    @abc.abstractmethod
+    def getSudokuDimension(self) -> Tuple[int, int, int]:
+        """
+        Return the dimensions of the Sudoku grid.
+
+        Returns:
+            Tuple[int, int, int]: A tuple containing:
+                - number of rows in the grid
+                - number of columns in the grid
+                - number of subgrids (boxes) (e.g., 9 for a 9x9 Sudoku)
+        """
         pass
