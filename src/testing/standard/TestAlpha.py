@@ -1,7 +1,9 @@
 from main.standard.SmallSudokuGame import SmallSudokuGame
+from main.standard.GameConstants import GameConstants
 from testing.utility.TestHelper import TestHelper
 
 import unittest
+from typing import Dict
 
 class TestGame(unittest.TestCase):
     def setUp(self):
@@ -15,8 +17,10 @@ class TestGame(unittest.TestCase):
         self.assertEqual(nsubgrids, 1)
 
     def test_shouldHaveEmptyGridAtStart(self):
-        grid = self.game.grid
-        self.assertEqual(grid, '.........')
+        grid_values_dict = self.game.getGridValues()
+        for v in grid_values_dict.values():
+            self.assertEqual(v, GameConstants.EMPTY_CELL)
+
 
     
 

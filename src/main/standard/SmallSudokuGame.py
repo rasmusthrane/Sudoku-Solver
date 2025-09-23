@@ -43,6 +43,9 @@ class SmallSudokuGame(FormalGameInterface):
     
     def getSudokuDimension(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids
+    
+    def getGridValues(self) -> Dict[str, str]:
+        return {"x": GameConstants.EMPTY_CELL}
 
 if __name__ == "__main__":
     game = SmallSudokuGame()
