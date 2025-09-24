@@ -1,6 +1,7 @@
 from main.framework.game import FormalGameInterface
 from main.framework.utility import cross
 from main.standard.GameConstants import GameConstants
+from main.framework.status import Status
 
 from typing import Tuple, List, Dict, Set
 from typing_extensions import Literal
@@ -53,11 +54,16 @@ class SquareSudokuGame(FormalGameInterface):
     def getGridValueDict(self) -> Dict[str, str]:
         return self.grid_value_dict
     
-    def setSudoku(self, sudoku_rep_with_clues: str) -> None:
-        self.grid = sudoku_rep_with_clues
-        for i, c in enumerate(self.cells):
-            value = self.grid[i]
-            self.grid_value_dict[c] = value
+    def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
+        status = Status.OK
+
+        if status is Status.OK:
+            self.grid = sudoku_rep_with_clues
+            for i, c in enumerate(self.cells):
+                value = self.grid[i]
+                self.grid_value_dict[c] = value
+
+        return status
 
 if __name__ == "__main__":
     game = SquareSudokuGame()

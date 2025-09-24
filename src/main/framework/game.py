@@ -1,3 +1,5 @@
+from main.framework.status import Status
+
 import abc
 from typing_extensions import Literal
 from typing import Tuple, Dict
@@ -36,9 +38,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def setSudoku(self, clues: str) -> None:
+    def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
         """
-        Inject clues into an empty Sudoku by modifying the grid.
+        Inject clues into an empty Sudoku by m  odifying the grid.
+        Returns the status of the mutator call
 
         """
         pass

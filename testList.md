@@ -3,3 +3,4 @@
 [Ok] Given an initialzed game, no clues should be present
 [Ok] Given an initialized game, all cells should be named correctly
 [Ok] Given an initialized game, when injecting the clue '1' in A1 and '9' in C3 all other values should be empty
+[] Given a game, when injecting an invalid set of clues ('3' used twice), Status.DUPLICATE_CLUE should be returned

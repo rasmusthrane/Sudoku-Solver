@@ -1,5 +1,6 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
+from main.framework.status import Status
 from testing.utility.TestHelper import TestHelper as th
 
 import unittest
@@ -27,14 +28,15 @@ class TestGame(unittest.TestCase):
 
         self.assertListEqual(cell_names, correct_cell_names)
     
-    def test_shouldHaveCorrectValuesAfterInjectingClues(self):
+    def test_shouldHaveCorrectValuesAfterInjectingCluesAndStatusShouldBeOK(self):
         clues = "1.......9"
-        self.game.setSudoku(clues)
+        status = self.game.setSudoku(clues)
         grid_values_dict = self.game.getGridValueDict()
         cell_values = list(grid_values_dict.values())
         correct_values = ['1', '.', '.', '.', '.', '.', '.', '.', '9']
 
         self.assertListEqual(cell_values, correct_values)
+        self.assertIs(status, Status.OK)
 
 
 
