@@ -1,7 +1,7 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
 from main.framework.status import Status
-from testing.utility.TestHelper import TestHelper as th
+from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
 import unittest
 
