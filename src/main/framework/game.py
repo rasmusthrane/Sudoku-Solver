@@ -34,3 +34,11 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
                 - value: value
         """
         pass
+
+    @abc.abstractmethod
+    def setSudoku(self, clues: str) -> None:
+        """
+        Inject clues into an empty Sudoku by modifying the grid.
+
+        """
+        pass

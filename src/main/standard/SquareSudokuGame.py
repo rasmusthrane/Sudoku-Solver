@@ -52,6 +52,9 @@ class SquareSudokuGame(FormalGameInterface):
     
     def getGridValueDict(self) -> Dict[str, str]:
         return self.grid_value_dict
+    
+    def setSudoku(self, clues: str) -> None:
+        pass
 
 if __name__ == "__main__":
     game = SquareSudokuGame()
