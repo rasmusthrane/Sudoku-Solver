@@ -33,7 +33,6 @@ class TestGame(unittest.TestCase):
         grid_values_dict = self.game.getGridValueDict()
         cell_values = list(grid_values_dict.values())
         correct_values = ['1', '.', '.', '.', '.', '.', '.', '.', '9']
-        #th.printHighlight(cell_values)
 
         self.assertListEqual(cell_values, correct_values)
 
