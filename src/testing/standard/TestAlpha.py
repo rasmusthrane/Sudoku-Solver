@@ -1,4 +1,4 @@
-from main.standard.SmallSudokuGame import SmallSudokuGame
+from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
 from testing.utility.TestHelper import TestHelper
 
@@ -6,7 +6,7 @@ import unittest
 
 class TestGame(unittest.TestCase):
     def setUp(self):
-        self.game = SmallSudokuGame()
+        self.game = SquareSudokuGame()
         self.testHelper = TestHelper()
 
     def test_shouldReturnDimensions3x3x1(self):

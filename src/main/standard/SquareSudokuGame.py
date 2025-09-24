@@ -5,7 +5,7 @@ from main.standard.GameConstants import GameConstants
 from typing import Tuple, List, Dict, Set
 from typing_extensions import Literal
 
-class SmallSudokuGame(FormalGameInterface):
+class SquareSudokuGame(FormalGameInterface):
     def __init__(self) -> None:
         self.cols = "123"
         self.rows = "ABC"
@@ -54,4 +54,4 @@ class SmallSudokuGame(FormalGameInterface):
         return self.grid_value_dict
 
 if __name__ == "__main__":
-    game = SmallSudokuGame()
+    game = SquareSudokuGame()
