@@ -23,20 +23,32 @@ class TestGame(unittest.TestCase):
 
     def test_shouldHaveCorrectCellNamingInEmptyGrid(self):
         grid_values_dict = self.game.getGridValueDict()
-        correct_cell_names = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
+        expected_cell_names = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
         cell_names = list(grid_values_dict.keys())
 
-        self.assertListEqual(cell_names, correct_cell_names)
+        self.assertListEqual(cell_names, expected_cell_names)
     
     def test_shouldHaveCorrectValuesAfterInjectingCluesAndStatusShouldBeOK(self):
         clues = "1.......9"
         status = self.game.setSudoku(clues)
+
         grid_values_dict = self.game.getGridValueDict()
         cell_values = list(grid_values_dict.values())
-        correct_values = ['1', '.', '.', '.', '.', '.', '.', '.', '9']
+        expected_values = ['1', '.', '.', '.', '.', '.', '.', '.', '9']
 
-        self.assertListEqual(cell_values, correct_values)
+        self.assertListEqual(cell_values, expected_values)
         self.assertIs(status, Status.OK)
+
+    def test_shouldRejectClueInjectionWhenDuplicateCluesAndStatusShouldBeDUPLICATE_CLUE(self):
+        clues = "...3..3.."
+        status = self.game.setSudoku(clues)
+        
+        grid_values_dict = self.game.getGridValueDict()
+        cell_values = list(grid_values_dict.values())
+        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+
+        self.assertListEqual(cell_values, expected_values)
+        self.assertIs(status, Status.DUPLICATE_CLUE)
 
 
 

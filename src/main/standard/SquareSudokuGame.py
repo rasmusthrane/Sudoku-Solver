@@ -1,5 +1,5 @@
 from main.framework.game import FormalGameInterface
-from main.framework.utility import cross
+from main.framework.utility import cross, find_duplicates
 from main.standard.GameConstants import GameConstants
 from main.framework.status import Status
 
@@ -55,15 +55,19 @@ class SquareSudokuGame(FormalGameInterface):
         return self.grid_value_dict
     
     def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
-        status = Status.OK
+        duplicates = find_duplicates(sudoku_rep_with_clues)
 
-        if status is Status.OK:
+        if duplicates:
+            return Status.DUPLICATE_CLUE
+    
+        else:
             self.grid = sudoku_rep_with_clues
             for i, c in enumerate(self.cells):
                 value = self.grid[i]
                 self.grid_value_dict[c] = value
 
-        return status
+            return Status.OK
 
 if __name__ == "__main__":
     game = SquareSudokuGame()
+
