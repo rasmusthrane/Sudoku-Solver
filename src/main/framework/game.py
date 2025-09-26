@@ -40,7 +40,7 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
         """
-        Inject clues into an empty Sudoku by m  odifying the grid.
+        Inject clues into an empty Sudoku by modifying the grid.
         Returns the status of the mutator call
 
         """
