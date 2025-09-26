@@ -50,6 +50,17 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(cell_values, expected_values)
         self.assertIs(status, Status.DUPLICATE_CLUE)
 
+    def test_shouldRejectClueInjectionWhenInvalidCharactersAndStatusShouldBeINVALID_CHAR(self):
+        clues = "..,......"
+        status = self.game.setSudoku(clues)
+        
+        grid_values_dict = self.game.getGridValueDict()
+        cell_values = list(grid_values_dict.values())
+        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+
+        self.assertListEqual(cell_values, expected_values)
+        self.assertIs(status, Status.INVALID_CHAR)
+
 
 
     
