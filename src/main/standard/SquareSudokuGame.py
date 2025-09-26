@@ -21,7 +21,6 @@ class SquareSudokuGame(FormalGameInterface):
                 if c in u:
                     units_for_s.append(u)
             self.units[c] = units_for_s
-
         # Create a dict that holds all cells which shares unit with a cell
         self.peers: Dict[str, Set[str]] = {}
         for c in self.cells:
@@ -30,7 +29,7 @@ class SquareSudokuGame(FormalGameInterface):
                 all_cells.extend(unit)
             peers_of_c: Set[str] = set(all_cells) - set([c])
             self.peers[c] = peers_of_c
-        
+        print(self.peers)
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
         self.nsubgrids = 1 
@@ -41,15 +40,27 @@ class SquareSudokuGame(FormalGameInterface):
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
-        self._update_grid_dict()
+        self._update_grid_value_dict()
 
-    def _update_grid_dict(self):
+        # Initialize grid_candidate_dict
+        self.grid_candidate_dict: Dict[str, str] = {}
+        self._update_grid_candidate_dict()
+
+    def _update_grid_value_dict(self):
         """
         Private method for updating the values of the grid_value_dict based on self.grid.
         """
         for i, c in enumerate(self.cells):
             value = self.grid[i]
             self.grid_value_dict[c] = value
+    
+    def _update_grid_candidate_dict(self):
+        for cell, value in self.grid_value_dict.items():
+            if value != '.':
+                self.grid_candidate_dict[cell] = value
+        
+        print(self.grid_candidate_dict)
+        pass
 
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         return "win"
@@ -59,6 +70,9 @@ class SquareSudokuGame(FormalGameInterface):
     
     def getGridValueDict(self) -> Dict[str, str]:
         return self.grid_value_dict
+    
+    def getGridCandidateDict(self) -> Dict[str, str]:
+        return {"A1": '', "B1": ''}
     
     def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
         invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
@@ -78,10 +92,13 @@ class SquareSudokuGame(FormalGameInterface):
     
         else:
             self.grid = sudoku_rep_with_clues
-            self._update_grid_dict()
+            self._update_grid_value_dict()
 
             return Status.OK
 
 if __name__ == "__main__":
     game = SquareSudokuGame()
+    clues = "1........"
+    game.setSudoku(clues)
+    # game._update_grid_candidate_dict()
 

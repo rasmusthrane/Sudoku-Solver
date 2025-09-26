@@ -82,6 +82,19 @@ class TestGame(unittest.TestCase):
 
         self.assertListEqual(cell_values, expected_values)
         self.assertIs(status, Status.TOO_FEW_CHARS)
+    
+    def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
+        clues = "1........"
+        self.game.setSudoku(clues)
+        
+        grid_candidate_dict = self.game.getGridCandidateDict()
+        for cell, candidates in grid_candidate_dict.items():
+            if cell == "A1":
+                self.assertEqual(candidates, '')
+            else:
+                self.assertEqual(candidates, '23456789')
+
+
 
 
 

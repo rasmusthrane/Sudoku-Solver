@@ -38,6 +38,11 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def getGridCandidateDict(self) -> Dict[str, str]:
+        pass
+
+
+    @abc.abstractmethod
     def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
         """
         Inject clues into an empty Sudoku by modifying the grid.
@@ -45,3 +50,4 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
 
         """
         pass
+

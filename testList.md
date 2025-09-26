@@ -7,3 +7,4 @@
 [Ok] Given a game, when injecting an invalid character, Status.INVALID_CHAR should be returned
 [Ok] Given a game, when injecting a too long string representation, Status.TOO_MANY_CHARS should be returned
 [Ok] Given a game, when injecting a too short string representation, Status.TOO_FEW_CHARS should be returned
+[] Given a game where A1 is 1, all other cells should have values (2,...9) as candidates
