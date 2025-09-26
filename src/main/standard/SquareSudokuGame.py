@@ -41,6 +41,12 @@ class SquareSudokuGame(FormalGameInterface):
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
+        self._update_grid_dict()
+
+    def _update_grid_dict(self):
+        """
+        Private method for updating the values of the grid_value_dict based on self.grid.
+        """
         for i, c in enumerate(self.cells):
             value = self.grid[i]
             self.grid_value_dict[c] = value
@@ -72,9 +78,7 @@ class SquareSudokuGame(FormalGameInterface):
     
         else:
             self.grid = sudoku_rep_with_clues
-            for i, c in enumerate(self.cells):
-                value = self.grid[i]
-                self.grid_value_dict[c] = value
+            self._update_grid_dict()
 
             return Status.OK
 
