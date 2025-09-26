@@ -62,6 +62,13 @@ class SquareSudokuGame(FormalGameInterface):
         duplicates = find_duplicates(sudoku_rep_with_clues)
         if duplicates:
             return Status.DUPLICATE_CLUE
+        
+        length_of_injected_rep = len(sudoku_rep_with_clues)
+        if length_of_injected_rep > self.ncells:
+            return Status.TOO_MANY_CHARS
+        
+        if length_of_injected_rep < self.ncells:
+            return Status.TOO_FEW_CHARS
     
         else:
             self.grid = sudoku_rep_with_clues

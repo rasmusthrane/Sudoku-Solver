@@ -61,6 +61,28 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(cell_values, expected_values)
         self.assertIs(status, Status.INVALID_CHAR)
 
+    def test_shouldRejectClueInjectionWhenStringRepTooLongAndStatusShouldBeTOO_MANY_CHARS(self):
+        clues = ".........." # 10 characters
+        status = self.game.setSudoku(clues)
+        
+        grid_values_dict = self.game.getGridValueDict()
+        cell_values = list(grid_values_dict.values())
+        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+
+        self.assertListEqual(cell_values, expected_values)
+        self.assertIs(status, Status.TOO_MANY_CHARS)
+
+    def test_shouldRejectClueInjectionWhenStringRepTooShortAndStatusShouldBeTOO_FEW_CHARS(self):
+        clues = "........" # 8 characters
+        status = self.game.setSudoku(clues)
+        
+        grid_values_dict = self.game.getGridValueDict()
+        cell_values = list(grid_values_dict.values())
+        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+
+        self.assertListEqual(cell_values, expected_values)
+        self.assertIs(status, Status.TOO_FEW_CHARS)
+
 
 
     
