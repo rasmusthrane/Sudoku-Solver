@@ -95,6 +95,13 @@ class TestGame(unittest.TestCase):
                 self.assertEqual(value, '2')
             else:
                 self.assertEqual(value, GameConstants.EMPTY_CELL)    
+    
+    def test_shouldRaiseStatusIfUpdatingCellWithInvalidChar(self):
+        clues = "1........"
+        self.game = SquareSudokuGame(Factory3by3(clues))
+        status = self.game.setCellValue('A2', '@')
+        self.assertIs(status, Status.INVALID_CHAR)
+
 
 
     

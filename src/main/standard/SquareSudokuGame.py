@@ -3,6 +3,7 @@ from main.framework.status import Status
 from main.framework.utility import cross
 from main.variants.factory.GameFactory import GameFactory
 from main.variants.factory.Factory3by3 import Factory3by3
+from main.standard.GameConstants import GameConstants
 
 from typing import Tuple, List, Dict, Set, override
 from typing_extensions import Literal
@@ -93,9 +94,11 @@ class SquareSudokuGame(FormalGameInterface):
     def setCellValue(self, cell:str, value:str) -> Status:
         if cell in self.initial_clues:
             return Status.CANNOT_OVERWRITE_CLUE
-        else:
-            self.grid_value_dict[cell] = value
-            return Status.OK
+        if value not in GameConstants.VALID_CHARS:
+            return Status.INVALID_CHAR
+        
+        self.grid_value_dict[cell] = value
+        return Status.OK
     
     # def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
     #     invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
