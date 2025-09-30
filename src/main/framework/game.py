@@ -2,7 +2,7 @@ from main.framework.status import Status
 
 import abc
 from typing_extensions import Literal
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
@@ -38,6 +38,15 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def getGridValues(self) -> List[str]:
+        pass
+
+    @abc.abstractmethod
+    def getGridCandidateDict(self) -> Dict[str, str]:
+        pass
+
+
+    @abc.abstractmethod
     def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
         """
         Inject clues into an empty Sudoku by modifying the grid.
@@ -45,3 +54,4 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
 
         """
         pass
+

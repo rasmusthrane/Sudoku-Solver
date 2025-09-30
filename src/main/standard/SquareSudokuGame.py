@@ -1,15 +1,17 @@
 from main.framework.game import FormalGameInterface
 from main.framework.utility import cross, find_duplicates, find_invalid_characters
-from main.standard.GameConstants import GameConstants
 from main.framework.status import Status
+from main.variants.factory.GameFactory import GameFactory
+from main.variants.factory.Factory3by3 import Factory3by3
 
-from typing import Tuple, List, Dict, Set
+from typing import Tuple, List, Dict, Set, override
 from typing_extensions import Literal
 
 class SquareSudokuGame(FormalGameInterface):
-    def __init__(self) -> None:
-        self.cols = "123"
-        self.rows = "ABC"
+    def __init__(self, gameFactory: GameFactory) -> None:
+        sudokuBoardStrategy = gameFactory.createSudokuBoardStrategy()
+        self.cols = sudokuBoardStrategy.getCols()
+        self.rows = sudokuBoardStrategy.getRows()
         self.cells = cross(self.rows, self.cols)
         self.unitlist = ([cross(self.rows, self.cols)]) # Only one unit in small sudoku 
 
@@ -21,7 +23,6 @@ class SquareSudokuGame(FormalGameInterface):
                 if c in u:
                     units_for_s.append(u)
             self.units[c] = units_for_s
-
         # Create a dict that holds all cells which shares unit with a cell
         self.peers: Dict[str, Set[str]] = {}
         for c in self.cells:
@@ -30,35 +31,53 @@ class SquareSudokuGame(FormalGameInterface):
                 all_cells.extend(unit)
             peers_of_c: Set[str] = set(all_cells) - set([c])
             self.peers[c] = peers_of_c
-        
+    
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
         self.nsubgrids = 1 
         self.ncells = len(self.cells)
 
         # Initialize grid representation
-        self.grid = GameConstants.EMPTY_CELL*self.ncells
+        self.grid = sudokuBoardStrategy.getGridRepresentation()
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
-        self._update_grid_dict()
+        self._update_grid_value_dict()
 
-    def _update_grid_dict(self):
+        # Initialize grid_candidate_dict
+        self.grid_candidate_dict: Dict[str, str] = {}
+        self._update_grid_candidate_dict()
+
+    def _update_grid_value_dict(self):
         """
         Private method for updating the values of the grid_value_dict based on self.grid.
         """
         for i, c in enumerate(self.cells):
             value = self.grid[i]
             self.grid_value_dict[c] = value
+    
+    def _update_grid_candidate_dict(self):
+        for cell, value in self.grid_value_dict.items():
+            if value != '.':
+                self.grid_candidate_dict[cell] = value
+        
+        pass
 
+    @override
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         return "win"
-    
+    @override
     def getSudokuDimension(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids
-    
+    @override
     def getGridValueDict(self) -> Dict[str, str]:
         return self.grid_value_dict
+    @override
+    def getGridValues(self) -> List[str]:
+        return list(self.grid_value_dict.values())
+    @override
+    def getGridCandidateDict(self) -> Dict[str, str]:
+        return {"A1": '', "B1": ''}
     
     def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
         invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
@@ -78,10 +97,13 @@ class SquareSudokuGame(FormalGameInterface):
     
         else:
             self.grid = sudoku_rep_with_clues
-            self._update_grid_dict()
+            self._update_grid_value_dict()
 
             return Status.OK
 
 if __name__ == "__main__":
-    game = SquareSudokuGame()
+    clues = "1........"
+    game = SquareSudokuGame(Factory3by3(clues))
+    game.setSudoku(clues)
+    # game._update_grid_candidate_dict()
 
