@@ -7,4 +7,7 @@
 [Ok] Given a game with invalid characters for clues (',' used), an error should be raised
 [Ok] Given a game with too many clues (10 clues given), an error should be raised
 [Ok] Given a game with too few clues (8 clues given), an error should be raised
+[Ok] Given a game with clues, if trying to replace the value of the cell holding the clue, the status CANNOT_OVERWRITE_CLUE should be returned
+[Ok] Given a game with clues, if trying to replace the value of a free cell, the status OK should be returned
+[Ok] Given a game with clues, when updating a cell value, the value of the cell should be updated
 [] Given a game where A1 is 1, all other cells should have values (2,...9) as candidates

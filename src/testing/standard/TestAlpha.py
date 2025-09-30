@@ -1,6 +1,8 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
 from main.variants.factory.Factory3by3 import Factory3by3
+from main.framework.status import Status
+
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
 import unittest
@@ -67,6 +69,33 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             SquareSudokuGame(Factory3by3(clues))
         self.assertIn('Too few', str(cm.exception))
+
+    def test_shouldRaiseStatusIfTryingToOverwriteClue(self):
+        clues = "1........"
+        self.game = SquareSudokuGame(Factory3by3(clues))
+        status = self.game.setCellValue('A1', '2')
+        self.assertIs(status, Status.CANNOT_OVERWRITE_CLUE)
+    
+    def test_shouldRaiseStatusIfUpdatingCellValue(self):
+        clues = "1........"
+        self.game = SquareSudokuGame(Factory3by3(clues))
+        status = self.game.setCellValue('A2', '2')
+        self.assertIs(status, Status.OK)
+    
+    def test_shouldUpdateCellValueIfValid(self):
+        clues = "1........"
+        self.game = SquareSudokuGame(Factory3by3(clues))
+        self.game.setCellValue('A2', '2')
+
+        grid_value_dict = self.game.getGridValueDict()
+        for cell_name, value in grid_value_dict.items():
+            if cell_name == 'A1':
+                self.assertEqual(value, '1')
+            elif cell_name == 'A2':
+                self.assertEqual(value, '2')
+            else:
+                self.assertEqual(value, GameConstants.EMPTY_CELL)    
+
 
     
     # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):

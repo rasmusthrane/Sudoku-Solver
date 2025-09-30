@@ -45,13 +45,7 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     def getGridCandidateDict(self) -> Dict[str, str]:
         pass
 
-
     @abc.abstractmethod
-    def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
-        """
-        Inject clues into an empty Sudoku by modifying the grid.
-        Returns the status of the mutator call
-
-        """
+    def setCellValue(self, cell:str, value:str) -> Status:
         pass
 

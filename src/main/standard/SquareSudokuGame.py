@@ -1,6 +1,6 @@
 from main.framework.game import FormalGameInterface
-from main.framework.utility import cross, find_duplicates, find_invalid_characters
 from main.framework.status import Status
+from main.framework.utility import cross
 from main.variants.factory.GameFactory import GameFactory
 from main.variants.factory.Factory3by3 import Factory3by3
 
@@ -38,22 +38,26 @@ class SquareSudokuGame(FormalGameInterface):
         self.ncells = len(self.cells)
 
         # Initialize grid representation
-        self.grid = sudokuBoardStrategy.getGridRepresentation()
+        self.initial_grid = sudokuBoardStrategy.getGridRepresentation()
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
-        self._update_grid_value_dict()
+        self._populate_initial_grid_value_dict()
 
         # Initialize grid_candidate_dict
         self.grid_candidate_dict: Dict[str, str] = {}
         self._update_grid_candidate_dict()
 
-    def _update_grid_value_dict(self):
+        # Create list of initial clues
+        self.initial_clues: List[str] = self._get_cells_with_clues()
+
+
+    def _populate_initial_grid_value_dict(self):
         """
-        Private method for updating the values of the grid_value_dict based on self.grid.
+        Private method for populating grid_value_dict based on initial grid.
         """
         for i, c in enumerate(self.cells):
-            value = self.grid[i]
+            value = self.initial_grid[i]
             self.grid_value_dict[c] = value
     
     def _update_grid_candidate_dict(self):
@@ -62,6 +66,13 @@ class SquareSudokuGame(FormalGameInterface):
                 self.grid_candidate_dict[cell] = value
         
         pass
+
+    def _get_cells_with_clues(self) -> List[str]:
+        initial_clues: List[str] = []
+        for cell, value in self.grid_value_dict.items():
+            if value != '.':
+                initial_clues.append(cell)
+        return initial_clues
 
     @override
     def getWinStatus(self) -> Literal["win", "ongoing"]:
@@ -78,32 +89,37 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def getGridCandidateDict(self) -> Dict[str, str]:
         return {"A1": '', "B1": ''}
-    
-    def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
-        invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
-        if invalid_chars:
-            return Status.INVALID_CHAR
-
-        duplicates = find_duplicates(sudoku_rep_with_clues)
-        if duplicates:
-            return Status.DUPLICATE_CLUE
-        
-        length_of_injected_rep = len(sudoku_rep_with_clues)
-        if length_of_injected_rep > self.ncells:
-            return Status.TOO_MANY_CHARS
-        
-        if length_of_injected_rep < self.ncells:
-            return Status.TOO_FEW_CHARS
-    
+    @override
+    def setCellValue(self, cell:str, value:str) -> Status:
+        if cell in self.initial_clues:
+            return Status.CANNOT_OVERWRITE_CLUE
         else:
-            self.grid = sudoku_rep_with_clues
-            self._update_grid_value_dict()
-
+            self.grid_value_dict[cell] = value
             return Status.OK
+    
+    # def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
+    #     invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
+    #     if invalid_chars:
+    #         return Status.INVALID_CHAR
+
+    #     duplicates = find_duplicates(sudoku_rep_with_clues)
+    #     if duplicates:
+    #         return Status.DUPLICATE_CLUE
+        
+    #     length_of_injected_rep = len(sudoku_rep_with_clues)
+    #     if length_of_injected_rep > self.ncells:
+    #         return Status.TOO_MANY_CHARS
+        
+    #     if length_of_injected_rep < self.ncells:
+    #         return Status.TOO_FEW_CHARS
+    
+    #     else:
+    #         self.grid = sudoku_rep_with_clues
+    #         self._update_grid_value_dict()
+
+    #         return Status.OK
 
 if __name__ == "__main__":
-    clues = "1........"
+    clues = "1.......9"
     game = SquareSudokuGame(Factory3by3(clues))
-    game.setSudoku(clues)
-    # game._update_grid_candidate_dict()
 
