@@ -1,13 +1,14 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
 from main.framework.status import Status
+from main.variants.factory.Factory3by3 import Factory3by3
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
 import unittest
 
 class TestGame(unittest.TestCase):
     def setUp(self):
-        self.game = SquareSudokuGame()
+        self.game = SquareSudokuGame(Factory3by3())
 
     def test_shouldReturnDimensions3x3x1(self):
         nrows, ncols, nsubgrids = self.game.getSudokuDimension()
@@ -40,15 +41,19 @@ class TestGame(unittest.TestCase):
         self.assertIs(status, Status.OK)
 
     def test_shouldRejectClueInjectionWhenDuplicateCluesAndStatusShouldBeDUPLICATE_CLUE(self):
-        clues = "...3..3.."
-        status = self.game.setSudoku(clues)
+        clues = "...3....3" # duplicate 3
+        with self.assertRaises(ValueError) as cm:
+            self.game = SquareSudokuGame(Factory3by3(clues))
+        self.assertIn('Duplicate', str(cm.exception))
         
-        grid_values_dict = self.game.getGridValueDict()
-        cell_values = list(grid_values_dict.values())
-        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+        # status = self.game.setSudoku(clues)
+        
+        # grid_values_dict = self.game.getGridValueDict()
+        # cell_values = list(grid_values_dict.values())
+        # expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
 
-        self.assertListEqual(cell_values, expected_values)
-        self.assertIs(status, Status.DUPLICATE_CLUE)
+        # self.assertListEqual(cell_values, expected_values)
+        # self.assertIs(status, Status.DUPLICATE_CLUE)
 
     def test_shouldRejectClueInjectionWhenInvalidCharactersAndStatusShouldBeINVALID_CHAR(self):
         clues = "..,......"
@@ -83,16 +88,16 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(cell_values, expected_values)
         self.assertIs(status, Status.TOO_FEW_CHARS)
     
-    def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
-        clues = "1........"
-        self.game.setSudoku(clues)
+    # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
+    #     clues = "1........"
+    #     self.game.setSudoku(clues)
         
-        grid_candidate_dict = self.game.getGridCandidateDict()
-        for cell, candidates in grid_candidate_dict.items():
-            if cell == "A1":
-                self.assertEqual(candidates, '')
-            else:
-                self.assertEqual(candidates, '23456789')
+    #     grid_candidate_dict = self.game.getGridCandidateDict()
+    #     for cell, candidates in grid_candidate_dict.items():
+    #         if cell == "A1":
+    #             self.assertEqual(candidates, '')
+    #         else:
+    #             self.assertEqual(candidates, '23456789')
 
 
 

@@ -1,15 +1,17 @@
 from main.framework.game import FormalGameInterface
 from main.framework.utility import cross, find_duplicates, find_invalid_characters
-from main.standard.GameConstants import GameConstants
 from main.framework.status import Status
+from main.variants.factory.GameFactory import GameFactory
+from main.variants.factory.Factory3by3 import Factory3by3
 
 from typing import Tuple, List, Dict, Set
 from typing_extensions import Literal
 
 class SquareSudokuGame(FormalGameInterface):
-    def __init__(self) -> None:
-        self.cols = "123"
-        self.rows = "ABC"
+    def __init__(self, gameFactory: GameFactory) -> None:
+        sudokuBoardStrategy = gameFactory.createSudokuBoardStrategy()
+        self.cols = sudokuBoardStrategy.getCols()
+        self.rows = sudokuBoardStrategy.getRows()
         self.cells = cross(self.rows, self.cols)
         self.unitlist = ([cross(self.rows, self.cols)]) # Only one unit in small sudoku 
 
@@ -29,14 +31,14 @@ class SquareSudokuGame(FormalGameInterface):
                 all_cells.extend(unit)
             peers_of_c: Set[str] = set(all_cells) - set([c])
             self.peers[c] = peers_of_c
-        print(self.peers)
+    
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
         self.nsubgrids = 1 
         self.ncells = len(self.cells)
 
         # Initialize grid representation
-        self.grid = GameConstants.EMPTY_CELL*self.ncells
+        self.grid = sudokuBoardStrategy.getGridRepresentation()
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
@@ -97,8 +99,8 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.OK
 
 if __name__ == "__main__":
-    game = SquareSudokuGame()
     clues = "1........"
+    game = SquareSudokuGame(Factory3by3(clues))
     game.setSudoku(clues)
     # game._update_grid_candidate_dict()
 
