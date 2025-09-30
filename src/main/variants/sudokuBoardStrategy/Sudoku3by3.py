@@ -3,8 +3,10 @@ from main.framework.utility import find_duplicates, find_invalid_characters
 
 class Sudoku3by3(SudokuBoardStrategy):
     def __init__(self, clues:str) -> None:
-        if len(clues) != 9:
-            raise ValueError(f"Expected 9 characters, got {len(clues)}")
+        if len(clues) > 9:
+            raise ValueError(f"Too many characters. Expected 9 characters, got {len(clues)}")
+        if len(clues) < 9:
+            raise ValueError(f"Too few characters. Expected 9 characters, got {len(clues)}")
 
         invalid_chars = find_invalid_characters(clues)
         if invalid_chars:

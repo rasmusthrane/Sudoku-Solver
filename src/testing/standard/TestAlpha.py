@@ -1,6 +1,5 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
-from main.framework.status import Status
 from main.variants.factory.Factory3by3 import Factory3by3
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
@@ -28,65 +27,47 @@ class TestGame(unittest.TestCase):
         cell_names = list(grid_values_dict.keys())
 
         self.assertListEqual(cell_names, expected_cell_names)
-    
-    def test_shouldHaveCorrectValuesAfterInjectingCluesAndStatusShouldBeOK(self):
+
+    def test_shouldNotRaiseErrorWhenPassingValidCluesAndCellValuesShouldBeUpdated(self):
         clues = "1.......9"
-        status = self.game.setSudoku(clues)
+        try:
+            self.game = SquareSudokuGame(Factory3by3(clues))
+        except Exception as e:
+            self.fail(f"Sudoky3by3() raised {type(e).__name__} unexpectedly!")
 
-        grid_values_dict = self.game.getGridValueDict()
-        cell_values = list(grid_values_dict.values())
-        expected_values = ['1', '.', '.', '.', '.', '.', '.', '.', '9']
+        grid_value_dict = self.game.getGridValueDict()
+        for cell_name, value in grid_value_dict.items():
+            if cell_name == 'A1':
+                self.assertEqual(value, '1')
+            elif cell_name == 'C3':
+                self.assertEqual(value, '9')
+            else:
+                self.assertEqual(value, GameConstants.EMPTY_CELL)    
 
-        self.assertListEqual(cell_values, expected_values)
-        self.assertIs(status, Status.OK)
-
-    def test_shouldRejectClueInjectionWhenDuplicateCluesAndStatusShouldBeDUPLICATE_CLUE(self):
+    def test_shouldRaiseErrorWithDuplicateClues(self):
         clues = "...3....3" # duplicate 3
         with self.assertRaises(ValueError) as cm:
-            self.game = SquareSudokuGame(Factory3by3(clues))
+            SquareSudokuGame(Factory3by3(clues))
         self.assertIn('Duplicate', str(cm.exception))
-        
-        # status = self.game.setSudoku(clues)
-        
-        # grid_values_dict = self.game.getGridValueDict()
-        # cell_values = list(grid_values_dict.values())
-        # expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
 
-        # self.assertListEqual(cell_values, expected_values)
-        # self.assertIs(status, Status.DUPLICATE_CLUE)
+    def test_shouldRaiseErrorWithInvalidClues(self):
+        clues = "..,......" # invalid ,
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory3by3(clues))
+        self.assertIn('Invalid', str(cm.exception))
 
-    def test_shouldRejectClueInjectionWhenInvalidCharactersAndStatusShouldBeINVALID_CHAR(self):
-        clues = "..,......"
-        status = self.game.setSudoku(clues)
-        
-        grid_values_dict = self.game.getGridValueDict()
-        cell_values = list(grid_values_dict.values())
-        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
-
-        self.assertListEqual(cell_values, expected_values)
-        self.assertIs(status, Status.INVALID_CHAR)
-
-    def test_shouldRejectClueInjectionWhenStringRepTooLongAndStatusShouldBeTOO_MANY_CHARS(self):
+    def test_shouldRaiseErrorWithTooManyClues(self):
         clues = ".........." # 10 characters
-        status = self.game.setSudoku(clues)
-        
-        grid_values_dict = self.game.getGridValueDict()
-        cell_values = list(grid_values_dict.values())
-        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory3by3(clues))
+        self.assertIn('Too many', str(cm.exception))
 
-        self.assertListEqual(cell_values, expected_values)
-        self.assertIs(status, Status.TOO_MANY_CHARS)
-
-    def test_shouldRejectClueInjectionWhenStringRepTooShortAndStatusShouldBeTOO_FEW_CHARS(self):
+    def test_shouldRaiseErrorWithTooFewClues(self):
         clues = "........" # 8 characters
-        status = self.game.setSudoku(clues)
-        
-        grid_values_dict = self.game.getGridValueDict()
-        cell_values = list(grid_values_dict.values())
-        expected_values = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory3by3(clues))
+        self.assertIn('Too few', str(cm.exception))
 
-        self.assertListEqual(cell_values, expected_values)
-        self.assertIs(status, Status.TOO_FEW_CHARS)
     
     # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
     #     clues = "1........"

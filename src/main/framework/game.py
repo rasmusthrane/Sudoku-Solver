@@ -2,7 +2,7 @@ from main.framework.status import Status
 
 import abc
 from typing_extensions import Literal
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
@@ -35,6 +35,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
                 - key: cell
                 - value: value
         """
+        pass
+
+    @abc.abstractmethod
+    def getGridValues(self) -> List[str]:
         pass
 
     @abc.abstractmethod

@@ -4,7 +4,7 @@ from main.framework.status import Status
 from main.variants.factory.GameFactory import GameFactory
 from main.variants.factory.Factory3by3 import Factory3by3
 
-from typing import Tuple, List, Dict, Set
+from typing import Tuple, List, Dict, Set, override
 from typing_extensions import Literal
 
 class SquareSudokuGame(FormalGameInterface):
@@ -61,18 +61,21 @@ class SquareSudokuGame(FormalGameInterface):
             if value != '.':
                 self.grid_candidate_dict[cell] = value
         
-        print(self.grid_candidate_dict)
         pass
 
+    @override
     def getWinStatus(self) -> Literal["win", "ongoing"]:
         return "win"
-    
+    @override
     def getSudokuDimension(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids
-    
+    @override
     def getGridValueDict(self) -> Dict[str, str]:
         return self.grid_value_dict
-    
+    @override
+    def getGridValues(self) -> List[str]:
+        return list(self.grid_value_dict.values())
+    @override
     def getGridCandidateDict(self) -> Dict[str, str]:
         return {"A1": '', "B1": ''}
     
