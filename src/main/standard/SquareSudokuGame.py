@@ -17,22 +17,10 @@ class SquareSudokuGame(FormalGameInterface):
         self.unitlist = ([cross(self.rows, self.cols)]) # Only one unit in small sudoku 
 
         # Create a dict that holds all units that each cell belongs to
-        self.units: Dict[str, List[List[str]]] = {}
-        for c in self.cells:
-            units_for_s: List[List[str]] = []  # List to hold units containing s
-            for u in self.unitlist:
-                if c in u:
-                    units_for_s.append(u)
-            self.units[c] = units_for_s
+        self.units = self.__create_unit_dict()
         # Create a dict that holds all cells which shares unit with a cell
-        self.peers: Dict[str, Set[str]] = {}
-        for c in self.cells:
-            all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
-            for unit in self.units[c]:
-                all_cells.extend(unit)
-            peers_of_c: Set[str] = set(all_cells) - set([c])
-            self.peers[c] = peers_of_c
-    
+        self.peers = self.__create_peers_dict()
+        
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
         self.nsubgrids = 1 
@@ -43,41 +31,62 @@ class SquareSudokuGame(FormalGameInterface):
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
-        self._populate_initial_grid_value_dict()
+        self.__populate_initial_grid_value_dict()
 
         # Initialize grid_candidate_dict
         self.grid_candidate_dict: Dict[str, str] = {}
-        self._update_grid_candidate_dict()
+        self.__update_grid_candidate_dict()
 
         # Create list of initial clues
-        self.initial_clues: List[str] = self._get_cells_with_clues()
+        self.initial_clues: List[str] = self.__get_cells_with_clues()
 
+        self.game_status: str = 'ongoing'
+        self.__update_game_status()
 
-    def _populate_initial_grid_value_dict(self):
-        """
-        Private method for populating grid_value_dict based on initial grid.
-        """
+    def __create_peers_dict(self) -> Dict[str, Set[str]]:
+        peers: Dict[str, Set[str]] = {}
+        for c in self.cells:
+            all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
+            for unit in self.units[c]:
+                all_cells.extend(unit)
+            peers_of_c: Set[str] = set(all_cells) - set([c])
+            peers[c] = peers_of_c
+        return peers
+
+    def __create_unit_dict(self) -> Dict[str, List[List[str]]]:
+        units: Dict[str, List[List[str]]] = {}
+        for c in self.cells:
+            units_for_s: List[List[str]] = []  # List to hold units containing s
+            for u in self.unitlist:
+                if c in u:
+                    units_for_s.append(u)
+            units[c] = units_for_s
+        return units
+
+    def __populate_initial_grid_value_dict(self) -> None:
         for i, c in enumerate(self.cells):
             value = self.initial_grid[i]
             self.grid_value_dict[c] = value
     
-    def _update_grid_candidate_dict(self):
+    def __update_grid_candidate_dict(self) -> None:
         for cell, value in self.grid_value_dict.items():
             if value != '.':
                 self.grid_candidate_dict[cell] = value
         
-        pass
 
-    def _get_cells_with_clues(self) -> List[str]:
+    def __get_cells_with_clues(self) -> List[str]:
         initial_clues: List[str] = []
         for cell, value in self.grid_value_dict.items():
             if value != '.':
                 initial_clues.append(cell)
         return initial_clues
 
+    def __update_game_status(self) -> None:
+        pass
+
     @override
-    def getWinStatus(self) -> Literal["win", "ongoing"]:
-        return "win"
+    def getGameStatus(self) -> Literal['win', 'ongoing', 'constraint_violation']:
+        return 'ongoing'
     @override
     def getSudokuDimension(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids

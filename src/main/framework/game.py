@@ -6,8 +6,19 @@ from typing import Tuple, Dict, List
 
 class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def getWinStatus(self) -> Literal["win", "ongoing"]:
-        """Return the current win status of the game."""
+    def getGameStatus(self) -> Literal['win', 'ongoing', 'constraint_violation']:
+        """
+        Determine and return the current game status.
+
+        Returns
+        ---
+            Either
+                - "win": if all cells are filled and all Sudoku constraints are satisfied.
+
+                - "ongoing": if the board is not yet complete and no constraints are violated.
+
+                - "constraint_violation": if a Sudoku rule is broken (e.g. duplicate digits in a row, column, or block).
+        """
         pass
 
     @abc.abstractmethod

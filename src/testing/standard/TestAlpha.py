@@ -74,13 +74,13 @@ class TestGame(unittest.TestCase):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3by3(clues))
         status = self.game.setCellValue('A1', '2')
-        self.assertIs(status, Status.CANNOT_OVERWRITE_CLUE)
+        self.assertEqual(status, Status.CANNOT_OVERWRITE_CLUE)
     
     def test_shouldRaiseStatusIfUpdatingCellValue(self):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3by3(clues))
         status = self.game.setCellValue('A2', '2')
-        self.assertIs(status, Status.OK)
+        self.assertEqual(status, Status.OK)
     
     def test_shouldUpdateCellValueIfValid(self):
         clues = "1........"
@@ -100,8 +100,11 @@ class TestGame(unittest.TestCase):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3by3(clues))
         status = self.game.setCellValue('A2', '@')
-        self.assertIs(status, Status.INVALID_CHAR)
+        self.assertEqual(status, Status.INVALID_CHAR)
 
+    def test_shouldReturnOngoingGameWhenStartingEmptyGame(self):
+        game_status: str = self.game.getGameStatus()
+        self.assertEqual(game_status, 'ongoing')
 
 
     

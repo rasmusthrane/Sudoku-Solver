@@ -10,5 +10,11 @@
 [Ok] Given a game with clues, if trying to replace the value of the cell holding the clue, the status CANNOT_OVERWRITE_CLUE should be returned
 [Ok] Given a game with clues, if trying to replace the value of a free cell, the status OK should be returned
 [Ok] Given a game with clues, when updating a cell value, the value of the cell should be updated
-[] Given a game with clues, when updating a cell value with an invalid character, the status INVALID_CHAR should be returned
+[Ok] Given a game with clues, when updating a cell value with an invalid character, the status INVALID_CHAR should be returned
+[] Given a game, if the player puts down the same digit in two different cells and checks game status, the string 'constrain_violation' is returned
+[Ok] Given an empty game, the game state 'ongoing' should be returned
+[] Given a game, if violate a constrain and then fix the violation by removing the digit, the game state 'ongoing' should be returned
+[] Given a game, if all digits are placed and no constraints are violated, the game state should we 'win'
+
+
 [] Given a game where A1 is 1, all other cells should have values (2,...9) as candidates
