@@ -71,15 +71,22 @@ class SquareSudokuGame(FormalGameInterface):
     
     def __update_grid_candidate_dict(self) -> None:
         for cell, value in self.grid_value_dict.items():
-            if value != '.':
-                list_of_possible_candidates = list(value)
-            else:
-                list_of_possible_candidates = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-                for peer_of_cell in self.peers[cell]:
-                    if self.grid_value_dict[peer_of_cell] in list_of_possible_candidates:
-                        list_of_possible_candidates.remove(self.grid_value_dict[peer_of_cell])
 
-            self.grid_candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_possible_candidates)               
+            # First check if a digit is placed
+            digit_placed: bool = value != '.'
+            if digit_placed:
+                list_of_candidates = list(value) # the only candidate is the value itself
+
+            # Then elimate all possible candidates
+            else:
+                list_of_candidates = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+                for peer_of_cell in self.peers[cell]:
+                    peer_value_is_candidate: bool = self.grid_value_dict[peer_of_cell] in list_of_candidates
+                    if peer_value_is_candidate:
+                        list_of_candidates.remove(self.grid_value_dict[peer_of_cell])
+
+            # create string to represent candidates
+            self.grid_candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)               
 
     def __get_cells_with_clues(self) -> List[str]:
         initial_clues: List[str] = []
