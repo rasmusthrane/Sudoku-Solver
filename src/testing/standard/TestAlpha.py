@@ -103,14 +103,14 @@ class TestGame(unittest.TestCase):
         self.assertEqual(status, Status.INVALID_CHAR)
 
     def test_shouldReturnOngoingGameWhenStartingEmptyGame(self):
-        game_status: str = self.game.getGameStatus()
-        self.assertEqual(game_status, 'ongoing')
+        game_state: str = self.game.getGameState()
+        self.assertEqual(game_state, 'ongoing')
 
     def test_shouldReturnWonGameWhenAllCorrectDigitsArePlaced(self):
         clues = "123456789"
         self.game = SquareSudokuGame(Factory3by3(clues))
-        game_status: str = self.game.getGameStatus()
-        self.assertEqual(game_status, 'won')
+        game_state: str = self.game.getGameState()
+        self.assertEqual(game_state, 'won')
 
 
     

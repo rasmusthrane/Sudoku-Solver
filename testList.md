@@ -14,7 +14,7 @@
 [] Given a game, if the player puts down the same digit in two different cells and checks game status, the string 'constrain_violation' is returned
 [Ok] Given an empty game, the game state 'ongoing' should be returned
 [] Given a game, if violate a constrain and then fix the violation by removing the digit, the game state 'ongoing' should be returned
-[] Given a game, if all digits are placed and no constraints are violated, the game state should we 'win'
+[Ok] Given a game, if all digits are placed initially and no constraints are violated, the game state should we 'win'
 
 
 [] Given a game where A1 is 1, all other cells should have values (2,...9) as candidates

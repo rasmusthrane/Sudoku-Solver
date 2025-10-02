@@ -1,15 +1,15 @@
 from main.framework.status import Status
+from main.standard.GameConstants import GameState
 
 import abc
-from typing_extensions import Literal
 from typing import Tuple, Dict, List
 
 class FormalGameInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def getGameStatus(self) -> Literal['won', 'ongoing', 'constraint_violation']:
+    def getGameState(self) -> GameState:
         """
-        Determine and return the current game status.
+        Determine and return the current game state.
 
         Returns
         ---
