@@ -1,6 +1,4 @@
-from typing import Set, Literal
-
-GameState = Literal['won', 'ongoing', 'constraint_violation']
+from typing import Set
 
 class GameConstants:
     EMPTY_CELL: str = '.'

@@ -2,6 +2,7 @@ from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
 from main.variants.factory.Factory3by3 import Factory3by3
 from main.framework.status import Status
+from main.framework.GameState import GameState
 
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
@@ -103,13 +104,13 @@ class TestGame(unittest.TestCase):
         self.assertEqual(status, Status.INVALID_CHAR)
 
     def test_shouldReturnOngoingGameWhenStartingEmptyGame(self):
-        game_state: str = self.game.getGameState()
+        game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'ongoing')
 
     def test_shouldReturnWonGameWhenAllCorrectDigitsArePlaced(self):
         clues = "123456789"
         self.game = SquareSudokuGame(Factory3by3(clues))
-        game_state: str = self.game.getGameState()
+        game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'won')
 
 

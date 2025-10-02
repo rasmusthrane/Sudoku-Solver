@@ -1,5 +1,5 @@
 from main.framework.status import Status
-from main.standard.GameConstants import GameState
+from main.framework.GameState import GameState
 
 import abc
 from typing import Tuple, Dict, List

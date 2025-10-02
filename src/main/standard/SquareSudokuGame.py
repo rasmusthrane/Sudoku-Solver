@@ -3,7 +3,8 @@ from main.framework.status import Status
 from main.framework.utility import cross
 from main.variants.factory.GameFactory import GameFactory
 from main.variants.factory.Factory3by3 import Factory3by3
-from main.standard.GameConstants import GameConstants, GameState
+from main.standard.GameConstants import GameConstants
+from main.framework.GameState import GameState
 
 from typing import Tuple, List, Dict, override
 import sys #type:ignore
@@ -90,7 +91,6 @@ class SquareSudokuGame(FormalGameInterface):
     def __update_game_state(self) -> None:
         if list(self.grid_candidate_dict.values()) == list(self.grid_value_dict.values()):
             self.game_state: GameState = 'won'
-        
 
     @override
     def getGameState(self) -> GameState:
