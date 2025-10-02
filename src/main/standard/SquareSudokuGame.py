@@ -99,6 +99,7 @@ class SquareSudokuGame(FormalGameInterface):
         unique_solution_found: bool = list(self.grid_candidate_dict.values()) == list(self.grid_value_dict.values())
         if unique_solution_found:
             self.game_state: GameState = 'won'
+    
 
     @override
     def getGameState(self) -> GameState:
@@ -123,6 +124,7 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.INVALID_CHAR
         
         self.grid_value_dict[cell] = value
+        self.__update_game_state()
         return Status.OK
     
     # def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
@@ -148,6 +150,9 @@ class SquareSudokuGame(FormalGameInterface):
     #         return Status.OK
 
 if __name__ == "__main__":
-    clues = "12345678."
+    clues = "........."
     game = SquareSudokuGame(Factory3by3(clues))
+    game.setCellValue('A1', '1')
+    game.setCellValue('A2', '1')
+    print(game.getGridValueDict())
 

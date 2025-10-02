@@ -11,6 +11,7 @@
 [Ok] Given a game with clues, if trying to replace the value of a free cell, the status OK should be returned
 [Ok] Given a game with clues, when updating a cell value, the value of the cell should be updated
 [Ok] Given a game with clues, when updating a cell value with an invalid character, the status INVALID_CHAR should be returned
+[] Given a game, when updating a cell that does not exist, an error should be raised 
 [] Given a game, if the player puts down the same digit in two different cells and checks game status, the string 'constrain_violation' is returned
 [Ok] Given an empty game, the game state 'ongoing' should be returned
 [] Given a game, if violate a constrain and then fix the violation by removing the digit, the game state 'ongoing' should be returned
