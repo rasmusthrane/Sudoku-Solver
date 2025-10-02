@@ -96,7 +96,8 @@ class SquareSudokuGame(FormalGameInterface):
         return initial_clues
 
     def __update_game_state(self) -> None:
-        if list(self.grid_candidate_dict.values()) == list(self.grid_value_dict.values()):
+        unique_solution_found: bool = list(self.grid_candidate_dict.values()) == list(self.grid_value_dict.values())
+        if unique_solution_found:
             self.game_state: GameState = 'won'
 
     @override
