@@ -5,8 +5,9 @@ from main.variants.factory.GameFactory import GameFactory
 from main.variants.factory.Factory3by3 import Factory3by3
 from main.standard.GameConstants import GameConstants
 
-from typing import Tuple, List, Dict, Set, override
+from typing import Tuple, List, Dict, override
 from typing_extensions import Literal
+import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface):
     def __init__(self, gameFactory: GameFactory) -> None:
@@ -36,6 +37,7 @@ class SquareSudokuGame(FormalGameInterface):
         # Initialize grid_candidate_dict
         self.grid_candidate_dict: Dict[str, str] = {}
         self.__update_grid_candidate_dict()
+        print(self.grid_candidate_dict)
 
         # Create list of initial clues
         self.initial_clues: List[str] = self.__get_cells_with_clues()
@@ -43,13 +45,13 @@ class SquareSudokuGame(FormalGameInterface):
         self.game_status: str = 'ongoing'
         self.__update_game_status()
 
-    def __create_peers_dict(self) -> Dict[str, Set[str]]:
-        peers: Dict[str, Set[str]] = {}
+    def __create_peers_dict(self) -> Dict[str, List[str]]:
+        peers: Dict[str, List[str]] = {}
         for c in self.cells:
             all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
             for unit in self.units[c]:
                 all_cells.extend(unit)
-            peers_of_c: Set[str] = set(all_cells) - set([c])
+            peers_of_c: List[str] = sorted(list(set(all_cells) - set([c])))
             peers[c] = peers_of_c
         return peers
 
@@ -70,8 +72,21 @@ class SquareSudokuGame(FormalGameInterface):
     
     def __update_grid_candidate_dict(self) -> None:
         for cell, value in self.grid_value_dict.items():
+            list_of_possible_candidates = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
             if value != '.':
                 self.grid_candidate_dict[cell] = value
+            else:
+                print('cell', cell)
+                print('peers', self.peers[cell])
+                for peer_of_cell in self.peers[cell]:
+                    print(peer_of_cell)
+                    print(self.grid_value_dict[peer_of_cell])
+                    if self.grid_value_dict[peer_of_cell] in list_of_possible_candidates:
+                        list_of_possible_candidates.remove(self.grid_value_dict[peer_of_cell])
+                    print(list_of_possible_candidates)
+                self.grid_candidate_dict[cell] = value
+            sys.exit()
+
         
 
     def __get_cells_with_clues(self) -> List[str]:
@@ -85,7 +100,7 @@ class SquareSudokuGame(FormalGameInterface):
         pass
 
     @override
-    def getGameStatus(self) -> Literal['win', 'ongoing', 'constraint_violation']:
+    def getGameStatus(self) -> Literal['won', 'ongoing', 'constraint_violation']:
         return 'ongoing'
     @override
     def getSudokuDimension(self) -> Tuple[int, int, int]:

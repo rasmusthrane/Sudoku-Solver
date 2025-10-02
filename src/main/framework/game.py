@@ -5,15 +5,16 @@ from typing_extensions import Literal
 from typing import Tuple, Dict, List
 
 class FormalGameInterface(metaclass=abc.ABCMeta):
+
     @abc.abstractmethod
-    def getGameStatus(self) -> Literal['win', 'ongoing', 'constraint_violation']:
+    def getGameStatus(self) -> Literal['won', 'ongoing', 'constraint_violation']:
         """
         Determine and return the current game status.
 
         Returns
         ---
             Either
-                - "win": if all cells are filled and all Sudoku constraints are satisfied.
+                - "won": if all cells are filled and all Sudoku constraints are satisfied.
 
                 - "ongoing": if the board is not yet complete and no constraints are violated.
 

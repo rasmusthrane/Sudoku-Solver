@@ -106,6 +106,12 @@ class TestGame(unittest.TestCase):
         game_status: str = self.game.getGameStatus()
         self.assertEqual(game_status, 'ongoing')
 
+    def test_shouldReturnWonGameWhenAllCorrectDigitsArePlaced(self):
+        clues = "123456789"
+        self.game = SquareSudokuGame(Factory3by3(clues))
+        game_status: str = self.game.getGameStatus()
+        self.assertEqual(game_status, 'won')
+
 
     
     # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
