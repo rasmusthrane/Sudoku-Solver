@@ -1,20 +1,34 @@
-## Game    
-[Ok] Given an initialized game, the dimensions should be 3x3 and 1 subgrid
-[Ok] Given an initialzed game, no clues should be present
-[Ok] Given an initialized game, all cells should be named correctly
-[Ok] Given an initialized game, when injecting the clue '1' in A1 and '9' in C3 all other values should be empty
-[Ok] Given a game with duplicate clues ('3' used twice), an error should be raised
-[Ok] Given a game with invalid characters for clues (',' used), an error should be raised
-[Ok] Given a game with too many clues (10 clues given), an error should be raised
-[Ok] Given a game with too few clues (8 clues given), an error should be raised
-[Ok] Given a game with clues, if trying to replace the value of the cell holding the clue, the status CANNOT_OVERWRITE_CLUE should be returned
-[Ok] Given a game with clues, if trying to replace the value of a free cell, the status OK should be returned
-[Ok] Given a game with clues, when updating a cell value, the value of the cell should be updated
-[Ok] Given a game with clues, when updating a cell value with an invalid character, the status INVALID_CHAR should be returned
-[Ok] Given a game, when updating a cell that does not exist, the status CELL_DOES_NOT_EXIST should be returned
-[Ok] Given a game, when removing the value of cell that does not exist, the status CELL_DOES_NOT_EXIST should be returned
-[Ok] Given an empty game, the game state 'ongoing' should be returned
-[Ok] Given a game, if the player puts down the same digit in two different cells and checks game state, the string 'constrain_violation' is returned
-[Ok] Given a game, if the player violates a constrain and then fix the violation by removing the digit, the game state 'ongoing' should be returned
-[Ok] Given a game, if 1 is placed in A1 and 2 is placed in C3 then all other cells should have 3:9 as candidates. If 2 is removed from C3 then all other cells should have 2:9 as candidates
-[Ok] Given a game, if all digits are placed initially and no constraints are violated, the game state should we 'win'
+## Sudoku 3x3 Alpha Test Cases
+
+### 1. Initialization
+- Given an empty game:
+    - [Ok] The dimensions should be **3x3** with **1 subgrid**
+    - [Ok] **No clues** should be present
+    - [Ok] **All cells** should be named correctly
+
+### 2. Clue Injection
+- When injecting clues:
+    - [Ok] Injecting `'1'` in `A1` and `'9'` in `C3` &rarr; all other cells should be **empty**
+    - [Ok] Injecting duplicate clues (e.g. `'3'` twice) &rarr; an **error** should be raised since duplicate clues cannot be injected
+    - [Ok] Injecting invalid characters as clues (e.g. `','`) &rarr; an **error** should be raised
+    - [Ok] Injecting too many characters as clues (e.g. 10) &rarr; an **error** should be raised
+    - [Ok] Injecting too few characters as clues (e.g. 8) &rarr; an **error** should be raised
+
+### 3. Cell Operations
+- Given a game with clues:
+  - [Ok] Updating the value of a **clue cell** &rarr; return `CANNOT_OVERWRITE_CLUE`
+  - [Ok] Updating a cell with an **invalid character** &rarr; return `INVALID_CHAR`
+  - [Ok] Updating the value of a **free cell** with a valid digit &rarr; return `OK` 
+  - [Ok] Updating the value of a **free cell** with a valid digit &rarr; cell value should be **updated**
+  - [Ok] Updating a **non-existent cell** &rarr; return `CELL_DOES_NOT_EXIST`
+  - [Ok] Removing a value from a **non-existent cell** &rarr; return `CELL_DOES_NOT_EXIST`
+
+### 4. Game State Evaluation
+- [Ok] Given an **empty game** &rarr; state `'ongoing'`
+- [Ok] When a **constraint violation** occurs (e.g., same digit twice) &rarr; state `'constrain_violation'`
+- [Ok] When a **violation is fixed** by removing a violating digit &rarr; state `'ongoing'`
+- [Ok] When **all digits** are placed with **no violations** &rarr; state `'win'`
+
+### 5. Candidates Management
+- Given an empty game:
+  - [Ok] Place `1` in `A1` and `2` in `C3` &rarr; all other cells have **candidates 3–9**. Remove `2` from `C3` &rarr; all other cells have **candidates 2–9**
