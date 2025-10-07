@@ -1,4 +1,5 @@
 import abc
+from typing import List
 
 class SudokuBoardStrategy(metaclass=abc.ABCMeta):
 
@@ -13,4 +14,7 @@ class SudokuBoardStrategy(metaclass=abc.ABCMeta):
         pass
     @abc.abstractmethod
     def getNumberOfSubGrids(self) -> int:
+        pass
+    @abc.abstractmethod
+    def getUnitList(self) -> List[List[str]]:
         pass

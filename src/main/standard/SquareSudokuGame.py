@@ -15,7 +15,7 @@ class SquareSudokuGame(FormalGameInterface):
         self.cols = sudokuBoardStrategy.getCols()
         self.rows = sudokuBoardStrategy.getRows()
         self.cells = cross(self.rows, self.cols)
-        self.unitlist = ([cross(self.rows, self.cols)]) # Only one unit in small sudoku 
+        self.unitlist = sudokuBoardStrategy.getUnitList() 
 
         # Create a dict that holds all units that each cell belongs to
         self.units = self.__create_unit_dict()
