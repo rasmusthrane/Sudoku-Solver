@@ -140,6 +140,8 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.CELL_DOES_NOT_EXIST
         if value not in GameConstants.VALID_CHARS:
             return Status.INVALID_CHAR
+        if value not in self.possible_digits and value != GameConstants.EMPTY_CELL:
+            return Status.INVALID_DIGIT
         
         self.grid_value_dict[cell] = value
         self.__update_grid_candidate_dict()
