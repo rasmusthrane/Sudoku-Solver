@@ -53,6 +53,23 @@ class TestGame(unittest.TestCase):
         self.assertEqual(grid_candidate_dict['B3'], '124')
         self.assertEqual(grid_candidate_dict['B4'], '124')
         self.assertEqual(grid_candidate_dict['D3'], '1234')
+    
+    def test_shouldHaveCorrectCandidatesAfterRemovingCellValue(self):
+        # First place some values
+        status1 = self.game.setCellValue('A1', '1')
+        status2 = self.game.setCellValue('A4', '2')
+        status3 = self.game.setCellValue('D4', '3')
+        # check everything alright
+        grid_candidate_dict = self.game.getGridCandidateDict()
+        self.assertTrue(status1 == status2 == status3 == Status.OK)
+        self.assertEqual(grid_candidate_dict['A4'], '2')
+
+        # Then remove the value from a cell
+        status4 = self.game.removeCellValue('A4')
+        # and check that everything is still alright
+        grid_candidate_dict = self.game.getGridCandidateDict()
+        self.assertEqual(status4, Status.OK)
+        self.assertEqual(grid_candidate_dict['A4'], '24')
 
 if __name__ == "__main__":
     unittest.main()
