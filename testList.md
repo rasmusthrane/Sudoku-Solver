@@ -32,3 +32,10 @@
 ### 5. Candidates Management
 - Given an empty game:
   - [Ok] Place `1` in `A1` and `2` in `C3` &rarr; all other cells have **candidates 3–9**. Remove `2` from `C3` &rarr; all other cells have **candidates 2–9**
+
+## Sudoku 4x4 Beta Test Cases
+### 1. Initialization
+- Given an empty game:
+    - [Ok] The dimensions should be **4x4** with **4 subgrids**
+    - [] **No clues** should be present
+    - [] **All cells** should be named correctly
