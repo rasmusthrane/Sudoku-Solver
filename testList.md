@@ -42,3 +42,7 @@
     - [Ok] The units that `A1` belongs to should be `A1,A2,B1,B2`, `A1,A2,A3,A4` and `A1,B1,C1,D1`             
     - [Ok] **No clues** should be present
     - [Ok] **All cells** should be named correctly
+
+### Candidates Management
+- Given an empty game:
+  - [Ok] Place `1` in `A1`, `2` in `A2`, `3` in `B2`-> `B1` should have candidate `4`, `A3` and `A4` should have candidates `34`, `B3` and `B4` should have candidates `234`, `D4` should have candidates `1234`

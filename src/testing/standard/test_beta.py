@@ -1,6 +1,7 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants #type:ignore
 from main.variants.factory.Factory4by4 import Factory4by4
+from main.framework.status import Status
 
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
@@ -38,6 +39,20 @@ class TestGame(unittest.TestCase):
 
         self.assertListEqual(cell_names, expected_cell_names)
 
+    def test_shouldHaveCorrectCandidatesAfterPlacingSomeValues(self):
+        status1 = self.game.setCellValue('A1', '1')
+        status2 = self.game.setCellValue('A2', '2')
+        status3 = self.game.setCellValue('B2', '3')
+        self.assertTrue(status1 == status2 == status3 == Status.OK)
+
+        grid_candidate_dict = self.game.getGridCandidateDict()
+        
+        self.assertEqual(grid_candidate_dict['B1'], '4')
+        self.assertEqual(grid_candidate_dict['A3'], '34')
+        self.assertEqual(grid_candidate_dict['A4'], '34')
+        self.assertEqual(grid_candidate_dict['B3'], '124')
+        self.assertEqual(grid_candidate_dict['B4'], '124')
+        self.assertEqual(grid_candidate_dict['D3'], '1234')
 
 if __name__ == "__main__":
     unittest.main()
