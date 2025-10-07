@@ -31,12 +31,12 @@ class TestGame(unittest.TestCase):
         for v in grid_values_dict.values():
             self.assertEqual(v, GameConstants.EMPTY_CELL)
 
-    # def test_shouldHaveCorrectCellNamingInEmptyGrid(self):
-    #     grid_values_dict = self.game.getGridValueDict()
-    #     expected_cell_names = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
-    #     cell_names = list(grid_values_dict.keys())
+    def test_shouldHaveCorrectCellNamingInEmptyGrid(self):
+        grid_values_dict = self.game.getGridValueDict()
+        expected_cell_names = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
+        cell_names = list(grid_values_dict.keys())
 
-    #     self.assertListEqual(cell_names, expected_cell_names)
+        self.assertListEqual(cell_names, expected_cell_names)
 
 
 if __name__ == "__main__":
