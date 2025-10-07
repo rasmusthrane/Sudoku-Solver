@@ -147,28 +147,6 @@ class SquareSudokuGame(FormalGameInterface):
         status = self.setCellValue(cell, GameConstants.EMPTY_CELL)
         return status
     
-    # def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
-    #     invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
-    #     if invalid_chars:
-    #         return Status.INVALID_CHAR
-
-    #     duplicates = find_duplicates(sudoku_rep_with_clues)
-    #     if duplicates:
-    #         return Status.DUPLICATE_CLUE
-        
-    #     length_of_injected_rep = len(sudoku_rep_with_clues)
-    #     if length_of_injected_rep > self.ncells:
-    #         return Status.TOO_MANY_CHARS
-        
-    #     if length_of_injected_rep < self.ncells:
-    #         return Status.TOO_FEW_CHARS
-    
-    #     else:
-    #         self.grid = sudoku_rep_with_clues
-    #         self._update_grid_value_dict()
-
-    #         return Status.OK
-
 if __name__ == "__main__":
     clues = "........."
     game = SquareSudokuGame(Factory3by3(clues))
