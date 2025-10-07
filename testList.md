@@ -43,6 +43,10 @@
     - [Ok] **No clues** should be present
     - [Ok] **All cells** should be named correctly
 
+### Cell Operations
+- Given a game
+  - [Ok]  Place `9` in `A1` -> return `INVALID_DIGIT`
+
 ### Candidates Management
 - Given an empty game:
   - [Ok] Place `1` in `A1`, `2` in `A2`, `3` in `B2`-> `B1` should have candidate `4`, `A3` and `A4` should have candidates `34`, `B3` and `B4` should have candidates `234`, `D4` should have candidates `1234`

@@ -71,5 +71,9 @@ class TestGame(unittest.TestCase):
         self.assertEqual(status4, Status.OK)
         self.assertEqual(grid_candidate_dict['A4'], '24')
 
+    def test_shouldReturnStatusINVALID_CHARIfPlacingDigit9InACell(self):
+        status = self.game.setCellValue('A1', '9')
+        self.assertEqual(status, Status.INVALID_DIGIT)
+
 if __name__ == "__main__":
     unittest.main()
