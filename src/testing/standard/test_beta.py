@@ -16,9 +16,12 @@ class TestGame(unittest.TestCase):
         self.assertEqual(nrows, 4)
         self.assertEqual(ncols, 4)
         self.assertEqual(nsubgrids, 4)
+
+    def test_shouldHave12UnitsInUnitList(self):
+        self.assertEqual(len(self.game.unitlist),12) 
     
-    def test_unitsOfA1AreCorrect(self):
-        pass
+    #def test_unitsOfA1AreCorrect(self):
+    #    pass
 
     # def test_shouldHaveEmptyGridAtStart(self):
     #     grid_values_dict = self.game.getGridValueDict()
