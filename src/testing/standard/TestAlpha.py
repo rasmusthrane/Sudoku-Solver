@@ -113,12 +113,27 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'won')
 
-# Given a game, if the player puts down the same digit in two different cells and checks game status, the string 'constrain_violation' is returned
     def test_shouldReturnConstraintViolationWhenDuplicateDigitsPlacedInSameUnit(self):
         self.game.setCellValue('A1', '1')
         self.game.setCellValue('A2', '1')
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')
+    
+    # Given a game, if the player violates a constraint and then fix the violation by removing the digit, the game state 'ongoing' should be returned
+    def test_shouldReturnOngoingAfterFixingConstraintViolation(self):
+        # First violate a constraint
+        self.game.setCellValue('A1', '1')
+        self.game.setCellValue('A2', '1')
+        game_state: GameState = self.game.getGameState()
+        self.assertEqual(game_state, 'constraint_violation')
+
+        # Then fix it
+        status = self.game.removeCellValue('A2')
+
+        # Check if game is now 'ongoing' again
+        game_state: GameState = self.game.getGameState()
+        self.assertEqual(status, Status.OK)
+        self.assertEqual(game_state, 'ongoing')
     
     # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
     #     clues = "1........"
