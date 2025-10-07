@@ -142,9 +142,32 @@ class TestGame(unittest.TestCase):
     def test_shouldRaiseErrorWhenRemovingValueOfCellThatDoesNotExist(self):
         status = self.game.removeCellValue('A4') #does not exist
         self.assertEqual(status, Status.CELL_DOES_NOT_EXIST)
-
-#[] Given a game, when removing the value of cell that does not exist, the status CELL_DOES_NOT_EXIST should be returned        
     
+    def test_shouldPropagateChangesInCandidatesWhenRemovingValueOfCell(self):
+        # First set two cell values
+        self.game.setCellValue('A1', '1')
+        self.game.setCellValue('C3', '2')
+
+        # Then check all cells has correct candidates
+        grid_candidate_dict = self.game.getGridCandidateDict()
+        for cell_name, candidates in grid_candidate_dict.items():
+            if cell_name == 'A1':
+                self.assertEqual(candidates, '1')
+            elif cell_name == 'C3':
+                self.assertEqual(candidates, '2')
+            else:
+                self.assertEqual(candidates, '3456789')
+
+        # Then remove one of the cells 
+        self.game.removeCellValue('C3')
+        # And check again
+        grid_candidate_dict = self.game.getGridCandidateDict()
+        for cell_name, candidates in grid_candidate_dict.items():
+            if cell_name == 'A1':
+                self.assertEqual(candidates, '1')
+            else:
+                self.assertEqual(candidates, '23456789')
+
     # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
     #     clues = "1........"
     #     self.game.setSudoku(clues)
