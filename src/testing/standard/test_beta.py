@@ -5,6 +5,7 @@ from main.variants.factory.Factory4by4 import Factory4by4
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
 import unittest
+from typing import List, Dict
 
 class TestGame(unittest.TestCase):
     def setUp(self):
@@ -20,8 +21,11 @@ class TestGame(unittest.TestCase):
     def test_shouldHave12UnitsInUnitList(self):
         self.assertEqual(len(self.game.unitlist),12) 
     
-    #def test_unitsOfA1AreCorrect(self):
-    #    pass
+    def test_unitsOfA1AreCorrect(self):
+        units: Dict[str, List[List[str]]] = self.game.getUnits()
+        expected_units = sorted([['A1','A2','B1','B2'], ['A1','A2','A3','A4'], ['A1','B1','C1','D1']]) # sort ensures that the two lists can be compared
+        self.assertListEqual(sorted(units['A1']), expected_units)
+        
 
     # def test_shouldHaveEmptyGridAtStart(self):
     #     grid_values_dict = self.game.getGridValueDict()
