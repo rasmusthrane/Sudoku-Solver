@@ -62,6 +62,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def getUnits(self) -> Dict[str, List[List[str]]]:
+        pass
+
+    @abc.abstractmethod
     def setCellValue(self, cell:str, value:str) -> Status:
         pass
 

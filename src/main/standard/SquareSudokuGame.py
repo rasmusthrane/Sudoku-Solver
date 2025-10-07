@@ -128,6 +128,10 @@ class SquareSudokuGame(FormalGameInterface):
     def getGridCandidateValues(self) -> List[str]:
         return list(self.grid_candidate_dict.values())
     @override
+    def getUnits(self) -> Dict[str, List[List[str]]]:
+        return self.units
+
+    @override
     def setCellValue(self, cell:str, value:str) -> Status:
         if cell in self.initial_clues:
             return Status.CANNOT_OVERWRITE_CLUE
