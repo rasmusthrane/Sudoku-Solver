@@ -24,13 +24,12 @@ class TestGame(unittest.TestCase):
     def test_unitsOfA1AreCorrect(self):
         units: Dict[str, List[List[str]]] = self.game.getUnits()
         expected_units = sorted([['A1','A2','B1','B2'], ['A1','A2','A3','A4'], ['A1','B1','C1','D1']]) # sort ensures that the two lists can be compared
-        self.assertListEqual(sorted(units['A1']), expected_units)
-        
+        self.assertListEqual(sorted(units['A1']), expected_units)        
 
-    # def test_shouldHaveEmptyGridAtStart(self):
-    #     grid_values_dict = self.game.getGridValueDict()
-    #     for v in grid_values_dict.values():
-    #         self.assertEqual(v, GameConstants.EMPTY_CELL)
+    def test_shouldHaveEmptyGridAtStart(self):
+        grid_values_dict = self.game.getGridValueDict()
+        for v in grid_values_dict.values():
+            self.assertEqual(v, GameConstants.EMPTY_CELL)
 
     # def test_shouldHaveCorrectCellNamingInEmptyGrid(self):
     #     grid_values_dict = self.game.getGridValueDict()

@@ -40,5 +40,5 @@
     - [Ok] The dimensions should be **4x4** with **4 subgrids**
     - [Ok] There should exist 12 units
     - [Ok] The units that `A1` belongs to should be `A1,A2,B1,B2`, `A1,A2,A3,A4` and `A1,B1,C1,D1`             
-    - [] **No clues** should be present
+    - [Ok] **No clues** should be present
     - [] **All cells** should be named correctly
