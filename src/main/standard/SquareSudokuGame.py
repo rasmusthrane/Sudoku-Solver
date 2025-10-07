@@ -96,9 +96,11 @@ class SquareSudokuGame(FormalGameInterface):
         return initial_clues
 
     def __update_game_state(self) -> None:
-        unique_solution_found: bool = list(self.grid_candidate_dict.values()) == list(self.grid_value_dict.values())
+        unique_solution_found: bool = self.getGridValues() == self.getGridCandidateValues()
         if unique_solution_found:
             self.game_state: GameState = 'won'
+        
+
     
 
     @override
@@ -116,6 +118,9 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def getGridCandidateDict(self) -> Dict[str, str]:
         return {"A1": '', "B1": ''}
+    @override
+    def getGridCandidateValues(self) -> List[str]:
+        return list(self.grid_candidate_dict.values())
     @override
     def setCellValue(self, cell:str, value:str) -> Status:
         if cell in self.initial_clues:

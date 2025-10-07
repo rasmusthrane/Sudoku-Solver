@@ -58,6 +58,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def getGridCandidateValues(self) -> List[str]:
+        pass
+
+    @abc.abstractmethod
     def setCellValue(self, cell:str, value:str) -> Status:
         pass
 
