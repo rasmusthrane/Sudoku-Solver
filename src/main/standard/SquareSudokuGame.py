@@ -124,7 +124,7 @@ class SquareSudokuGame(FormalGameInterface):
         return list(self.grid_value_dict.values())
     @override
     def getGridCandidateDict(self) -> Dict[str, str]:
-        return {"A1": '', "B1": ''}
+        return self.grid_candidate_dict
     @override
     def getGridCandidateValues(self) -> List[str]:
         return list(self.grid_candidate_dict.values())
@@ -138,6 +138,7 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.INVALID_CHAR
         
         self.grid_value_dict[cell] = value
+        self.__update_grid_candidate_dict()
         self.__update_game_state()
         return Status.OK
     
@@ -172,6 +173,7 @@ if __name__ == "__main__":
     clues = "........."
     game = SquareSudokuGame(Factory3by3(clues))
     game.setCellValue('A1', '1')
-    game.setCellValue('A2', '1')
-    game_state: GameState = game.getGameState()
+    game.setCellValue('C3', '2')
+    grid_candidate_dict = game.getGridCandidateDict()
+    print(grid_candidate_dict)
 
