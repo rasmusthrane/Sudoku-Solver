@@ -108,10 +108,7 @@ class SquareSudokuGame(FormalGameInterface):
             self.game_state: GameState = 'constraint_violation'
             return
         
-            
-        
-
-    
+        self.game_state: GameState = 'ongoing'
 
     @override
     def getGameState(self) -> GameState:
