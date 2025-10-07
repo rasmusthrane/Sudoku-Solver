@@ -135,10 +135,15 @@ class TestGame(unittest.TestCase):
         self.assertEqual(status, Status.OK)
         self.assertEqual(game_state, 'ongoing')
 
-    #[] Given a game, when updating a cell that does not exist, an error should be raised 
     def test_shouldRaiseErrorWhenUpdatingACellThatDoesNotExist(self):
-        status = self.game.setCellValue('A4', '1') #does not exists
+        status = self.game.setCellValue('A4', '1') #does not exist
         self.assertEqual(status, Status.CELL_DOES_NOT_EXIST)
+
+    def test_shouldRaiseErrorWhenRemovingValueOfCellThatDoesNotExist(self):
+        status = self.game.removeCellValue('A4') #does not exist
+        self.assertEqual(status, Status.CELL_DOES_NOT_EXIST)
+
+#[] Given a game, when removing the value of cell that does not exist, the status CELL_DOES_NOT_EXIST should be returned        
     
     # def test_allCellsShouldHaveCandidates2Through9ExceptA1WhichHoldsTheClue1(self):
     #     clues = "1........"
