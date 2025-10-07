@@ -132,6 +132,8 @@ class SquareSudokuGame(FormalGameInterface):
     def setCellValue(self, cell:str, value:str) -> Status:
         if cell in self.initial_clues:
             return Status.CANNOT_OVERWRITE_CLUE
+        if cell not in self.cells:
+            return Status.CELL_DOES_NOT_EXIST
         if value not in GameConstants.VALID_CHARS:
             return Status.INVALID_CHAR
         
