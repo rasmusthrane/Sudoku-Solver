@@ -7,6 +7,7 @@ from main.standard.GameConstants import GameConstants
 from main.framework.GameState import GameState
 
 from typing import Tuple, List, Dict, override
+from collections import Counter
 import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface):
@@ -99,6 +100,15 @@ class SquareSudokuGame(FormalGameInterface):
         unique_solution_found: bool = self.getGridValues() == self.getGridCandidateValues()
         if unique_solution_found:
             self.game_state: GameState = 'won'
+            return
+        
+        c = Counter(self.getGridValues())
+        constrain_violation_found = any(count > 1 for key, count in c.items() if key != '.')
+        if constrain_violation_found:
+            self.game_state: GameState = 'constraint_violation'
+            return
+        
+            
         
 
     
@@ -159,5 +169,5 @@ if __name__ == "__main__":
     game = SquareSudokuGame(Factory3by3(clues))
     game.setCellValue('A1', '1')
     game.setCellValue('A2', '1')
-    print(game.getGridValueDict())
+    game_state: GameState = game.getGameState()
 
