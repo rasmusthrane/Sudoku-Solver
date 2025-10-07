@@ -30,3 +30,6 @@ class Sudoku3by3(SudokuBoardStrategy):
     
     def getRows(self) -> str:
         return "ABC"
+    
+    def getNumberOfSubGrids(self) -> int:
+        return 1

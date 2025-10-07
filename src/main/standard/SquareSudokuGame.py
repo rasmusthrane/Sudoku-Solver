@@ -2,7 +2,6 @@ from main.framework.game import FormalGameInterface
 from main.framework.status import Status
 from main.framework.utility import cross
 from main.variants.factory.GameFactory import GameFactory
-from main.variants.factory.Factory3by3 import Factory3by3
 from main.standard.GameConstants import GameConstants
 from main.framework.GameState import GameState
 
@@ -25,7 +24,7 @@ class SquareSudokuGame(FormalGameInterface):
         
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
-        self.nsubgrids = 1 
+        self.nsubgrids = sudokuBoardStrategy.getNumberOfSubGrids()
         self.ncells = len(self.cells)
 
         # Initialize grid representation
@@ -148,10 +147,7 @@ class SquareSudokuGame(FormalGameInterface):
         return status
     
 if __name__ == "__main__":
-    clues = "........."
-    game = SquareSudokuGame(Factory3by3(clues))
-    game.setCellValue('A1', '1')
-    game.setCellValue('C3', '2')
-    grid_candidate_dict = game.getGridCandidateDict()
-    print(grid_candidate_dict)
+    from main.variants.factory.Factory4by4 import Factory4by4
+    clues = "................"
+    game = SquareSudokuGame(Factory4by4(clues))
 
