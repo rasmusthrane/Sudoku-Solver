@@ -18,3 +18,6 @@ class SudokuBoardStrategy(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def getUnitList(self) -> List[List[str]]:
         pass
+    @abc.abstractmethod
+    def getPossibleDigits(self) -> List[str]:
+        pass

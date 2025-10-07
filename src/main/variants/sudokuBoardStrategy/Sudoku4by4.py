@@ -32,3 +32,6 @@ class Sudoku4by4(SudokuBoardStrategy):
 
         unitlist = row_units + col_units + box_units
         return unitlist
+    
+    def getPossibleDigits(self) -> List[str]:
+        return ['1', '2', '3', '4']

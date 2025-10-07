@@ -40,3 +40,6 @@ class Sudoku3by3(SudokuBoardStrategy):
         rows: str = self.getRows()
         cols: str = self.getCols()
         return [cross(rows, cols)]
+    
+    def getPossibleDigits(self) -> List[str]:
+        return ['1', '2', '3', '4', '5', '6', '7', '8', '9']

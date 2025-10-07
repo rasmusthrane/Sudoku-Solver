@@ -16,6 +16,7 @@ class SquareSudokuGame(FormalGameInterface):
         self.rows = sudokuBoardStrategy.getRows()
         self.cells = cross(self.rows, self.cols)
         self.unitlist = sudokuBoardStrategy.getUnitList() 
+        self.possible_digits = sudokuBoardStrategy.getPossibleDigits()
 
         # Create a dict that holds all units that each cell belongs to
         self.units = self.__create_unit_dict()
@@ -79,14 +80,14 @@ class SquareSudokuGame(FormalGameInterface):
 
             # Then elimate all possible candidates
             else:
-                list_of_candidates = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+                list_of_candidates = self.possible_digits.copy()
                 for peer_of_cell in self.peers[cell]:
                     peer_value_is_candidate: bool = self.grid_value_dict[peer_of_cell] in list_of_candidates
                     if peer_value_is_candidate:
                         list_of_candidates.remove(self.grid_value_dict[peer_of_cell])
 
             # create string to represent candidates
-            self.grid_candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)               
+            self.grid_candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
     def __get_cells_with_clues(self) -> List[str]:
         initial_clues: List[str] = []
@@ -151,7 +152,8 @@ class SquareSudokuGame(FormalGameInterface):
         return status
     
 if __name__ == "__main__":
-    from main.variants.factory.Factory4by4 import Factory4by4
+    from main.variants.factory.Factory3by3 import Factory3by3 #type:ignore
+    from main.variants.factory.Factory4by4 import Factory4by4 #type:ignore
     clues = "................"
     game = SquareSudokuGame(Factory4by4(clues))
 
