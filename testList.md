@@ -5,6 +5,7 @@
     - [Ok] The dimensions should be **3x3** with **1 subgrid**
     - [Ok] **No clues** should be present
     - [Ok] **All cells** should be named correctly
+    - [] There should only be one unit
 
 ### 2. Clue Injection
 - When injecting clues:
@@ -37,5 +38,6 @@
 ### 1. Initialization
 - Given an empty game:
     - [Ok] The dimensions should be **4x4** with **4 subgrids**
+    - [] The units that `A1` belongs to should be `A1,A2,B1,B2`, `A1,A2,A3,A4` and `A1,B1,C1,D1`             
     - [] **No clues** should be present
     - [] **All cells** should be named correctly
