@@ -65,3 +65,7 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     def setCellValue(self, cell:str, value:str) -> Status:
         pass
 
+    @abc.abstractmethod
+    def removeCellValue(self, cell: str) -> Status:
+        pass
+

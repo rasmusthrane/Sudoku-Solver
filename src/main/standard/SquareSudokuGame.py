@@ -142,6 +142,12 @@ class SquareSudokuGame(FormalGameInterface):
         self.__update_game_state()
         return Status.OK
     
+    @override
+    def removeCellValue(self, cell: str) -> Status:
+        self.grid_value_dict[cell] = '.'
+        self.__update_game_state()
+        return Status.OK
+    
     # def setSudoku(self, sudoku_rep_with_clues: str) -> Status:
     #     invalid_chars = find_invalid_characters(sudoku_rep_with_clues)
     #     if invalid_chars:
