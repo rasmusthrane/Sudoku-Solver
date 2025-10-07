@@ -5,7 +5,7 @@
     - [Ok] The dimensions should be **3x3** with **1 subgrid**
     - [Ok] **No clues** should be present
     - [Ok] **All cells** should be named correctly
-    - [] There should only be one unit
+    - [Ok] There should only be one unit
 
 ### 2. Clue Injection
 - When injecting clues:

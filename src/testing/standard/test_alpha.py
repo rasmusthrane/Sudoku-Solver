@@ -30,6 +30,9 @@ class TestGame(unittest.TestCase):
         cell_names = list(grid_values_dict.keys())
 
         self.assertListEqual(cell_names, expected_cell_names)
+    
+    def test_shouldOnlyHaveOneUnitInListOfUnits(self):
+        self.assertEqual(len(self.game.unitlist),1) 
 
     def test_shouldNotRaiseErrorWhenPassingValidCluesAndCellValuesShouldBeUpdated(self):
         clues = "1.......9"
