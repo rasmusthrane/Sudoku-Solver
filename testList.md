@@ -51,3 +51,7 @@
 - Given an empty game:
   - [Ok] Place `1` in `A1`, `2` in `A2`, `3` in `B2`-> `B1` should have candidate `4`, `A3` and `A4` should have candidates `34`, `B3` and `B4` should have candidates `234`, `D4` should have candidates `1234`
   - [Ok] Place `1` in `A1`, `2` in `A4` and `3` in `D4` and then remove the value in `A4` -> `A4` should have candidates `24`
+
+### Observer
+- Given an empty game and a game observer spy
+  - [Ok] the game should notify game observer spy when placing `4` in `D2`
