@@ -162,6 +162,8 @@ class SquareSudokuGame(FormalGameInterface, Observable):
         self.grid_value_dict[cell] = value
         self.__update_grid_candidate_dict()
         self.__update_game_state()
+
+        self.observerHandler.notifySetCellValue(cell, value)
         return Status.OK
     
     @override
