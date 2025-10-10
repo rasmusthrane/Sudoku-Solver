@@ -14,6 +14,11 @@ class TestGame(unittest.TestCase):
     def test_shouldTriggerOnSettingCellValueWhenSettingValue(self):
         self.game.setCellValue('D2', '4')
         self.assertEqual(self.gameObserverSpy.getOnSettingCellValue(), 'placed 4 in D2')
+    
+    def test_shoshouldTriggerOnSettingCellValueWhenRemovingValue(self):
+        self.game.setCellValue('A1', '1')
+        self.game.removeCellValue('A1')
+        self.assertEqual(self.gameObserverSpy.getOnSettingCellValue(), 'placed . in A1')
 
 if __name__ == "__main__":
     unittest.main()

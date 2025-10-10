@@ -55,3 +55,4 @@
 ### Observer
 - Given an empty game and a game observer spy
   - [Ok] the game should notify game observer spy when placing `4` in `D2`
+  - [Ok] the game should notify game observer spy when removing a cell value
