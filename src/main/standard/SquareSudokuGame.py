@@ -4,12 +4,16 @@ from main.framework.utility import cross
 from main.variants.factory.GameFactory import GameFactory
 from main.standard.GameConstants import GameConstants
 from main.framework.GameState import GameState
+from main.observer.observer_handler import ObserverHandler
+from main.observer.observable import Observable
+from main.observer.game_observer import GameObserver
+from main.observer.game_observer_impl import GameObserverImpl
 
 from typing import Tuple, List, Dict, override
 from collections import Counter
 import sys #type:ignore
 
-class SquareSudokuGame(FormalGameInterface):
+class SquareSudokuGame(FormalGameInterface, Observable):
     def __init__(self, gameFactory: GameFactory) -> None:
         sudokuBoardStrategy = gameFactory.createSudokuBoardStrategy()
         self.cols = sudokuBoardStrategy.getCols()
@@ -28,6 +32,10 @@ class SquareSudokuGame(FormalGameInterface):
         self.nsubgrids = sudokuBoardStrategy.getNumberOfSubGrids()
         self.ncells = len(self.cells)
 
+        # Setting up observer
+        self.observerHandler = ObserverHandler()
+        self.addObserver(GameObserverImpl())
+
         # Initialize grid representation
         self.initial_grid = sudokuBoardStrategy.getGridRepresentation()
 
@@ -44,6 +52,14 @@ class SquareSudokuGame(FormalGameInterface):
 
         self.game_state: GameState = 'ongoing'
         self.__update_game_state()
+
+    @override
+    def addObserver(self, gameObserver: GameObserver) -> None:
+        self.observerHandler.addObserver(gameObserver)
+
+    @override
+    def getObserverHandler(self) -> ObserverHandler:
+        return self.observerHandler
 
     def __create_peers_dict(self) -> Dict[str, List[str]]:
         peers: Dict[str, List[str]] = {}
