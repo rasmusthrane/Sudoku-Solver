@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+    
+    /* Adds spacing below the title*/
+    h1 {
+      margin-bottom: 20px;
+    }
+    /* Define style of table */
+    table {
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    /* Define style of table data cells*/
+     
+    td {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid #555;
+      font-size: 20px;
+    }
+
+    /* Thicker borders between 3×3 subgrids */
+    tr:nth-child(3n) td {
+      border-bottom: 3px solid black;
+    }
+
+    td:nth-child(3n) {
+      border-right: 3px solid black;
+    }
+
+    tr:first-child td {
+      border-top: 3px solid black;
+    }
+
+    td:first-child {
+      border-left: 3px solid black;
+    }
+
+    /* highlight editable cells */
+    td:focus {
+      outline: none;
+      background-color: #d0f0ff;
+    }
+
+    td[contenteditable="true"] {
+      cursor: text;
+    }
+  </style>
+</head>
+<body>
+  <h1>Empty Sudoku Grid</h1>
+  <table>
+    {% for i in range(9) %}
+    <tr>
+      {% for j in range(9) %}
+      <td contenteditable="true"></td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
