@@ -71,10 +71,46 @@
       {% for col_number in col_numbers %}
         {% set cell = row_letter + col_number %}
         {% set cell_value = grid_value_dict[cell] %}
-        <td contenteditable="true">{{cell_value if cell_value != EMPTY_CELL else ''}}</td>
+        <td 
+        id="{{cell}}"
+        onblur="updateCell('{{cell}}', this.innerText)"
+        contenteditable="{{'false' if cell_value != EMPTY_CELL else 'true'}}"
+        {% if cell_value != EMPTY_CELL %} style="background-color: #b0aeae;" {% endif %}>
+        {{cell_value if cell_value != EMPTY_CELL else ''}}</td>
       {% endfor %}
     </tr>
     {% endfor %}
   </table>
+
+  <script>
+    function updateCell(cellId, value) {
+      // Save the old value first
+      const cellElement = document.getElementById(cellId);
+      const oldValue = cellElement.dataset.value || '';  // fallback if no datas
+
+        fetch('/update_cell', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cell: cellId, value: value})
+        }).then(response => response.json())
+          .then(data => {
+            if(data.success) {
+                // Update stored value for future edits
+                cellElement.dataset.value = value;
+            } else {
+                // Revert to old value if update failed
+                cellElement.innerText = oldValue;
+                alert("Invalid input: " + (data.error || "Please enter a valid number."));
+            }
+          });
+    }
+    // Initialize dataset.value for all cells
+    document.querySelectorAll('td[contenteditable="true"]').forEach(td => {
+      td.dataset.value = td.innerText;  // store initial value
+    });
+  </script>
+
 </body>
 </html>
