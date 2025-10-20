@@ -35,12 +35,12 @@
       font-size: 20px;
     }
 
-    /* Thicker borders between 3×3 subgrids */
-    tr:nth-child(3n) td {
+    /* Thicker borders between 2×2 subgrids */
+    tr:nth-child(2n) td {
       border-bottom: 3px solid black;
     }
 
-    td:nth-child(3n) {
+    td:nth-child(2n) {
       border-right: 3px solid black;
     }
 
@@ -64,12 +64,14 @@
   </style>
 </head>
 <body>
-  <h1>Empty Sudoku Grid</h1>
+  <h1>Sudoku</h1>
   <table>
-    {% for i in range(9) %}
+    {% for row_letter in row_letters %}
     <tr>
-      {% for j in range(9) %}
-      <td contenteditable="true"></td>
+      {% for col_number in col_numbers %}
+        {% set cell = row_letter + col_number %}
+        {% set cell_value = grid_value_dict[cell] %}
+        <td contenteditable="true">{{cell_value if cell_value != EMPTY_CELL else ''}}</td>
       {% endfor %}
     </tr>
     {% endfor %}
