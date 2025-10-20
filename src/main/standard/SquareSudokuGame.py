@@ -18,7 +18,7 @@ class SquareSudokuGame(FormalGameInterface, Observable):
         sudokuBoardStrategy = gameFactory.createSudokuBoardStrategy()
         self.cols = sudokuBoardStrategy.getCols()
         self.rows = sudokuBoardStrategy.getRows()
-        self.cells = cross(self.rows, self.cols)
+        self.cells: List[str] = cross(self.rows, self.cols)
         self.unitlist = sudokuBoardStrategy.getUnitList() 
         self.possible_digits = sudokuBoardStrategy.getPossibleDigits()
 
