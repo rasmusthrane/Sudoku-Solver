@@ -1,9 +1,9 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
-from main.framework.status import Status
 from main.variants.factory.Factory4by4 import Factory4by4
 
 from flask import Flask, render_template, request, jsonify
+#import json
 
 
 def create_app():
@@ -14,7 +14,7 @@ def create_app():
     grid_value_dict = game.getGridValueDict()
     @app.route('/hello')
     def hello(): # type: ignore
-        return f'Hello, World! And the game state is: {grid_value_dict}'
+        return f'Hello, World! And the game state is: {game.possible_digits}'
     
     @app.route('/')
     def index(): # type: ignore
@@ -29,12 +29,13 @@ def create_app():
         data = request.get_json()
         cell = data.get('cell')
         value = data.get('value')
-        # Attempt to update the game
-        status = game.setCellValue(cell, value)
-        if status == Status.OK:
-            return jsonify(success=True)
+        
+        if value == "":
+            game.removeCellValue(cell)
         else:
-            return jsonify(success=False, error=str(status))
+            game.setCellValue(cell, value)
+        
+        return jsonify({"status": "success", "cell": cell, "value": value})
 
 
     return app
