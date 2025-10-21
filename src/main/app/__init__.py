@@ -22,7 +22,8 @@ def create_app():
                                grid_value_dict=grid_value_dict, 
                                row_letters=game.rows, 
                                col_numbers=game.cols,
-                               EMPTY_CELL = GameConstants.EMPTY_CELL)
+                               EMPTY_CELL=GameConstants.EMPTY_CELL,
+                               possible_digits=game.possible_digits)
     @app.route('/update_cell', methods=['POST'])
     def update_cell(): #type: ignore
         data = request.get_json()
