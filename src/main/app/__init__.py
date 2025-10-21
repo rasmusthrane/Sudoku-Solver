@@ -23,7 +23,8 @@ def create_app():
                                row_letters=game.rows, 
                                col_numbers=game.cols,
                                EMPTY_CELL=GameConstants.EMPTY_CELL,
-                               possible_digits=game.possible_digits)
+                               possible_digits=game.possible_digits,
+                               initial_clues=game.initial_clues)
     @app.route('/update_cell', methods=['POST'])
     def update_cell(): #type: ignore
         data = request.get_json()
