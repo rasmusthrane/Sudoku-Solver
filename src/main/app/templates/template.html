@@ -83,8 +83,8 @@
           return false
           "
         onblur="updateCell('{{cell}}', this.innerText.trim())"
-        contenteditable="{{'false' if cell_value != EMPTY_CELL else 'true'}}"
-        {% if cell_value != EMPTY_CELL %} style="background-color: #b0aeae;" {% endif %}>
+        contenteditable="{{'false' if cell in initial_clues else 'true'}}"
+        {% if cell in initial_clues %} style="background-color: #b0aeae;" {% endif %}>
         {{cell_value if cell_value != EMPTY_CELL else ''}}</td>
       {% endfor %}
     </tr>
