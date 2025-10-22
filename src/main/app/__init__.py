@@ -1,9 +1,11 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
+from main.framework.status import Status
 from main.variants.factory.Factory4by4 import Factory4by4
 
 from flask import Flask, render_template, request, jsonify
-#import json
+
+from typing import Dict
 
 
 def create_app():
@@ -32,11 +34,17 @@ def create_app():
         value = data.get('value')
         
         if value == "":
-            game.removeCellValue(cell)
+            status: Status = game.removeCellValue(cell)
         else:
-            game.setCellValue(cell, value)
+            status: Status = game.setCellValue(cell, value)
         
-        return jsonify({"status": "success", "cell": cell, "value": value})
+        response: Dict[str, str] = {
+            'game_update_status': status.name,
+            'cell': cell,
+            'value': value
+            }
+        
+        return jsonify(response)
 
 
     return app
