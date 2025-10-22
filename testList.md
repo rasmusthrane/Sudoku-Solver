@@ -56,3 +56,8 @@
 - Given an empty game and a game observer spy
   - [Ok] the game should notify game observer spy when placing `4` in `D2`
   - [Ok] the game should notify game observer spy when removing a cell value
+
+### GUI
+- Given an empty game, an app and a test client
+  - [] the status should be OK when the client tries to place digit `1` in `A1`, and the change in value should propagate to game
+  - [] the status should be CANNOT_OVERWRITE_CLUE when the client tries to place overwrite a clue, and the attempted change in value should not happen
