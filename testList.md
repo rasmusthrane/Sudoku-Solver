@@ -59,5 +59,5 @@
 
 ### GUI
 - Given an empty game, an app and a test client
-  - [] the status should be OK when the client tries to place digit `1` in `A1`, and the change in value should propagate to game
+  - [Ok] the status should be OK when the client tries to place digit `1` in `A1`, and the change in value should propagate to game
   - [] the status should be CANNOT_OVERWRITE_CLUE when the client tries to place overwrite a clue, and the attempted change in value should not happen
