@@ -8,15 +8,18 @@ from flask import Flask, render_template, request, jsonify
 from typing import Dict
 
 
-def create_app():
+def create_app(game: SquareSudokuGame | None = None) -> Flask:
     app = Flask(__name__)
 
-    clues = '...3............'
-    game = SquareSudokuGame(Factory4by4(clues=clues))
+    # Default behaviour if no clues are injected
+    if game is None:
+        game = SquareSudokuGame(Factory4by4())
+    #app.config['game'] = game         
+
     grid_value_dict = game.getGridValueDict()
     @app.route('/hello')
     def hello(): # type: ignore
-        return f'Hello, World! And the game state is: {game.possible_digits}'
+        return f'Hello, World! And the game state is: {game.initial_grid}'
     
     @app.route('/')
     def index(): # type: ignore
