@@ -76,7 +76,7 @@
         onkeydown=" 
           const allowedKeys = ['Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Tab'];
           if (allowedKeys.includes(event.key)) return true;  // allow editing keys
-          if (/{{possible_digits}}/.test(event.key)) {
+          if (/[{{ possible_digits | join('') }}]/.test(event.key)) {
             this.innerText = ''; // clear existing content
             return true
           }
