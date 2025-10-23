@@ -48,6 +48,11 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
             }
         
         return jsonify(response)
+    
+    @app.route('/my_function', methods=['GET'])
+    def my_function(): #type: ignore
+        print("hi")
+        return "hi"
 
 
     return app
