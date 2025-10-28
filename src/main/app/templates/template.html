@@ -106,15 +106,21 @@
         })
       }
   </script>
-  <button class="btn btn-primary ms-3" onclick="myFunction()">Check solution</button>
+  <button class="btn btn-primary ms-3" onclick="getGameState()">Check solution</button>
+
   <script>
-  function myFunction() {
-    fetch('/my_function', {
-      method: 'GET'
+    function getGameState() {
+      fetch('/get_game_state', {
+        method: 'GET'
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('game_state').innerText = data;
       })
     }
-  </script> 
+    </script> 
   </div>
+<div id="game_state" style="margin-top:10px;"></div>
 </body>
 </html>
  
