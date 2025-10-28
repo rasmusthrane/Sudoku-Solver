@@ -23,9 +23,9 @@ class SquareSudokuGame(FormalGameInterface, Observable):
         self.possible_digits = sudokuBoardStrategy.getPossibleDigits()
 
         # Create a dict that holds all units that each cell belongs to
-        self.units = self.__create_unit_dict()
+        self.units = self.__createUnitDict()
         # Create a dict that holds all cells which shares unit with a cell
-        self.peers = self.__create_peers_dict()
+        self.peers = self.__createPeersDict()
         
         self.nrows = len(self.rows)
         self.ncols = len(self.cols)
@@ -41,17 +41,17 @@ class SquareSudokuGame(FormalGameInterface, Observable):
 
         # Initialize grid value dict
         self.grid_value_dict: Dict[str, str] = {}
-        self.__populate_initial_grid_value_dict()
+        self.__populateInitialGridValueDict()
 
         # Initialize grid_candidate_dict
         self.grid_candidate_dict: Dict[str, str] = {}
-        self.__update_grid_candidate_dict()
+        self.__updateGridCandidateDict()
 
         # Create list of initial clues
-        self.initial_clues: List[str] = self.__get_cells_with_clues()
+        self.initial_clues: List[str] = self.__getCellsWithClues()
 
         self.game_state: GameState = 'ongoing'
-        self.__update_game_state()
+        self.__updateGameState()
 
     @override
     def addObserver(self, gameObserver: GameObserver) -> None:
@@ -61,7 +61,7 @@ class SquareSudokuGame(FormalGameInterface, Observable):
     def getObserverHandler(self) -> ObserverHandler:
         return self.observerHandler
 
-    def __create_peers_dict(self) -> Dict[str, List[str]]:
+    def __createPeersDict(self) -> Dict[str, List[str]]:
         peers: Dict[str, List[str]] = {}
         for c in self.cells:
             all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
@@ -71,7 +71,7 @@ class SquareSudokuGame(FormalGameInterface, Observable):
             peers[c] = peers_of_c
         return peers
 
-    def __create_unit_dict(self) -> Dict[str, List[List[str]]]:
+    def __createUnitDict(self) -> Dict[str, List[List[str]]]:
         units: Dict[str, List[List[str]]] = {}
         for c in self.cells:
             units_for_s: List[List[str]] = []  # List to hold units containing s
@@ -81,12 +81,12 @@ class SquareSudokuGame(FormalGameInterface, Observable):
             units[c] = units_for_s
         return units
 
-    def __populate_initial_grid_value_dict(self) -> None:
+    def __populateInitialGridValueDict(self) -> None:
         for i, c in enumerate(self.cells):
             value = self.initial_grid[i]
             self.grid_value_dict[c] = value
     
-    def __update_grid_candidate_dict(self) -> None:
+    def __updateGridCandidateDict(self) -> None:
         for cell, value in self.grid_value_dict.items():
 
             # First check if a digit is placed
@@ -105,14 +105,14 @@ class SquareSudokuGame(FormalGameInterface, Observable):
             # create string to represent candidates
             self.grid_candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
-    def __get_cells_with_clues(self) -> List[str]:
+    def __getCellsWithClues(self) -> List[str]:
         initial_clues: List[str] = []
         for cell, value in self.grid_value_dict.items():
             if value != '.':
                 initial_clues.append(cell)
         return initial_clues
 
-    def __update_game_state(self) -> None:
+    def __updateGameState(self) -> None:
         unique_solution_found: bool = self.getGridValues() == self.getGridCandidateValues()
         if unique_solution_found:
             self.game_state: GameState = 'won'
@@ -160,8 +160,8 @@ class SquareSudokuGame(FormalGameInterface, Observable):
             return Status.INVALID_DIGIT
         
         self.grid_value_dict[cell] = value
-        self.__update_grid_candidate_dict()
-        self.__update_game_state()
+        self.__updateGridCandidateDict()
+        self.__updateGameState()
 
         self.observerHandler.notifySetCellValue(cell, value)
         return Status.OK
