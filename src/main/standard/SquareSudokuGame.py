@@ -10,7 +10,6 @@ from main.observer.game_observer import GameObserver
 from main.observer.game_observer_impl import GameObserverImpl
 
 from typing import Tuple, List, Dict, override
-from collections import Counter
 import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface, Observable):
@@ -111,17 +110,25 @@ class SquareSudokuGame(FormalGameInterface, Observable):
             if value != '.':
                 initial_clues.append(cell)
         return initial_clues
+    
+    def __checkIfCellViolatesConstraint(self, cell:str) -> bool:
+        cell_value = self.grid_value_dict[cell]
+        if cell_value == GameConstants.EMPTY_CELL:
+            return False
+
+        return any(cell_value == self.grid_value_dict[peer] for peer in self.peers[cell])
+
+    def __isConstraintsViolated(self) -> bool:
+        return any(self.__checkIfCellViolatesConstraint(cell) for cell in self.cells)
 
     def __updateGameState(self) -> None:
+        if self.__isConstraintsViolated():
+            self.game_state: GameState = 'constraint_violation'
+            return
+        
         unique_solution_found: bool = self.getGridValues() == self.getGridCandidateValues()
         if unique_solution_found:
             self.game_state: GameState = 'won'
-            return
-        
-        c = Counter(self.getGridValues())
-        constrain_violation_found = any(count > 1 for key, count in c.items() if key != '.')
-        if constrain_violation_found:
-            self.game_state: GameState = 'constraint_violation'
             return
         
         self.game_state: GameState = 'ongoing'
@@ -174,6 +181,8 @@ class SquareSudokuGame(FormalGameInterface, Observable):
 if __name__ == "__main__":
     from main.variants.factory.Factory3by3 import Factory3by3 #type:ignore
     from main.variants.factory.Factory4by4 import Factory4by4 #type:ignore
-    clues = "................"
-    game = SquareSudokuGame(Factory4by4(clues))
 
+    clues = "12343432........"
+    print(f"clues: {clues}")
+    game = SquareSudokuGame(Factory4by4(clues))
+    game_state: GameState = game.getGameState()
