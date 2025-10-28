@@ -1,6 +1,5 @@
 from main.framework.status import Status
 from main.framework.GameState import GameState
-from main.observer.observer_handler import ObserverHandler
 
 import abc
 from typing import Tuple, Dict, List
@@ -72,9 +71,5 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def removeCellValue(self, cell: str) -> Status:
-        pass
-
-    @abc.abstractmethod
-    def getObserverHandler(self) -> ObserverHandler:
         pass
 
