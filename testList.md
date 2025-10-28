@@ -26,9 +26,9 @@
 
 ### 4. Game State Evaluation
 - [Ok] Given an **empty game** &rarr; state `'ongoing'`
-- [Ok] When a **constraint violation** occurs (e.g., same digit twice) &rarr; state `'constrain_violation'`
+- [Ok] When a **constraint violation** occurs (e.g., same digit twice) &rarr; state `'constraint_violation'`
 - [Ok] When a **violation is fixed** by removing a violating digit &rarr; state `'ongoing'`
-- [Ok] When **all digits** are placed with **no violations** &rarr; state `'win'`
+- [Ok] When **all digits** are placed with **no violations** &rarr; state `'won'`
 
 ### 5. Candidates Management
 - Given an empty game:
@@ -47,6 +47,12 @@
 - Given a game
   - [Ok]  Place `9` in `A1` -> return `INVALID_DIGIT`
 
+### Game State Evaluation  
+- [Ok] Given a game with `1234` in row `A` and `3412` in row `B` -> state `'ongoing'` 
+- [Ok] Given a game with `1234` in row `A` and `2341` in row `B` -> state `'constraint_violation'` 
+- [Ok] Given a game with `1234` in row `A` and `3412` in row `B` and `4321` in row `C` and `2143` in row `D` -> state: `'won'`   
+- [Ok] Given a game with `1234` in row `A` and `3412` in row `B` and `4321` in row `C` and `2234` in row `D` -> state: `'constraint_violation'`   
+
 ### Candidates Management
 - Given an empty game:
   - [Ok] Place `1` in `A1`, `2` in `A2`, `3` in `B2`-> `B1` should have candidate `4`, `A3` and `A4` should have candidates `34`, `B3` and `B4` should have candidates `234`, `D4` should have candidates `1234`
@@ -56,6 +62,7 @@
 - Given an empty game and a game observer spy
   - [Ok] the game should notify game observer spy when placing `4` in `D2`
   - [Ok] the game should notify game observer spy when removing a cell value
+  - [] the game should notify game observer spy when updating game state (i.e. is a constraint violated?)
 
 ### GUI
 - Given an empty game, an app and a test client
