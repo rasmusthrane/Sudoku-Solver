@@ -18,7 +18,7 @@
 ### 3. Cell Operations
 - Given a game with clues:
   - [Ok] Updating the value of a **clue cell** &rarr; return `CANNOT_OVERWRITE_CLUE`
-  - [Ok] Updating a cell with an **invalid character** &rarr; return `INVALID_CHAR`
+  - [Ok] Updating a cell with an **invalid character** &rarr; return `NOT_A_NUMBER`
   - [Ok] Updating the value of a **free cell** with a valid digit &rarr; return `OK` 
   - [Ok] Updating the value of a **free cell** with a valid digit &rarr; cell value should be **updated**
   - [Ok] Updating a **non-existent cell** &rarr; return `CELL_DOES_NOT_EXIST`

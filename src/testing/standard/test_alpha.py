@@ -104,7 +104,7 @@ class TestGame(unittest.TestCase):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3x3(clues))
         status = self.game.setCellValue('A2', '@')
-        self.assertEqual(status, Status.INVALID_CHAR)
+        self.assertEqual(status, Status.NOT_A_NUMBER)
 
     def test_shouldReturnOngoingGameWhenStartingEmptyGame(self):
         game_state: GameState = self.game.getGameState()

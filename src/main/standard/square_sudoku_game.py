@@ -157,8 +157,8 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.CANNOT_OVERWRITE_CLUE
         if cell not in self.cells:
             return Status.CELL_DOES_NOT_EXIST
-        if value not in GameConstants.VALID_CHARS and len(value) == 1:
-            return Status.INVALID_CHAR
+        if value not in GameConstants.VALID_CHARS and not value.isnumeric():
+            return Status.NOT_A_NUMBER
         if value not in self.possible_digits and value != GameConstants.EMPTY_CELL:
             return Status.INVALID_DIGIT
         
@@ -176,8 +176,8 @@ class SquareSudokuGame(FormalGameInterface):
 if __name__ == "__main__":
     from main.variants.factory.factory_3x3 import Factory3x3 #type:ignore
     from main.variants.factory.factory_4x4 import Factory4x4 #type:ignore
+    from main.variants.factory.factory_9x9 import Factory9x9 #type:ignore
 
-    clues = "12343432........"
-    print(f"clues: {clues}")
-    game = SquareSudokuGame(Factory4x4(clues))
-    game_state: GameState = game.getGameState()
+    game = SquareSudokuGame(Factory9x9())
+    status = game.setCellValue('A1', '11!')
+    print(status)
