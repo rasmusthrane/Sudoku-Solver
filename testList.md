@@ -80,3 +80,4 @@
 - Given a game
   - [Ok]  Place `9` in `A1` -> return `OK`
   - [Ok]  Place `11` in `I9` -> return `INVALID_DIGIT`
+  - [] Place `!!` in `B3` -> return `MULTIPLE_CHARACTERS` 
