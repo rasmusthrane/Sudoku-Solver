@@ -3,7 +3,7 @@ from main.framework.status import Status
 from main.framework.utility import cross
 from main.variants.factory.GameFactory import GameFactory
 from main.standard.GameConstants import GameConstants
-from main.framework.GameState import GameState
+from main.framework.gamestate import GameState
 
 from typing import Tuple, List, Dict, override
 import sys #type:ignore

@@ -2,7 +2,7 @@ from main.standard.SquareSudokuGame import SquareSudokuGame
 from main.standard.GameConstants import GameConstants
 from main.variants.factory.Factory3by3 import Factory3by3
 from main.framework.status import Status
-from main.framework.GameState import GameState
+from main.framework.gamestate import GameState
 
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
