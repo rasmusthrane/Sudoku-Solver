@@ -1,4 +1,4 @@
-from main.variants.sudokuBoardStrategy.sudoku_board_strategy import SudokuBoardStrategy
+from main.variants.strategy.sudoku_board import SudokuBoardStrategy
 
 from typing import List
 
