@@ -1,4 +1,4 @@
-from main.standard.SquareSudokuGame import SquareSudokuGame
+from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants
 from main.variants.factory.Factory3by3 import Factory3by3
 from main.framework.status import Status
