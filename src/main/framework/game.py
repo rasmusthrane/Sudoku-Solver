@@ -9,7 +9,7 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def getGameState(self) -> GameState:
         """
-        Determine and return the current game state.
+        Return the current game state.
 
         Returns
         ---
