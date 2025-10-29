@@ -120,9 +120,9 @@
         const violatingCells = data.violating_cells;
         document.getElementById('game_state').innerText = JSON.stringify(gameState);
 
-        // Reset background color for all cells
+        // Reset digit color for all cells
         document.querySelectorAll('td').forEach(td => {
-          td.style.color = 'black'
+          td.style.color = ''
         })
 
         // Highlight the violating cells (if any)
