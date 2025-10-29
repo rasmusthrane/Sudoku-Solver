@@ -17,8 +17,8 @@ class TestGame(unittest.TestCase):
         self.assertEqual(ncols, 9)
         self.assertEqual(nsubgrids, 9)
 
-    # def test_shouldHave12UnitsInUnitList(self):
-    #     self.assertEqual(len(self.game.unitlist),12) 
+    def test_shouldHave27UnitsInUnitList(self):
+        self.assertEqual(len(self.game.unitlist),27) 
     
 
 if __name__ == "__main__":

@@ -72,7 +72,7 @@
 ### Initialization
 - Given an empty game:
     - [Ok] The dimensions should be **9x9** with **9 subgrids**
-    - [] There should exist 9+9+9=27 units
+    - [Ok] There should exist 9+9+9=27 units
     - [] The units that `A1` belongs to should be `A1,A2,A3,A5,A6,A7,A8,A9`, `A1,B1,C1,D1,E1,F1,G1,H1,I1` and `A1,A2,A3,B1,B2,B3,C1,C2,C3`
     - [] **No clues** should be present
     - [] **All cells** should be named correctly
