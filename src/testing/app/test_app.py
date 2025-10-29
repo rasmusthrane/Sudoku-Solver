@@ -1,7 +1,7 @@
 from main.framework.status import Status
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants #type:ignore
-from main.variants.factory.Factory4by4 import Factory4by4
+from main.variants.factory.factory_4x4 import Factory4by4
 from main.app import create_app
 
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
