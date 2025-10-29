@@ -1,6 +1,6 @@
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants
-from main.variants.factory.factory_3x3 import Factory3by3
+from main.variants.factory.factory_3x3 import Factory3x3
 from main.framework.status import Status
 from main.framework.gamestate import GameState
 
@@ -10,7 +10,7 @@ import unittest
 
 class TestGame(unittest.TestCase):
     def setUp(self):
-        self.game = SquareSudokuGame(Factory3by3())
+        self.game = SquareSudokuGame(Factory3x3())
 
     def test_shouldReturnDimensions3x3x1(self):
         nrows, ncols, nsubgrids = self.game.getSudokuDimension()
@@ -37,7 +37,7 @@ class TestGame(unittest.TestCase):
     def test_shouldNotRaiseErrorWhenPassingValidCluesAndCellValuesShouldBeUpdated(self):
         clues = "1.......9"
         try:
-            self.game = SquareSudokuGame(Factory3by3(clues))
+            self.game = SquareSudokuGame(Factory3x3(clues))
         except Exception as e:
             self.fail(f"Sudoky3by3() raised {type(e).__name__} unexpectedly!")
 
@@ -53,42 +53,42 @@ class TestGame(unittest.TestCase):
     def test_shouldRaiseErrorWithDuplicateClues(self):
         clues = "...3....3" # duplicate 3
         with self.assertRaises(ValueError) as cm:
-            SquareSudokuGame(Factory3by3(clues))
+            SquareSudokuGame(Factory3x3(clues))
         self.assertIn('Duplicate', str(cm.exception))
 
     def test_shouldRaiseErrorWithInvalidClues(self):
         clues = "..,......" # invalid ,
         with self.assertRaises(ValueError) as cm:
-            SquareSudokuGame(Factory3by3(clues))
+            SquareSudokuGame(Factory3x3(clues))
         self.assertIn('Invalid', str(cm.exception))
 
     def test_shouldRaiseErrorWithTooManyClues(self):
         clues = ".........." # 10 characters
         with self.assertRaises(ValueError) as cm:
-            SquareSudokuGame(Factory3by3(clues))
+            SquareSudokuGame(Factory3x3(clues))
         self.assertIn('Too many', str(cm.exception))
 
     def test_shouldRaiseErrorWithTooFewClues(self):
         clues = "........" # 8 characters
         with self.assertRaises(ValueError) as cm:
-            SquareSudokuGame(Factory3by3(clues))
+            SquareSudokuGame(Factory3x3(clues))
         self.assertIn('Too few', str(cm.exception))
 
     def test_shouldRaiseStatusIfTryingToOverwriteClue(self):
         clues = "1........"
-        self.game = SquareSudokuGame(Factory3by3(clues))
+        self.game = SquareSudokuGame(Factory3x3(clues))
         status = self.game.setCellValue('A1', '2')
         self.assertEqual(status, Status.CANNOT_OVERWRITE_CLUE)
     
     def test_shouldRaiseStatusIfUpdatingCellValue(self):
         clues = "1........"
-        self.game = SquareSudokuGame(Factory3by3(clues))
+        self.game = SquareSudokuGame(Factory3x3(clues))
         status = self.game.setCellValue('A2', '2')
         self.assertEqual(status, Status.OK)
     
     def test_shouldUpdateCellValueIfValid(self):
         clues = "1........"
-        self.game = SquareSudokuGame(Factory3by3(clues))
+        self.game = SquareSudokuGame(Factory3x3(clues))
         self.game.setCellValue('A2', '2')
 
         grid_value_dict = self.game.getGridValueDict()
@@ -102,7 +102,7 @@ class TestGame(unittest.TestCase):
     
     def test_shouldRaiseStatusIfUpdatingCellWithInvalidChar(self):
         clues = "1........"
-        self.game = SquareSudokuGame(Factory3by3(clues))
+        self.game = SquareSudokuGame(Factory3x3(clues))
         status = self.game.setCellValue('A2', '@')
         self.assertEqual(status, Status.INVALID_CHAR)
 
@@ -112,7 +112,7 @@ class TestGame(unittest.TestCase):
 
     def test_shouldReturnWonGameWhenAllCorrectDigitsArePlaced(self):
         clues = "123456789"
-        self.game = SquareSudokuGame(Factory3by3(clues))
+        self.game = SquareSudokuGame(Factory3x3(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'won')
 
