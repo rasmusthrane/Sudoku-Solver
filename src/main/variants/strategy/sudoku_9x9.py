@@ -1,4 +1,5 @@
 from main.variants.strategy.sudoku_board import SudokuBoardStrategy
+from main.framework.utility import generate_sudoku_units
 
 from typing import List, override
 
@@ -29,4 +30,8 @@ class Sudoku9x9(SudokuBoardStrategy):
     
     @override
     def getUnitList(self) -> List[List[str]]:
-        return []
+        rows: str = self.getRows()
+        cols: str = self.getCols()
+        n_subgrids: int = self.getNumberOfSubGrids()
+        unitlist: List[List[str]] = generate_sudoku_units(rows, cols, n_subgrids)
+        return unitlist
