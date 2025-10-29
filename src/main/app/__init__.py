@@ -1,5 +1,5 @@
 from main.standard.SquareSudokuGame import SquareSudokuGame
-from main.standard.GameConstants import GameConstants
+from main.standard.game_constants import GameConstants
 from main.framework.status import Status
 from main.variants.factory.Factory4by4 import Factory4by4
 

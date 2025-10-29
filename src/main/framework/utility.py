@@ -1,4 +1,4 @@
-from main.standard.GameConstants import GameConstants
+from main.standard.game_constants import GameConstants
 
 from typing import List
 

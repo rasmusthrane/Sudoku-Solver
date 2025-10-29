@@ -1,6 +1,6 @@
 from main.framework.status import Status
 from main.standard.SquareSudokuGame import SquareSudokuGame
-from main.standard.GameConstants import GameConstants #type:ignore
+from main.standard.game_constants import GameConstants #type:ignore
 from main.variants.factory.Factory4by4 import Factory4by4
 from main.app import create_app
 
