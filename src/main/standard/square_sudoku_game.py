@@ -116,6 +116,9 @@ class SquareSudokuGame(FormalGameInterface):
             return
         
         self.game_state: GameState = 'ongoing'
+    @override
+    def getViolatingCells(self) -> List[str]:
+        return ["hi"]
 
     @override
     def getGameState(self) -> GameState:

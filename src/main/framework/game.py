@@ -7,6 +7,13 @@ from typing import Tuple, Dict, List
 class FormalGameInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
+    def getViolatingCells(self) -> List[str]:
+        """
+        Return the cells that currently violate a constraint. If none are found, return an empty list.
+        """
+        pass
+
+    @abc.abstractmethod
     def getGameState(self) -> GameState:
         """
         Return the current game state.
