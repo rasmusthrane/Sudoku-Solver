@@ -162,7 +162,7 @@ class SquareSudokuGame(FormalGameInterface):
         return status
     
 if __name__ == "__main__":
-    from main.variants.factory.Factory3by3 import Factory3by3 #type:ignore
+    from main.variants.factory.factory_3x3 import Factory3by3 #type:ignore
     from main.variants.factory.factory_4x4 import Factory4by4 #type:ignore
 
     clues = "12343432........"
