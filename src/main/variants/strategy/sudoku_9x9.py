@@ -14,11 +14,11 @@ class Sudoku9x9(SudokuBoardStrategy):
 
     @override
     def getCols(self) -> str:
-        return 'ABCDEFGHI'
+        return '123456789'
 
     @override
     def getRows(self) -> str:
-        return '123456789'
+        return 'ABCDEFGHI'
     
     @override
     def getNumberOfSubGrids(self) -> int:
