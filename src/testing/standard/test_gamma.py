@@ -40,9 +40,9 @@ class TestGame(unittest.TestCase):
         status = self.game.setCellValue('A1', '9')
         self.assertEqual(status, Status.OK)
 
-    # def test_shouldReturnStatusINVALID_CHARIfPlacingDigit11InACell(self):
-    #     status = self.game.setCellValue('I9', '11')
-    #     self.assertEqual(status, Status.INVALID_DIGIT)
+    def test_shouldReturnStatusINVALID_CHARIfPlacingDigit11InACell(self):
+        status = self.game.setCellValue('I9', '11')
+        self.assertEqual(status, Status.INVALID_DIGIT)
 
     
 

@@ -157,7 +157,7 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.CANNOT_OVERWRITE_CLUE
         if cell not in self.cells:
             return Status.CELL_DOES_NOT_EXIST
-        if value not in GameConstants.VALID_CHARS:
+        if value not in GameConstants.VALID_CHARS and len(value) == 1:
             return Status.INVALID_CHAR
         if value not in self.possible_digits and value != GameConstants.EMPTY_CELL:
             return Status.INVALID_DIGIT
