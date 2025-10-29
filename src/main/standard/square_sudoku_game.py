@@ -118,7 +118,16 @@ class SquareSudokuGame(FormalGameInterface):
         self.game_state: GameState = 'ongoing'
     @override
     def getViolatingCells(self) -> List[str]:
-        return ["hi"]
+        violating_cells: List[str] = []
+        for cell, cell_value in self.value_dict.items():
+            if cell_value == GameConstants.EMPTY_CELL: continue 
+            for peer in self.peers[cell]:
+                peer_value = self.value_dict[peer]
+                if cell_value == peer_value:
+                    violating_cells.append(cell)
+                    break
+        
+        return violating_cells
 
     @override
     def getGameState(self) -> GameState:

@@ -50,8 +50,10 @@
 ### Game State Evaluation  
 - [Ok] Given a game with `1234` in row `A` and `3412` in row `B` -> state `'ongoing'` 
 - [Ok] Given a game with `1234` in row `A` and `2341` in row `B` -> state `'constraint_violation'` 
+  - [Ok] Ask what cells violate constraint -> return `A2` `B1`, `A4` and `B3` 
 - [Ok] Given a game with `1234` in row `A` and `3412` in row `B` and `4321` in row `C` and `2143` in row `D` -> state: `'won'`   
 - [Ok] Given a game with `1234` in row `A` and `3412` in row `B` and `4321` in row `C` and `2234` in row `D` -> state: `'constraint_violation'`   
+  - [Ok] Ask what cells violate constraint -> return `A2`, `A3`, `A4`, `D1`, `D2`, `D3`, `D4` 
 
 ### Candidates Management
 - Given an empty game:

@@ -86,7 +86,7 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'ongoing')
 
-    def test_shouldReturnGameStateConstraintViolationWhenAnInvalidRowIsPlaced(self):
+    def test_shouldReturnGameStateConstraintViolationWhenAnInvalidRowIsPlacedAndGiveListOfViolatingCells(self):
         row_A = "1234"
         row_B = "2341" #invalid
         row_C = "...."
@@ -95,6 +95,9 @@ class TestGame(unittest.TestCase):
         self.game = SquareSudokuGame(Factory4x4(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')    
+
+        violating_cells = self.game.getViolatingCells()
+        self.assertListEqual(sorted(violating_cells), ['A2', 'A4', 'B1', 'B3'])   
 
     def test_shouldReturnGameStateWonWhenFourValidRowsArePlaced(self):
         row_A = "1234"
@@ -106,7 +109,7 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'won')    
 
-    def test_shouldReturnGameStateConstraintViolationWhenThreeValidRowsAndOneInvalidRowArePlaced(self):
+    def test_shouldReturnGameStateConstraintViolationWhenThreeValidRowsAndOneInvalidRowArePlacedAndGiveListOfViolatingCells(self):
         row_A = "1234"
         row_B = "3412"
         row_C = "4321"
@@ -115,6 +118,9 @@ class TestGame(unittest.TestCase):
         self.game = SquareSudokuGame(Factory4x4(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')     
+
+        violating_cells = self.game.getViolatingCells()
+        self.assertListEqual(sorted(violating_cells), ['A2', 'A3', 'A4', 'D1', 'D2', 'D3', 'D4'])   
 
 
 
