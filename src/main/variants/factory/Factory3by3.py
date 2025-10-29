@@ -1,5 +1,5 @@
 from main.variants.factory.GameFactory import GameFactory
-from main.variants.sudokuBoardStrategy.SudokuBoardStrategy import SudokuBoardStrategy
+from main.variants.sudokuBoardStrategy.sudoku_board_strategy import SudokuBoardStrategy
 from main.variants.sudokuBoardStrategy.Sudoku3by3 import Sudoku3by3
 
 class Factory3by3(GameFactory):

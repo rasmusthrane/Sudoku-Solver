@@ -1,4 +1,4 @@
-from main.variants.sudokuBoardStrategy.SudokuBoardStrategy import SudokuBoardStrategy
+from main.variants.sudokuBoardStrategy.sudoku_board_strategy import SudokuBoardStrategy
 import abc
 
 class GameFactory(metaclass=abc.ABCMeta):

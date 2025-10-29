@@ -1,4 +1,4 @@
-from main.variants.sudokuBoardStrategy.SudokuBoardStrategy import SudokuBoardStrategy
+from main.variants.sudokuBoardStrategy.sudoku_board_strategy import SudokuBoardStrategy
 from main.framework.utility import find_duplicates, find_invalid_characters, cross
 
 from typing import List
