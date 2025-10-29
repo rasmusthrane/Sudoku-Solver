@@ -1,10 +1,10 @@
-from typing import Dict, List
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants #type:ignore
 from main.variants.factory.factory_9x9 import Factory9x9
 
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
 
+from typing import Dict, List
 import unittest
 
 class TestGame(unittest.TestCase):
@@ -29,6 +29,19 @@ class TestGame(unittest.TestCase):
             ['A1','A2','A3','B1','B2','B3','C1','C2','C3']
             ]) # sort ensures that the two lists can be compared
         self.assertListEqual(sorted(units['A1']), expected_units)        
+
+    def test_shouldHaveEmptyGridAtStart(self):
+        grid_values_dict = self.game.getGridValueDict()
+        for v in grid_values_dict.values():
+            self.assertEqual(v, GameConstants.EMPTY_CELL)        
+    
+    # def test_shouldReturnStatusOKIfPlacingDigit9InACell(self):
+    #     status = self.game.setCellValue('A1', '9')
+    #     self.assertEqual(status, Status.OK)
+
+    # def test_shouldReturnStatusINVALID_CHARIfPlacingDigit11InACell(self):
+    #     status = self.game.setCellValue('I9', '11')
+    #     self.assertEqual(status, Status.INVALID_DIGIT)
 
     
 
