@@ -1,7 +1,7 @@
 from main.framework.status import Status
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants #type:ignore
-from main.variants.factory.factory_4x4 import Factory4by4
+from main.variants.factory.factory_4x4 import Factory4x4
 from main.app import create_app
 
 from testing.utility.TestHelper import TestHelper as th #type:ignore 
@@ -11,7 +11,7 @@ import json
 
 class TestFlaskGUI(unittest.TestCase):
     def setUp(self):
-        self.game = SquareSudokuGame(Factory4by4())
+        self.game = SquareSudokuGame(Factory4x4())
         self.app = create_app(self.game)
         self.app.testing = True
         self.client = self.app.test_client() # create a test client

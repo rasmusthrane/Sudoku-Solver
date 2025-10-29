@@ -1,6 +1,6 @@
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants #type:ignore
-from main.variants.factory.factory_4x4 import Factory4by4
+from main.variants.factory.factory_4x4 import Factory4x4
 from main.framework.status import Status
 from main.framework.gamestate import GameState
 
@@ -11,7 +11,7 @@ from typing import List, Dict
 
 class TestGame(unittest.TestCase):
     def setUp(self):
-        self.game = SquareSudokuGame(Factory4by4())
+        self.game = SquareSudokuGame(Factory4x4())
 
     def test_shouldReturnDimensions4x4x4(self):
         nrows, ncols, nsubgrids = self.game.getSudokuDimension()
@@ -82,7 +82,7 @@ class TestGame(unittest.TestCase):
         row_C = "...."
         row_D = "...."
         clues = row_A + row_B + row_C + row_D
-        self.game = SquareSudokuGame(Factory4by4(clues))
+        self.game = SquareSudokuGame(Factory4x4(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'ongoing')
 
@@ -92,7 +92,7 @@ class TestGame(unittest.TestCase):
         row_C = "...."
         row_D = "...."
         clues = row_A + row_B + row_C + row_D
-        self.game = SquareSudokuGame(Factory4by4(clues))
+        self.game = SquareSudokuGame(Factory4x4(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')    
 
@@ -102,7 +102,7 @@ class TestGame(unittest.TestCase):
         row_C = "4321"
         row_D = "2143"
         clues = row_A + row_B + row_C + row_D
-        self.game = SquareSudokuGame(Factory4by4(clues))
+        self.game = SquareSudokuGame(Factory4x4(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'won')    
 
@@ -112,7 +112,7 @@ class TestGame(unittest.TestCase):
         row_C = "4321"
         row_D = "2234" # invalid
         clues = row_A + row_B + row_C + row_D
-        self.game = SquareSudokuGame(Factory4by4(clues))
+        self.game = SquareSudokuGame(Factory4x4(clues))
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')     
 

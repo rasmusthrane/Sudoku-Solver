@@ -163,9 +163,9 @@ class SquareSudokuGame(FormalGameInterface):
     
 if __name__ == "__main__":
     from main.variants.factory.factory_3x3 import Factory3by3 #type:ignore
-    from main.variants.factory.factory_4x4 import Factory4by4 #type:ignore
+    from main.variants.factory.factory_4x4 import Factory4x4 #type:ignore
 
     clues = "12343432........"
     print(f"clues: {clues}")
-    game = SquareSudokuGame(Factory4by4(clues))
+    game = SquareSudokuGame(Factory4x4(clues))
     game_state: GameState = game.getGameState()

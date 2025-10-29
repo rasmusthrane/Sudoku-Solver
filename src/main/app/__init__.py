@@ -1,7 +1,7 @@
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants
 from main.framework.status import Status
-from main.variants.factory.factory_4x4 import Factory4by4
+from main.variants.factory.factory_4x4 import Factory4x4
 
 from flask import Flask, render_template, request, jsonify
 
@@ -13,7 +13,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
 
     # Default behaviour if no clues are injected
     if game is None:
-        game = SquareSudokuGame(Factory4by4(clues='................'))
+        game = SquareSudokuGame(Factory4x4(clues='................'))
     #app.config['game'] = game         
 
     grid_value_dict = game.getGridValueDict()

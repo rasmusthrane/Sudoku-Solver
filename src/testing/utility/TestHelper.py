@@ -6,7 +6,7 @@ from flask import Flask
 from flask.testing import FlaskClient
 
 from main.standard.square_sudoku_game import SquareSudokuGame
-from main.variants.factory.factory_4x4 import Factory4by4
+from main.variants.factory.factory_4x4 import Factory4x4
 
 class TestHelper:
 
@@ -26,7 +26,7 @@ class TestHelper:
 
     @staticmethod
     def createAndInjectCluedGameIntoAppForTesting(clues: str) -> Tuple[SquareSudokuGame, Flask, FlaskClient]:
-        game = SquareSudokuGame(Factory4by4(clues=clues))
+        game = SquareSudokuGame(Factory4x4(clues=clues))
         app: Flask = create_app(game)
         app.testing = True
         client: FlaskClient = app.test_client() # create a test client
