@@ -78,5 +78,5 @@
 
 ### Cell Operations
 - Given a game
-  - []  Place `9` in `A1` -> return `OK`
+  - [Ok]  Place `9` in `A1` -> return `OK`
   - []  Place `11` in `I9` -> return `INVALID_DIGIT`

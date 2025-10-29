@@ -1,3 +1,4 @@
+from main.framework.status import Status
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants #type:ignore
 from main.variants.factory.factory_9x9 import Factory9x9
@@ -35,9 +36,9 @@ class TestGame(unittest.TestCase):
         for v in grid_values_dict.values():
             self.assertEqual(v, GameConstants.EMPTY_CELL)        
     
-    # def test_shouldReturnStatusOKIfPlacingDigit9InACell(self):
-    #     status = self.game.setCellValue('A1', '9')
-    #     self.assertEqual(status, Status.OK)
+    def test_shouldReturnStatusOKIfPlacingDigit9InACell(self):
+        status = self.game.setCellValue('A1', '9')
+        self.assertEqual(status, Status.OK)
 
     # def test_shouldReturnStatusINVALID_CHARIfPlacingDigit11InACell(self):
     #     status = self.game.setCellValue('I9', '11')
