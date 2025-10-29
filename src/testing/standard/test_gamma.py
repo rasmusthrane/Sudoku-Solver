@@ -44,7 +44,9 @@ class TestGame(unittest.TestCase):
         status = self.game.setCellValue('I9', '11')
         self.assertEqual(status, Status.INVALID_DIGIT)
 
-    
+    def test_shouldReturnStatusMULTIPLE_CHARACTERSIfPlacingStringContainingMultipleCharactersInACell(self):
+        status = self.game.setCellValue('I9', '!!')
+        self.assertEqual(status, Status.NOT_A_NUMBER)    
 
 if __name__ == "__main__":
     unittest.main()
