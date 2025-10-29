@@ -1,4 +1,5 @@
 from main.variants.strategy.sudoku_board import SudokuBoardStrategy
+from main.framework.utility import generate_sudoku_units
 
 from typing import List
 
@@ -21,15 +22,9 @@ class Sudoku4by4(SudokuBoardStrategy):
     def getUnitList(self) -> List[List[str]]:
         rows: str = self.getRows()
         cols: str = self.getCols()
+        n_subgrids: int = self.getNumberOfSubGrids()
+        unitlist: List[List[str]] = generate_sudoku_units(rows, cols, n_subgrids)
 
-        row_units = [[r + c for c in cols] for r in rows]
-        col_units = [[r + c for r in rows] for c in cols]
-
-        row_groups = [rows[i:i+2] for i in range(0, 4, 2)]
-        col_groups = [cols[i:i+2] for i in range(0, 4, 2)]
-        box_units = [[r + c for r in rg for c in cg] for rg in row_groups for cg in col_groups]
-
-        unitlist = row_units + col_units + box_units
         return unitlist
     
     def getPossibleDigits(self) -> List[str]:
