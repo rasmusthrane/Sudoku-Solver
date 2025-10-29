@@ -102,11 +102,11 @@ class SquareSudokuGame(FormalGameInterface):
 
         return any(cell_value == self.value_dict[peer] for peer in self.peers[cell])
 
-    def __isConstraintsViolated(self) -> bool:
+    def __isConstraintViolated(self) -> bool:
         return any(self.__checkIfCellViolatesConstraint(cell) for cell in self.cells)
 
     def __updateGameState(self) -> None:
-        if self.__isConstraintsViolated():
+        if self.__isConstraintViolated():
             self.game_state: GameState = 'constraint_violation'
             return
         
