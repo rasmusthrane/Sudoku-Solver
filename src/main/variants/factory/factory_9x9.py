@@ -3,16 +3,16 @@ from main.variants.strategy.sudoku_board import SudokuBoardStrategy
 from main.variants.strategy.sudoku_9x9 import Sudoku9x9
 
 class Factory9x9(GameFactory):
-    def __init__(self, clues:str= \
-                 '......... \
-                  ......... \
-                  ......... \
-                  ......... \
-                  ......... \
-                  ......... \
-                  ......... \
-                  ......... \
-                  .........') -> None:
+    def __init__(self, clues: str = (
+        '.........'
+        '.........'
+        '.........'
+        '.........'
+        '.........'
+        '.........'
+        '.........'
+        '.........'
+        '.........')) -> None:
         self.clues = clues
 
     def createSudokuBoardStrategy(self) -> SudokuBoardStrategy:
