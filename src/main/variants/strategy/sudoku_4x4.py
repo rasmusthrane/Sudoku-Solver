@@ -2,7 +2,6 @@ from main.variants.strategy.sudoku_board import SudokuBoardStrategy
 
 from typing import List
 
-#class Sudoku3by3(SudokuBoardStrategy):
 class Sudoku4by4(SudokuBoardStrategy):
     def __init__(self, clues:str) -> None:
         self.clues = clues
