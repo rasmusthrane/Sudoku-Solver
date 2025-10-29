@@ -1,7 +1,7 @@
 from main.framework.game import FormalGameInterface
 from main.framework.status import Status
 from main.framework.utility import cross
-from main.variants.factory.GameFactory import GameFactory
+from main.variants.factory.game_factory import GameFactory
 from main.standard.game_constants import GameConstants
 from main.framework.gamestate import GameState
 

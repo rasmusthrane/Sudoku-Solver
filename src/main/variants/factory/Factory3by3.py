@@ -1,4 +1,4 @@
-from main.variants.factory.GameFactory import GameFactory
+from main.variants.factory.game_factory import GameFactory
 from main.variants.sudokuBoardStrategy.sudoku_board_strategy import SudokuBoardStrategy
 from main.variants.sudokuBoardStrategy.sudoku_3x3 import Sudoku3by3
 
