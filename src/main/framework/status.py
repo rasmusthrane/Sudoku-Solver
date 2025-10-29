@@ -6,6 +6,7 @@ class Status(Enum):
     INVALID_CHAR = auto()
     CELL_DOES_NOT_EXIST = auto()
     INVALID_DIGIT = auto()
+    MULTIPLE_CHARACTERS = auto()
     # DUPLICATE_CLUE = auto()
     # TOO_MANY_CHARS = auto()
     # TOO_FEW_CHARS = auto()
