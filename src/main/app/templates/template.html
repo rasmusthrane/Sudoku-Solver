@@ -113,9 +113,25 @@
       fetch('/get_game_state', {
         method: 'GET'
       })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(data => {
-        document.getElementById('game_state').innerText = data;
+        const gameState = data.game_state;
+        const violatingCells = data.violating_cells;
+        document.getElementById('game_state').innerText = JSON.stringify(gameState);
+
+        // Reset background color for all cells
+        document.querySelectorAll('td').forEach(td => {
+          td.style.color = 'black'
+        })
+
+        // Highlight the violating cells (if any)
+        violatingCells.forEach(cellId => {
+          const cell = document.getElementById(cellId)
+          if (cell) {
+            cell.style.color = 'lightcoral'
+          }
+          
+        });
       })
     }
     </script> 

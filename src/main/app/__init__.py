@@ -13,7 +13,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
 
     # Default behaviour if no clues are injected
     if game is None:
-        game = SquareSudokuGame(Factory4x4(clues='................'))
+        game = SquareSudokuGame(Factory4x4(clues='1...............'))
     #app.config['game'] = game         
 
     grid_value_dict = game.getGridValueDict()
@@ -51,10 +51,10 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
     
     @app.route('/get_game_state', methods=['GET'])
     def get_game_state(): #type: ignore
-        game_state:str = game.getGameState()
-        
-        response: Dict[str, str] = {'game_state': game_state}
-        return jsonify(response)
+        return jsonify({
+            'game_state': game.getGameState(),
+            'violating_cells': game.getViolatingCells()
+            })
 
 
     return app
