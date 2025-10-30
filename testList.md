@@ -80,7 +80,7 @@
 - When injecting clues:
     - [Ok] Injecting invalid characters as clues (e.g. `'!'`) &rarr; an **error** should be raised
     - [Ok] Injecting too many characters as clues (e.g. 82) &rarr; an **error** should be raised
-    - [] Injecting too few characters as clues (e.g. 80) &rarr; an **error** should be raised
+    - [Ok] Injecting too few characters as clues (e.g. 80) &rarr; an **error** should be raised
     - [] Injecting clues that violate a constrant &rarr; an **error** should be raised
 
 ### Cell Operations

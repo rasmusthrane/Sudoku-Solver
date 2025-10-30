@@ -148,6 +148,21 @@ class TestGame(unittest.TestCase):
             SquareSudokuGame(Factory9x9(clues))
         self.assertIn('many', str(cm.exception))
     
+    def test_shouldRaiseErrorWithTooFewClues(self):
+        row_A = "........."
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "........."
+        row_I = "........" # one clue too few in last row
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory9x9(clues))
+        self.assertIn('few', str(cm.exception))
 
 if __name__ == "__main__":
     unittest.main()
