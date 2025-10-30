@@ -16,41 +16,31 @@ class SquareSudokuGame(FormalGameInterface):
         self.cells: List[str] = cross(self.rows, self.cols)
         self.unitlist: List[List[str]] = sudokuBoardStrategy.getUnitList() 
         self.possible_digits: List[str] = sudokuBoardStrategy.getPossibleDigits()
-
-        # Create a dict that holds all units that each cell belongs to
-        self.units: Dict[str, List[List[str]]] = self._createUnitDict()
-        # Create a dict that holds all cells which shares unit with a cell
-        self.peers: Dict[str, List[str]] = self._createPeersDict()
-        
         self.nrows: int = len(self.rows)
         self.ncols: int = len(self.cols)
         self.nsubgrids: int = sudokuBoardStrategy.getNumberOfSubGrids()
         self.ncells: int = len(self.cells)
 
+        # Create a dict that holds all units that each cell belongs to
+        self.units: Dict[str, List[List[str]]] = self._createUnitDict()
+        # Create a dict that holds all cells which shares unit with a cell
+        self.peers: Dict[str, List[str]] = self._createPeersDict()
+
         # Initialize grid representation
         self.initial_grid: str = sudokuBoardStrategy.getGridRepresentation()
 
-        # Check if initial injected grid is valid
-        # First check length of grid
-        expected_n_cells = len(self.cells)
-        actual_n_cells = len(self.initial_grid)
-        if actual_n_cells > expected_n_cells:
-            raise ValueError(f"Too many cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
-        if actual_n_cells < expected_n_cells:
-            raise ValueError(f"Too few cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
+        # Check if initial injected grid has a valid length
+        self._validateInitialGridLength()
         
         # Initialize grid value dict
         self.value_dict: Dict[str, str] = {}
         self._populateInitialValueDict()
         
-        # Then check if any invalid characters are present
-        invalid_chars = find_invalid_characters(self.initial_grid)
-        if invalid_chars:
-            raise ValueError(f"Invalid characters in cells: {invalid_chars}")
-        # Then check if any constraints are violated
-        if self._isConstraintViolated():
-            violating_cells = self.getViolatingCells()
-            raise ValueError(f"Initial clues violate a constraint. Violating cells are {violating_cells}")
+        # Check if initial injected grid uses valid characters
+        self._validateCharactersInInitialGrid()
+
+        # Check if initial injected grid violates any constraints
+        self._validateIfAnyConstraintsAreViolated()
             
         # Initialize grid_candidate_dict
         self.candidate_dict: Dict[str, str] = {}
@@ -59,8 +49,27 @@ class SquareSudokuGame(FormalGameInterface):
         # Create list of initial clues
         self.initial_clues: List[str] = self._getCellsWithClues()
 
+        # Set the game state to 'ongoing' and check if any updates have happened
         self.game_state: GameState = 'ongoing'
         self._updateGameState()
+
+    def _validateIfAnyConstraintsAreViolated(self):
+        if self._isConstraintViolated():
+            violating_cells = self.getViolatingCells()
+            raise ValueError(f"Initial clues violate a constraint. Violating cells are {violating_cells}")
+
+    def _validateCharactersInInitialGrid(self):
+        invalid_chars = find_invalid_characters(self.initial_grid)
+        if invalid_chars:
+            raise ValueError(f"Invalid characters in cells: {invalid_chars}")
+
+    def _validateInitialGridLength(self) -> None:
+        expected_n_cells = len(self.cells)
+        actual_n_cells = len(self.initial_grid)
+        if actual_n_cells > expected_n_cells:
+            raise ValueError(f"Too many cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
+        if actual_n_cells < expected_n_cells:
+            raise ValueError(f"Too few cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
 
     def _createPeersDict(self) -> Dict[str, List[str]]:
         peers: Dict[str, List[str]] = {}
