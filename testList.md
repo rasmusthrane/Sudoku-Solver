@@ -76,6 +76,13 @@
     - [Ok] The units that `A1` belongs to should be `A1,A2,A3,A5,A6,A7,A8,A9`, `A1,B1,C1,D1,E1,F1,G1,H1,I1` and `A1,A2,A3,B1,B2,B3,C1,C2,C3`
     - [Ok] **No clues** should be present
 
+### Clue Injection
+- When injecting clues:
+    - [] Injecting invalid characters as clues (e.g. `'!'`) &rarr; an **error** should be raised
+    - [] Injecting too many characters as clues (e.g. 82) &rarr; an **error** should be raised
+    - [] Injecting too few characters as clues (e.g. 80) &rarr; an **error** should be raised
+    - [] Injecting clues that violate a constrant &rarr; an **error** should be raised
+
 ### Cell Operations
 - Given a game
   - [Ok]  Place `9` in `A1` -> return `OK`
@@ -89,4 +96,4 @@
 
 ### Candidates Management
 - Given a game where the clue `3` is placed in `A6`:
-  - [Ok] Place `1` in `A1`, `2` in `B4`, `9` in `C6`-> `A2` should have candidates `2456789`,  `B5` should have candidates `1245678` and `D9` should have candidates `123456789`
+  - [Ok] Place `1` in `A1`, `2` in `B4`, `9` in `C6`-> `A2` should have candidates `2456789`,  `B5` should have candidates `1245678` and `D9` should have candidates `123456789
