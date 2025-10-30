@@ -131,6 +131,22 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             SquareSudokuGame(Factory9x9(clues))
         self.assertIn('Invalid', str(cm.exception))
+
+    def test_shouldRaiseErrorWithTooManyClues(self):
+        row_A = "........."
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "........."
+        row_I = ".........." # one clue too many in last row
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory9x9(clues))
+        self.assertIn('many', str(cm.exception))
     
 
 if __name__ == "__main__":
