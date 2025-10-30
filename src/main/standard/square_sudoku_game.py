@@ -33,11 +33,11 @@ class SquareSudokuGame(FormalGameInterface):
         # Check if initial injected grid is valid
         # First check length of grid
         expected_n_cells = len(self.cells)
-        n_cells = len(self.initial_grid)
-        if n_cells > expected_n_cells:
-            raise ValueError(f"Too many cells. Expected {expected_n_cells} cells, got {n_cells}")
-        if n_cells < expected_n_cells:
-            raise ValueError(f"Too few cells. Expected {expected_n_cells} cells, got {n_cells}")
+        actual_n_cells = len(self.initial_grid)
+        if actual_n_cells > expected_n_cells:
+            raise ValueError(f"Too many cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
+        if actual_n_cells < expected_n_cells:
+            raise ValueError(f"Too few cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
         
         # Initialize grid value dict
         self.value_dict: Dict[str, str] = {}
