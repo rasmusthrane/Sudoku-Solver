@@ -1,7 +1,7 @@
 from main.app import create_app
 from main.framework.game import FormalGameInterface
 
-from typing import Tuple
+from typing import List, Tuple
 from flask import Flask
 from flask.testing import FlaskClient
 
@@ -31,6 +31,14 @@ class TestHelper:
         app.testing = True
         client: FlaskClient = app.test_client() # create a test client
         return game, app, client
+    
+    @staticmethod
+    def formatGridValuesAsOneString(grid_values: List[str]) -> str:
+        final_str = ""
+        for grid_value in grid_values:
+            final_str += grid_value
+        return final_str
+        
 
 
 
