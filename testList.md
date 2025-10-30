@@ -86,3 +86,7 @@
 - [Ok] Given a game with `123...789` in row `A` and `247.5..9.` in row `H` -> state `'ongoing'`
 - [Ok] Given a game with `123...789` in row `A` and `247.5.98.` in row `H` -> state `'constraint_violation'` 
 - [Ok] Given a game with filled with valid and complete rows -> state `'won'`
+
+### Candidates Management
+- Given a game where the clue `3` is placed in `A6`:
+  - [Ok] Place `1` in `A1`, `2` in `B4`, `9` in `C6`-> `A2` should have candidates `2456789`,  `B5` should have candidates `1245678` and `D9` should have candidates `123456789`

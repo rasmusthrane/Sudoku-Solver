@@ -94,8 +94,27 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'won')        
 
+    def test_shouldReturnCorrectCandidatesOnComplicatedBoard(self):
+        row_A = ".....3..."
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "........."
+        row_I = "........."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
 
-    #- [] Given a game with `123456789` in row `A`, `234567891` in row `B` and so on ... -> state `'won'`
+        status1 = self.game.setCellValue('A1', '1')
+        status2 = self.game.setCellValue('B4', '2')
+        status3 = self.game.setCellValue('C6', '9')
+        self.assertTrue(status1 == status2 == status3 == Status.OK)
+
+        self.assertEqual(self.game.candidate_dict['A2'], '2456789')
+        self.assertEqual(self.game.candidate_dict['B5'], '145678')
+        self.assertEqual(self.game.candidate_dict['D9'], '123456789')
 
 if __name__ == "__main__":
     unittest.main()
