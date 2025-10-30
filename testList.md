@@ -81,3 +81,8 @@
   - [Ok]  Place `9` in `A1` -> return `OK`
   - [Ok]  Place `11` in `I9` -> return `INVALID_DIGIT`
   - [OK] Place `!!` in `B3` -> return `NOT_A_NUMBER` 
+
+### Game State Evaluation  
+- [] Given a game with `123...789` in row `A` and `247.5..9.` in row `H` -> state `'ongoing'`
+- [] Given a game with `123...789` in row `A` and `247.5.98.` in row `H` -> state `'constraint_violation'` 
+- [] Given a game with `123456789` in row `A`, `234567891` in row `B` and so on ... -> state `'won'`
