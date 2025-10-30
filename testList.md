@@ -84,5 +84,5 @@
 
 ### Game State Evaluation  
 - [Ok] Given a game with `123...789` in row `A` and `247.5..9.` in row `H` -> state `'ongoing'`
-- [] Given a game with `123...789` in row `A` and `247.5.98.` in row `H` -> state `'constraint_violation'` 
+- [Ok] Given a game with `123...789` in row `A` and `247.5.98.` in row `H` -> state `'constraint_violation'` 
 - [] Given a game with `123456789` in row `A`, `234567891` in row `B` and so on ... -> state `'won'`

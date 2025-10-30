@@ -64,6 +64,21 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'ongoing')
 
+    def test_shouldReturnGameStateOngoingWhenTwoInValidRowsArePlaced(self):
+        row_A = "123...789"
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "247.5.98."
+        row_I = "........."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        game_state: GameState = self.game.getGameState()
+        self.assertEqual(game_state, 'constraint_violation')        
+
 
 if __name__ == "__main__":
     unittest.main()
