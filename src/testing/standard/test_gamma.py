@@ -116,5 +116,22 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.candidate_dict['B5'], '145678')
         self.assertEqual(self.game.candidate_dict['D9'], '123456789')
 
+    def test_shouldRaiseErrorWithInvalidClues(self):
+        row_A = ".....!..."
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "........."
+        row_I = "........."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory9x9(clues))
+        self.assertIn('Invalid', str(cm.exception))
+    
+
 if __name__ == "__main__":
     unittest.main()
