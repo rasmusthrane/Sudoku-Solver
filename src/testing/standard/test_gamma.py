@@ -79,6 +79,23 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')        
 
+    def test_shouldReturnGameStateWonWhenBoardIsFullAndNoConstraintsAreViolated(self):
+        row_A = "435269781"
+        row_B = "682571493"
+        row_C = "197834562"
+        row_D = "826195347"
+        row_E = "374682915"
+        row_F = "951743628"
+        row_G = "519326874"
+        row_H = "248957136"
+        row_I = "763418259"
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        game_state: GameState = self.game.getGameState()
+        self.assertEqual(game_state, 'won')        
+
+
+    #- [] Given a game with `123456789` in row `A`, `234567891` in row `B` and so on ... -> state `'won'`
 
 if __name__ == "__main__":
     unittest.main()
