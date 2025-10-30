@@ -200,6 +200,19 @@ class SquareSudokuGame(FormalGameInterface):
         status = self.setCellValue(cell, GameConstants.EMPTY_CELL)
         return status
     
+    @override
+    def solveSudoku(self) -> None:
+        while True:
+            single_candidate_cells: List[str] = []
+            for cell, candidates in self.candidate_dict.items():
+                cell_value = self.value_dict[cell]
+                if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
+                    single_candidate_cells.append(cell)
+                    self.setCellValue(cell, candidates)
+                
+            if len(single_candidate_cells) == 0:
+                break
+    
 if __name__ == "__main__":
     from main.variants.factory.factory_3x3 import Factory3x3 #type:ignore
     from main.variants.factory.factory_4x4 import Factory4x4 #type:ignore

@@ -80,3 +80,7 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     def removeCellValue(self, cell: str) -> Status:
         pass
 
+    @abc.abstractmethod
+    def solveSudoku(self) -> None:
+        pass
+
