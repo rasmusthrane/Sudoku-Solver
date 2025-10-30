@@ -100,4 +100,4 @@
 
 ### Solver
 - Given an easy Sudoku
-  - [] Solver should find the solution
+  - [Ok] Solver should find the solution

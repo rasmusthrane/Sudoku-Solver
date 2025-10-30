@@ -183,6 +183,35 @@ class TestGame(unittest.TestCase):
         self.assertIn('violate', str(cm.exception))
         self.assertIn("Violating cells are ['A1', 'I1']", str(cm.exception))
 
+    def test_shouldSolveEasySudoku(self):
+        row_A = "...26.7.1"
+        row_B = "68..7..9."
+        row_C = "19...45.."
+        row_D = "82.1...4."
+        row_E = "..46.29.."
+        row_F = ".5...3.28"
+        row_G = "..93...74"
+        row_H = ".4..5..36"
+        row_I = "7.3.18..."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        self.game.solveSudoku()
+        solution = th.formatGridValuesAsOneString(self.game.getGridValues())
+
+        row_A = "435269781"
+        row_B = "682571493"
+        row_C = "197834562"
+        row_D = "826195347"
+        row_E = "374682915"
+        row_F = "951743628"
+        row_G = "519326874"
+        row_H = "248957136"
+        row_I = "763418259"
+        actual_solution = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        self.assertEqual(solution, actual_solution)
+
+
 
 if __name__ == "__main__":
     unittest.main()
