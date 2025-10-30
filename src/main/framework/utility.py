@@ -41,11 +41,6 @@ def generate_sudoku_units(rows:str, cols:str, n_subgrids: int) -> List[List[str]
     unitlist = row_units + col_units + box_units
     return unitlist
 
-def find_duplicates(string: str) -> List[str]:
-    "Find duplicate characters in a string representation of the sudoku without counting empty cells."
-    duplicates = list(set([symbol for symbol in string if symbol != GameConstants.EMPTY_CELL and string.count(symbol) > 1]))
-    return duplicates
-
 def find_invalid_characters(string: str) -> List[str]:
     invalid_chars = [char for char in string if char not in GameConstants.VALID_CHARS]
     return invalid_chars
