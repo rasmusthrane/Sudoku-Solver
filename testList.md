@@ -97,3 +97,7 @@
 ### Candidates Management
 - Given a game where the clue `3` is placed in `A6`:
   - [Ok] Place `1` in `A1`, `2` in `B4`, `9` in `C6`-> `A2` should have candidates `2456789`,  `B5` should have candidates `1245678` and `D9` should have candidates `123456789
+
+### Solver
+- Given an easy Sudoku
+  - [] Solver should find the solution
