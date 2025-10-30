@@ -1,3 +1,4 @@
+from main.framework.gamestate import GameState
 from main.framework.status import Status
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants #type:ignore
@@ -47,6 +48,22 @@ class TestGame(unittest.TestCase):
     def test_shouldReturnStatusMULTIPLE_CHARACTERSIfPlacingStringContainingMultipleCharactersInACell(self):
         status = self.game.setCellValue('I9', '!!')
         self.assertEqual(status, Status.NOT_A_NUMBER)    
+
+    def test_shouldReturnGameStateOngoingWhenTwoValidRowsArePlaced(self):
+        row_A = "123...789"
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "234.5..9."
+        row_I = "........."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        game_state: GameState = self.game.getGameState()
+        self.assertEqual(game_state, 'ongoing')
+
 
 if __name__ == "__main__":
     unittest.main()
