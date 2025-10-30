@@ -18,9 +18,9 @@ class SquareSudokuGame(FormalGameInterface):
         self.possible_digits: List[str] = sudokuBoardStrategy.getPossibleDigits()
 
         # Create a dict that holds all units that each cell belongs to
-        self.units: Dict[str, List[List[str]]] = self.__createUnitDict()
+        self.units: Dict[str, List[List[str]]] = self._createUnitDict()
         # Create a dict that holds all cells which shares unit with a cell
-        self.peers: Dict[str, List[str]] = self.__createPeersDict()
+        self.peers: Dict[str, List[str]] = self._createPeersDict()
         
         self.nrows: int = len(self.rows)
         self.ncols: int = len(self.cols)
@@ -41,28 +41,28 @@ class SquareSudokuGame(FormalGameInterface):
         
         # Initialize grid value dict
         self.value_dict: Dict[str, str] = {}
-        self.__populateInitialValueDict()
+        self._populateInitialValueDict()
         
         # Then check if any invalid characters are present
         invalid_chars = find_invalid_characters(self.initial_grid)
         if invalid_chars:
             raise ValueError(f"Invalid characters in cells: {invalid_chars}")
         # Then check if any constraints are violated
-        if self.__isConstraintViolated():
+        if self._isConstraintViolated():
             violating_cells = self.getViolatingCells()
             raise ValueError(f"Initial clues violate a constraint. Violating cells are {violating_cells}")
             
         # Initialize grid_candidate_dict
         self.candidate_dict: Dict[str, str] = {}
-        self.__updateCandidateDict()
+        self._updateCandidateDict()
 
         # Create list of initial clues
-        self.initial_clues: List[str] = self.__getCellsWithClues()
+        self.initial_clues: List[str] = self._getCellsWithClues()
 
         self.game_state: GameState = 'ongoing'
-        self.__updateGameState()
+        self._updateGameState()
 
-    def __createPeersDict(self) -> Dict[str, List[str]]:
+    def _createPeersDict(self) -> Dict[str, List[str]]:
         peers: Dict[str, List[str]] = {}
         for c in self.cells:
             all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
@@ -72,7 +72,7 @@ class SquareSudokuGame(FormalGameInterface):
             peers[c] = peers_of_c
         return peers
 
-    def __createUnitDict(self) -> Dict[str, List[List[str]]]:
+    def _createUnitDict(self) -> Dict[str, List[List[str]]]:
         units: Dict[str, List[List[str]]] = {}
         for c in self.cells:
             units_for_s: List[List[str]] = []  # List to hold units containing s
@@ -82,12 +82,12 @@ class SquareSudokuGame(FormalGameInterface):
             units[c] = units_for_s
         return units
 
-    def __populateInitialValueDict(self) -> None:
+    def _populateInitialValueDict(self) -> None:
         for i, c in enumerate(self.cells):
             value = self.initial_grid[i]
             self.value_dict[c] = value
     
-    def __updateCandidateDict(self) -> None:
+    def _updateCandidateDict(self) -> None:
         for cell, value in self.value_dict.items():
 
             # First check if a digit is placed
@@ -106,25 +106,25 @@ class SquareSudokuGame(FormalGameInterface):
             # create string to represent candidates
             self.candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
-    def __getCellsWithClues(self) -> List[str]:
+    def _getCellsWithClues(self) -> List[str]:
         initial_clues: List[str] = []
         for cell, value in self.value_dict.items():
             if value != '.':
                 initial_clues.append(cell)
         return initial_clues
     
-    def __checkIfCellViolatesConstraint(self, cell:str) -> bool:
+    def _checkIfCellViolatesConstraint(self, cell:str) -> bool:
         cell_value = self.value_dict[cell]
         if cell_value == GameConstants.EMPTY_CELL:
             return False
 
         return any(cell_value == self.value_dict[peer] for peer in self.peers[cell])
 
-    def __isConstraintViolated(self) -> bool:
-        return any(self.__checkIfCellViolatesConstraint(cell) for cell in self.cells)
+    def _isConstraintViolated(self) -> bool:
+        return any(self._checkIfCellViolatesConstraint(cell) for cell in self.cells)
 
-    def __updateGameState(self) -> None:
-        if self.__isConstraintViolated():
+    def _updateGameState(self) -> None:
+        if self._isConstraintViolated():
             self.game_state: GameState = 'constraint_violation'
             return
         
@@ -181,8 +181,8 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.INVALID_DIGIT
         
         self.value_dict[cell] = value
-        self.__updateCandidateDict()
-        self.__updateGameState()
+        self._updateCandidateDict()
+        self._updateGameState()
 
         return Status.OK
     
