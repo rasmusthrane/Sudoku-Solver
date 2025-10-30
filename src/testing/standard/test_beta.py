@@ -92,11 +92,14 @@ class TestGame(unittest.TestCase):
 
     def test_shouldReturnGameStateConstraintViolationWhenAnInvalidRowIsPlacedAndGiveListOfViolatingCells(self):
         row_A = "1234"
-        row_B = "2341" #invalid
+        row_B = ".3.1" 
         row_C = "...."
         row_D = "...."
         clues = row_A + row_B + row_C + row_D
         self.game = SquareSudokuGame(Factory4x4(clues))
+        # Place invalid values
+        self.game.setCellValue('B1', '2')
+        self.game.setCellValue('B3', '4')
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')    
 
@@ -122,9 +125,13 @@ class TestGame(unittest.TestCase):
         row_A = "1234"
         row_B = "3412"
         row_C = "4321"
-        row_D = "2234" # invalid
+        row_D = "2..." # invalid
         clues = row_A + row_B + row_C + row_D
         self.game = SquareSudokuGame(Factory4x4(clues))
+        # Place an invalid row
+        self.game.setCellValue('D2', '2')
+        self.game.setCellValue('D3', '3')
+        self.game.setCellValue('D4', '4')
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')     
 

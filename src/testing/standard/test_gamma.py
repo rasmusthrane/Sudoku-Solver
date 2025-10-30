@@ -64,7 +64,7 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'ongoing')
 
-    def test_shouldReturnGameStateOngoingWhenTwoInValidRowsArePlaced(self):
+    def test_shouldReturnGameStateOngoingWhenTwoInvalidRowsArePlaced(self):
         row_A = "123...789"
         row_B = "........."
         row_C = "........."
@@ -72,10 +72,12 @@ class TestGame(unittest.TestCase):
         row_E = "........."
         row_F = "........."
         row_G = "........."
-        row_H = "247.5.98."
+        row_H = "247.5.9.."
         row_I = "........."
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
+        # Place an invalid value
+        self.game.setCellValue('H8', '8') 
         game_state: GameState = self.game.getGameState()
         self.assertEqual(game_state, 'constraint_violation')        
 
@@ -163,6 +165,24 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             SquareSudokuGame(Factory9x9(clues))
         self.assertIn('few', str(cm.exception))
+
+    def test_shouldRaiseErrorWithWhenInjectingCluesThatViolateConstraints(self):
+        row_A = "1........"
+        row_B = "........."
+        row_C = "........."
+        row_D = "........."
+        row_E = "........."
+        row_F = "........."
+        row_G = "........."
+        row_H = "........."
+        row_I = "1........" 
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        with self.assertRaises(ValueError) as cm:
+            SquareSudokuGame(Factory9x9(clues))
+        self.assertIn('violate', str(cm.exception))
+        self.assertIn("Violating cells are ['A1', 'I1']", str(cm.exception))
+
 
 if __name__ == "__main__":
     unittest.main()

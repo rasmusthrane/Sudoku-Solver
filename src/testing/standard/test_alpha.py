@@ -54,7 +54,8 @@ class TestGame(unittest.TestCase):
         clues = "...3....3" # duplicate 3
         with self.assertRaises(ValueError) as cm:
             SquareSudokuGame(Factory3x3(clues))
-        self.assertIn('Duplicate', str(cm.exception))
+        self.assertIn('violate', str(cm.exception))
+        self.assertIn("Violating cells are ['B1', 'C3']", str(cm.exception))
 
     def test_shouldRaiseErrorWithInvalidClues(self):
         clues = "..,......" # invalid ,

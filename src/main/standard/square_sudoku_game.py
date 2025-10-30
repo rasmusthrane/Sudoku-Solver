@@ -1,6 +1,6 @@
 from main.framework.game import FormalGameInterface
 from main.framework.status import Status
-from main.framework.utility import cross
+from main.framework.utility import cross, find_invalid_characters
 from main.variants.factory.game_factory import GameFactory
 from main.standard.game_constants import GameConstants
 from main.framework.gamestate import GameState
@@ -30,10 +30,28 @@ class SquareSudokuGame(FormalGameInterface):
         # Initialize grid representation
         self.initial_grid: str = sudokuBoardStrategy.getGridRepresentation()
 
+        # Check if initial injected grid is valid
+        # First check length of grid
+        expected_n_cells = len(self.cells)
+        n_cells = len(self.initial_grid)
+        if n_cells > expected_n_cells:
+            raise ValueError(f"Too many cells. Expected {expected_n_cells} cells, got {n_cells}")
+        if n_cells < expected_n_cells:
+            raise ValueError(f"Too few cells. Expected {expected_n_cells} cells, got {n_cells}")
+        
         # Initialize grid value dict
         self.value_dict: Dict[str, str] = {}
         self.__populateInitialValueDict()
-
+        
+        # Then check if any invalid characters are present
+        invalid_chars = find_invalid_characters(self.initial_grid)
+        if invalid_chars:
+            raise ValueError(f"Invalid characters in cells: {invalid_chars}")
+        # Then check if any constraints are violated
+        if self.__isConstraintViolated():
+            violating_cells = self.getViolatingCells()
+            raise ValueError(f"Initial clues violate a constraint. Violating cells are {violating_cells}")
+            
         # Initialize grid_candidate_dict
         self.candidate_dict: Dict[str, str] = {}
         self.__updateCandidateDict()
