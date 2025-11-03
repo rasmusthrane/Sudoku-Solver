@@ -52,7 +52,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
     @app.route('/get_game_state', methods=['GET'])
     def get_game_state(): #type: ignore
         return jsonify({
-            'game_state': game.getGameState(),
+            'game_state': game.game_state,
             'violating_cells': game.getViolatingCells()
             })
 

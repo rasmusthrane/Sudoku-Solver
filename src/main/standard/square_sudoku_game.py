@@ -50,7 +50,7 @@ class SquareSudokuGame(FormalGameInterface):
         self.initial_clues: List[str] = self._getCellsWithClues()
 
         # Set the game state to 'ongoing' and check if any updates have happened
-        self.game_state: GameState = 'ongoing'
+        self._game_state: GameState = 'ongoing'
         self._updateGameState()
 
     def _validateIfAnyConstraintsAreViolated(self):
@@ -133,15 +133,16 @@ class SquareSudokuGame(FormalGameInterface):
 
     def _updateGameState(self) -> None:
         if self._isConstraintViolated():
-            self.game_state: GameState = 'constraint_violation'
+            self._game_state: GameState = 'constraint_violation'
             return
         
         unique_solution_found: bool = self.getGridValues() == self.getGridCandidateValues()
         if unique_solution_found:
-            self.game_state: GameState = 'won'
+            self._game_state: GameState = 'won'
             return
         
-        self.game_state: GameState = 'ongoing'
+        self._game_state: GameState = 'ongoing'
+        
     @override
     def getViolatingCells(self) -> List[str]:
         violating_cells: List[str] = []
@@ -155,9 +156,11 @@ class SquareSudokuGame(FormalGameInterface):
         
         return violating_cells
 
+    @property
     @override
-    def getGameState(self) -> GameState:
-        return self.game_state
+    def game_state(self) -> GameState:
+        return self._game_state
+    
     @override
     def getSudokuDimension(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids

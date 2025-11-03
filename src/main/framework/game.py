@@ -12,9 +12,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         Return the cells that currently violate a constraint. If none are found, return an empty list.
         """
         pass
-
+    
+    @property
     @abc.abstractmethod
-    def getGameState(self) -> GameState:
+    def game_state(self) -> GameState:
         """
         Return the current game state.
 

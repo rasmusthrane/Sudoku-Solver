@@ -108,19 +108,19 @@ class TestGame(unittest.TestCase):
         self.assertEqual(status, Status.NOT_A_NUMBER)
 
     def test_shouldReturnOngoingGameWhenStartingEmptyGame(self):
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'ongoing')
 
     def test_shouldReturnWonGameWhenAllCorrectDigitsArePlaced(self):
         clues = "123456789"
         self.game = SquareSudokuGame(Factory3x3(clues))
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'won')
 
     def test_shouldReturnConstraintViolationWhenDuplicateDigitsPlacedInSameUnit(self):
         self.game.setCellValue('A1', '1')
         self.game.setCellValue('A2', '1')
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')
     
     # Given a game, if the player violates a constraint and then fix the violation by removing the digit, the game state 'ongoing' should be returned
@@ -128,14 +128,14 @@ class TestGame(unittest.TestCase):
         # First violate a constraint
         self.game.setCellValue('A1', '1')
         self.game.setCellValue('A2', '1')
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')
 
         # Then fix it
         status = self.game.removeCellValue('A2')
 
         # Check if game is now 'ongoing' again
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(status, Status.OK)
         self.assertEqual(game_state, 'ongoing')
 

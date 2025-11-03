@@ -61,7 +61,7 @@ class TestGame(unittest.TestCase):
         row_I = "........."
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'ongoing')
 
     def test_shouldReturnGameStateOngoingWhenTwoInvalidRowsArePlaced(self):
@@ -78,7 +78,7 @@ class TestGame(unittest.TestCase):
         self.game = SquareSudokuGame(Factory9x9(clues))
         # Place an invalid value
         self.game.setCellValue('H8', '8') 
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')        
 
     def test_shouldReturnGameStateWonWhenBoardIsFullAndNoConstraintsAreViolated(self):
@@ -93,7 +93,7 @@ class TestGame(unittest.TestCase):
         row_I = "763418259"
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'won')        
 
     def test_shouldReturnCorrectCandidatesOnComplicatedBoard(self):

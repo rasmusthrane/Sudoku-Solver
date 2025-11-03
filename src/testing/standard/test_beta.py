@@ -83,7 +83,7 @@ class TestGame(unittest.TestCase):
         row_D = "...."
         clues = row_A + row_B + row_C + row_D
         self.game = SquareSudokuGame(Factory4x4(clues))
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'ongoing')
 
         # check that no violating cells are found
@@ -100,7 +100,7 @@ class TestGame(unittest.TestCase):
         # Place invalid values
         self.game.setCellValue('B1', '2')
         self.game.setCellValue('B3', '4')
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')    
 
         violating_cells = self.game.getViolatingCells()
@@ -113,7 +113,7 @@ class TestGame(unittest.TestCase):
         row_D = "2143"
         clues = row_A + row_B + row_C + row_D
         self.game = SquareSudokuGame(Factory4x4(clues))
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'won')    
 
         # check that no violating cells are found
@@ -132,7 +132,7 @@ class TestGame(unittest.TestCase):
         self.game.setCellValue('D2', '2')
         self.game.setCellValue('D3', '3')
         self.game.setCellValue('D4', '4')
-        game_state: GameState = self.game.getGameState()
+        game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')     
 
         violating_cells = self.game.getViolatingCells()
