@@ -34,8 +34,7 @@ class SquareSudokuGame(FormalGameInterface):
         self._validateInitialGridLength()
         
         # Initialize grid value dict
-        self.value_dict: Dict[str, str] = {}
-        self._populateInitialValueDict()
+        self._value_dict: Dict[str, str] = self._createInitialValueDict()
         
         # Check if initial injected grid uses valid characters
         self._validateCharactersInInitialGrid()
@@ -92,13 +91,16 @@ class SquareSudokuGame(FormalGameInterface):
             units[c] = units_for_s
         return units
 
-    def _populateInitialValueDict(self) -> None:
+    def _createInitialValueDict(self) -> Dict[str, str]:
+        value_dict: Dict[str, str] = {}
         for i, c in enumerate(self.cells):
             value = self.initial_grid[i]
-            self.value_dict[c] = value
+            value_dict[c] = value
+        
+        return value_dict
     
     def _updateCandidateDict(self) -> None:
-        for cell, value in self.value_dict.items():
+        for cell, value in self._value_dict.items():
 
             # First check if a digit is placed
             digit_placed: bool = value != '.'
@@ -109,25 +111,25 @@ class SquareSudokuGame(FormalGameInterface):
             else:
                 list_of_candidates = self.possible_digits.copy()
                 for peer_of_cell in self.peers[cell]:
-                    peer_value_is_candidate: bool = self.value_dict[peer_of_cell] in list_of_candidates
+                    peer_value_is_candidate: bool = self._value_dict[peer_of_cell] in list_of_candidates
                     if peer_value_is_candidate:
-                        list_of_candidates.remove(self.value_dict[peer_of_cell])
+                        list_of_candidates.remove(self._value_dict[peer_of_cell])
             # create string to represent candidates
             self.candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
     def _getCellsWithClues(self) -> List[str]:
         initial_clues: List[str] = []
-        for cell, value in self.value_dict.items():
+        for cell, value in self._value_dict.items():
             if value != '.':
                 initial_clues.append(cell)
         return initial_clues
     
     def _checkIfCellViolatesConstraint(self, cell:str) -> bool:
-        cell_value = self.value_dict[cell]
+        cell_value = self._value_dict[cell]
         if cell_value == GameConstants.EMPTY_CELL:
             return False
 
-        return any(cell_value == self.value_dict[peer] for peer in self.peers[cell])
+        return any(cell_value == self._value_dict[peer] for peer in self.peers[cell])
 
     def _isConstraintViolated(self) -> bool:
         return any(self._checkIfCellViolatesConstraint(cell) for cell in self.cells)
@@ -147,10 +149,10 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def getViolatingCells(self) -> List[str]:
         violating_cells: List[str] = []
-        for cell, cell_value in self.value_dict.items():
+        for cell, cell_value in self._value_dict.items():
             if cell_value == GameConstants.EMPTY_CELL: continue 
             for peer in self.peers[cell]:
-                peer_value = self.value_dict[peer]
+                peer_value = self._value_dict[peer]
                 if cell_value == peer_value:
                     violating_cells.append(cell)
                     break
@@ -167,12 +169,14 @@ class SquareSudokuGame(FormalGameInterface):
     def sudoku_dims(self) -> Tuple[int, int, int]:
         return self.nrows, self.ncols, self.nsubgrids
     
+    @property
     @override
-    def getGridValueDict(self) -> Dict[str, str]:
-        return self.value_dict
+    def value_dict(self) -> Dict[str, str]:
+        return self._value_dict
+    
     @override
     def getGridValues(self) -> List[str]:
-        return list(self.value_dict.values())
+        return list(self._value_dict.values())
     @override
     def getGridCandidateDict(self) -> Dict[str, str]:
         return self.candidate_dict
@@ -194,7 +198,7 @@ class SquareSudokuGame(FormalGameInterface):
         if value not in self.possible_digits and value != GameConstants.EMPTY_CELL:
             return Status.INVALID_DIGIT
         
-        self.value_dict[cell] = value
+        self._value_dict[cell] = value
         self._updateCandidateDict()
         self._updateGameState()
 
@@ -213,7 +217,7 @@ class SquareSudokuGame(FormalGameInterface):
         while True:
             single_candidate_cells: List[str] = []
             for cell, candidates in self.candidate_dict.items():
-                cell_value = self.value_dict[cell]
+                cell_value = self._value_dict[cell]
                 if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
                     single_candidate_cells.append(cell)
                     self.setCellValue(cell, candidates)
@@ -242,7 +246,7 @@ if __name__ == "__main__":
     peers = game.peers['E8']
     for peer in peers:
         for candidate in game.getGridCandidateDict()[peer]:
-            if game.getGridValueDict()[peer] == GameConstants.EMPTY_CELL:
+            if game.value_dict[peer] == GameConstants.EMPTY_CELL:
                 print(f"peer: {peer}, candidate: {candidate}")
 
 

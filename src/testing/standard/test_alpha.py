@@ -20,14 +20,14 @@ class TestGame(unittest.TestCase):
         self.assertEqual(nsubgrids, 1)
 
     def test_shouldHaveEmptyGridAtStart(self):
-        grid_values_dict = self.game.getGridValueDict()
-        for v in grid_values_dict.values():
+        values_dict = self.game.value_dict
+        for v in values_dict.values():
             self.assertEqual(v, GameConstants.EMPTY_CELL)
 
     def test_shouldHaveCorrectCellNamingInEmptyGrid(self):
-        grid_values_dict = self.game.getGridValueDict()
+        values_dict = self.game.value_dict
         expected_cell_names = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
-        cell_names = list(grid_values_dict.keys())
+        cell_names = list(values_dict.keys())
 
         self.assertListEqual(cell_names, expected_cell_names)
     
@@ -41,8 +41,8 @@ class TestGame(unittest.TestCase):
         except Exception as e:
             self.fail(f"Sudoky3by3() raised {type(e).__name__} unexpectedly!")
 
-        grid_value_dict = self.game.getGridValueDict()
-        for cell_name, value in grid_value_dict.items():
+        gridvalue_dict = self.game.value_dict
+        for cell_name, value in gridvalue_dict.items():
             if cell_name == 'A1':
                 self.assertEqual(value, '1')
             elif cell_name == 'C3':
@@ -92,8 +92,8 @@ class TestGame(unittest.TestCase):
         self.game = SquareSudokuGame(Factory3x3(clues))
         self.game.setCellValue('A2', '2')
 
-        grid_value_dict = self.game.getGridValueDict()
-        for cell_name, value in grid_value_dict.items():
+        gridvalue_dict = self.game.value_dict
+        for cell_name, value in gridvalue_dict.items():
             if cell_name == 'A1':
                 self.assertEqual(value, '1')
             elif cell_name == 'A2':

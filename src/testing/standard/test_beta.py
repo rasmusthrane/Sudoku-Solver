@@ -29,14 +29,14 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(sorted(units['A1']), expected_units)        
 
     def test_shouldHaveEmptyGridAtStart(self):
-        grid_values_dict = self.game.getGridValueDict()
-        for v in grid_values_dict.values():
+        value_dict = self.game.value_dict
+        for v in value_dict.values():
             self.assertEqual(v, GameConstants.EMPTY_CELL)
 
     def test_shouldHaveCorrectCellNamingInEmptyGrid(self):
-        grid_values_dict = self.game.getGridValueDict()
+        value_dict = self.game.value_dict
         expected_cell_names = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
-        cell_names = list(grid_values_dict.keys())
+        cell_names = list(value_dict.keys())
 
         self.assertListEqual(cell_names, expected_cell_names)
 

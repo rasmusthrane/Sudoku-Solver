@@ -33,8 +33,8 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(sorted(units['A1']), expected_units)        
 
     def test_shouldHaveEmptyGridAtStart(self):
-        grid_values_dict = self.game.getGridValueDict()
-        for v in grid_values_dict.values():
+        value_dict = self.game.value_dict
+        for v in value_dict.values():
             self.assertEqual(v, GameConstants.EMPTY_CELL)        
     
     def test_shouldReturnStatusOKIfPlacingDigit9InACell(self):

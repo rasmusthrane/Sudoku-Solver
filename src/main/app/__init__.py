@@ -16,7 +16,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
         game = SquareSudokuGame(Factory4x4(clues='1...............'))
     #app.config['game'] = game         
 
-    grid_value_dict = game.getGridValueDict()
+    value_dict = game.value_dict
     @app.route('/hello')
     def hello(): # type: ignore
         return f'Hello, World! And the game state is: {game.initial_grid}'
@@ -24,7 +24,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
     @app.route('/')
     def index(): # type: ignore
         return render_template("template.html", 
-                               grid_value_dict=grid_value_dict, 
+                               value_dict=value_dict, 
                                row_letters=game.rows, 
                                col_numbers=game.cols,
                                EMPTY_CELL=GameConstants.EMPTY_CELL,

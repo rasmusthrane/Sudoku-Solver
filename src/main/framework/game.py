@@ -45,8 +45,9 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         """
         pass
 
+    @property
     @abc.abstractmethod
-    def getGridValueDict(self) -> Dict[str, str]:
+    def value_dict(self) -> Dict[str, str]:
         """
         Return the current values of the Sudoku grid.
 

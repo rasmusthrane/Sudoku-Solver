@@ -30,7 +30,7 @@ class TestFlaskGUI(unittest.TestCase):
         self.assertEqual(response_dict['game_update_status'], Status.OK.name)
 
         # And that the change of value propagates
-        value_of_A1 = self.game.getGridValueDict()['A1']
+        value_of_A1 = self.game.value_dict['A1']
         self.assertEqual(value_of_A1, '1')
 
     def test_shouldReturnStatusCANNOT_OVERWRITE_CLUEWhenClientPlacesDigitInCellWithClueAndShouldNotPropagateValueChangeToGame(self):
@@ -49,7 +49,7 @@ class TestFlaskGUI(unittest.TestCase):
         self.assertEqual(response_dict['game_update_status'], Status.CANNOT_OVERWRITE_CLUE.name)
 
         # And that the change of value has not propagates since we cannot overwrite a clue
-        value_of_A4 = self.game.getGridValueDict()['A4']
+        value_of_A4 = self.game.value_dict['A4']
         self.assertEqual(value_of_A4, '3')
 
 
