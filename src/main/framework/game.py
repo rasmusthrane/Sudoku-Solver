@@ -69,8 +69,9 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     def candidate_dict(self) -> Dict[str, str]:
         pass
 
+    @property
     @abc.abstractmethod
-    def getGridCandidateValues(self) -> List[str]:
+    def candidate_values(self) -> List[str]:
         pass
     
     @property
