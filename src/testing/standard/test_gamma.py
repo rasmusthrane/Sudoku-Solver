@@ -183,7 +183,7 @@ class TestGame(unittest.TestCase):
         self.assertIn('violate', str(cm.exception))
         self.assertIn("Violating cells are ['A1', 'I1']", str(cm.exception))
 
-    def test_shouldSolveEasySudoku(self):
+    def test_shouldSolveEasySudoku1(self):
         row_A = "...26.7.1"
         row_B = "68..7..9."
         row_C = "19...45.."
@@ -207,6 +207,34 @@ class TestGame(unittest.TestCase):
         row_G = "519326874"
         row_H = "248957136"
         row_I = "763418259"
+        actual_solution = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        self.assertEqual(solution, actual_solution)
+
+    def test_shouldSolveEasySudoku2(self):
+        row_A = "1..489..6"
+        row_B = "73.....4."
+        row_C = ".....1295"
+        row_D = "..712.6.."
+        row_E = "5..7.3..8"
+        row_F = "..6.957.."
+        row_G = "9146....."
+        row_H = ".2.....37"
+        row_I = "8..512..4"
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        self.game.solveSudoku()
+        solution = th.formatGridValuesAsOneString(self.game.getGridValues())
+
+        row_A = "152489376"
+        row_B = "739256841"
+        row_C = "468371295"
+        row_D = "387124659"
+        row_E = "591763428"
+        row_F = "246895713"
+        row_G = "914637582"
+        row_H = "625948137"
+        row_I = "873512964"
         actual_solution = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
 
         self.assertEqual(solution, actual_solution)
