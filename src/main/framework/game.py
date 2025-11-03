@@ -75,6 +75,22 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def units(self) -> Dict[str, List[List[str]]]:
+        """
+        A mapping of each cell to the list of all units it belongs to.
+
+        A *unit* is a collection of cells that share a constraint,
+        such as a row, a column, or a 3x3 box.
+        """
+        pass
+
+    @property
+    @abc.abstractmethod
+    def peers(self) -> Dict[str, List[str]]:
+        """
+        A mapping of each cell to all other cells that share a unit with it.
+
+        *Peers* of a cell are all distinct cells that appear in the same row, column, or box.
+        """
         pass
 
     @abc.abstractmethod

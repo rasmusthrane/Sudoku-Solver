@@ -25,7 +25,7 @@ class SquareSudokuGame(FormalGameInterface):
         # Create a dict that holds all units that each cell belongs to
         self._units: Dict[str, List[List[str]]] = self._createUnitDict()
         # Create a dict that holds all cells which shares unit with a cell
-        self.peers: Dict[str, List[str]] = self._createPeersDict()
+        self._peers: Dict[str, List[str]] = self._createPeersDict()
 
         # Initialize grid representation
         self.initial_grid: str = sudokuBoardStrategy.initial_grid
@@ -191,6 +191,11 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def units(self) -> Dict[str, List[List[str]]]:
         return self._units
+    
+    @property
+    @override
+    def peers(self) -> Dict[str, List[str]]:
+        return self._peers
 
     @override
     def setCellValue(self, cell:str, value:str) -> Status:
