@@ -202,6 +202,9 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solveSudoku(self) -> None:
+        self.placeAllSingleCandidateDigits()
+        
+    def placeAllSingleCandidateDigits(self) -> None:
         while True:
             single_candidate_cells: List[str] = []
             for cell, candidates in self.candidate_dict.items():
@@ -212,6 +215,7 @@ class SquareSudokuGame(FormalGameInterface):
                 
             if len(single_candidate_cells) == 0:
                 break
+
     
 if __name__ == "__main__":
     from main.variants.factory.factory_3x3 import Factory3x3 #type:ignore
