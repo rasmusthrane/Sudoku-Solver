@@ -24,7 +24,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(len(self.game.unitlist),27) 
 
     def test_unitsOfA1AreCorrect(self):
-        units: Dict[str, List[List[str]]] = self.game.getUnits()
+        units: Dict[str, List[List[str]]] = self.game.units
         expected_units = sorted([
             ['A1','A2','A3','A4','A5','A6','A7','A8','A9'], 
             ['A1','B1','C1','D1','E1','F1','G1','H1','I1'], 

@@ -23,7 +23,7 @@ class SquareSudokuGame(FormalGameInterface):
         self._sudoku_dims: Tuple[int, int, int] = self.nrows, self.ncols, self.nsubgrids
 
         # Create a dict that holds all units that each cell belongs to
-        self.units: Dict[str, List[List[str]]] = self._createUnitDict()
+        self._units: Dict[str, List[List[str]]] = self._createUnitDict()
         # Create a dict that holds all cells which shares unit with a cell
         self.peers: Dict[str, List[str]] = self._createPeersDict()
 
@@ -186,9 +186,11 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def getGridCandidateValues(self) -> List[str]:
         return list(self._candidate_dict.values())
+    
+    @property
     @override
-    def getUnits(self) -> Dict[str, List[List[str]]]:
-        return self.units
+    def units(self) -> Dict[str, List[List[str]]]:
+        return self._units
 
     @override
     def setCellValue(self, cell:str, value:str) -> Status:

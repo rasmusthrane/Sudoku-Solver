@@ -71,9 +71,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def getGridCandidateValues(self) -> List[str]:
         pass
-
+    
+    @property
     @abc.abstractmethod
-    def getUnits(self) -> Dict[str, List[List[str]]]:
+    def units(self) -> Dict[str, List[List[str]]]:
         pass
 
     @abc.abstractmethod
