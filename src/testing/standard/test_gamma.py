@@ -196,8 +196,8 @@ class TestGame(unittest.TestCase):
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
         self.game.solveSudoku()
-        solution = th.formatGridValuesAsOneString(self.game.getGridValues())
-
+        solution = th.formatGridValuesAsOneString(self.game.grid_values)
+        
         row_A = "435269781"
         row_B = "682571493"
         row_C = "197834562"
@@ -224,7 +224,7 @@ class TestGame(unittest.TestCase):
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
         self.game.solveSudoku()
-        solution = th.formatGridValuesAsOneString(self.game.getGridValues())
+        solution = th.formatGridValuesAsOneString(self.game.grid_values)
 
         row_A = "152489376"
         row_B = "739256841"

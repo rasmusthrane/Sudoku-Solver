@@ -59,8 +59,9 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         """
         pass
 
+    @property    
     @abc.abstractmethod
-    def getGridValues(self) -> List[str]:
+    def grid_values(self) -> List[str]:
         pass
 
     @property

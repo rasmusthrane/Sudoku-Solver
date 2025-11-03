@@ -139,7 +139,7 @@ class SquareSudokuGame(FormalGameInterface):
             self._game_state: GameState = 'constraint_violation'
             return
         
-        unique_solution_found: bool = self.getGridValues() == self.getGridCandidateValues()
+        unique_solution_found: bool = self.grid_values == self.getGridCandidateValues()
         if unique_solution_found:
             self._game_state: GameState = 'won'
             return
@@ -174,8 +174,9 @@ class SquareSudokuGame(FormalGameInterface):
     def value_dict(self) -> Dict[str, str]:
         return self._value_dict
     
+    @property
     @override
-    def getGridValues(self) -> List[str]:
+    def grid_values(self) -> List[str]:
         return list(self._value_dict.values())
     
     @property
