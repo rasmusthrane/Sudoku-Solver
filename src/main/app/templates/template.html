@@ -74,7 +74,7 @@
     <tr>
       {% for col_number in col_numbers %}
         {% set cell = row_letter + col_number %}
-        {% set cell_value = grid_value_dict[cell] %}
+        {% set cell_value = value_dict[cell] %}
         <td 
         id="{{cell}}"
         onkeydown=" 
