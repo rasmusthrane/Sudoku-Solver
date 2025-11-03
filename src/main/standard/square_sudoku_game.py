@@ -55,7 +55,7 @@ class SquareSudokuGame(FormalGameInterface):
 
     def _validateIfAnyConstraintsAreViolated(self):
         if self._isConstraintViolated():
-            violating_cells = self.getViolatingCells()
+            violating_cells = self.computeViolatingCells()
             raise ValueError(f"Initial clues violate a constraint. Violating cells are {violating_cells}")
 
     def _validateCharactersInInitialGrid(self):
@@ -147,7 +147,7 @@ class SquareSudokuGame(FormalGameInterface):
         self._game_state: GameState = 'ongoing'
         
     @override
-    def getViolatingCells(self) -> List[str]:
+    def computeViolatingCells(self) -> List[str]:
         violating_cells: List[str] = []
         for cell, cell_value in self._value_dict.items():
             if cell_value == GameConstants.EMPTY_CELL: continue 

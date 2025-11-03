@@ -53,7 +53,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
     def get_game_state(): #type: ignore
         return jsonify({
             'game_state': game.game_state,
-            'violating_cells': game.getViolatingCells()
+            'violating_cells': game.computeViolatingCells()
             })
 
 

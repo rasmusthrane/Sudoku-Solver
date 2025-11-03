@@ -87,7 +87,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game_state, 'ongoing')
 
         # check that no violating cells are found
-        violating_cells = self.game.getViolatingCells()
+        violating_cells = self.game.computeViolatingCells()
         self.assertListEqual(violating_cells, [])
 
     def test_shouldReturnGameStateConstraintViolationWhenAnInvalidRowIsPlacedAndGiveListOfViolatingCells(self):
@@ -103,7 +103,7 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')    
 
-        violating_cells = self.game.getViolatingCells()
+        violating_cells = self.game.computeViolatingCells()
         self.assertListEqual(sorted(violating_cells), ['A2', 'A4', 'B1', 'B3'])   
 
     def test_shouldReturnGameStateWonWhenFourValidRowsArePlaced(self):
@@ -117,7 +117,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game_state, 'won')    
 
         # check that no violating cells are found
-        violating_cells = self.game.getViolatingCells()
+        violating_cells = self.game.computeViolatingCells()
         self.assertListEqual(violating_cells, [])
         
 
@@ -135,7 +135,7 @@ class TestGame(unittest.TestCase):
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')     
 
-        violating_cells = self.game.getViolatingCells()
+        violating_cells = self.game.computeViolatingCells()
         self.assertListEqual(sorted(violating_cells), ['A2', 'A3', 'A4', 'D1', 'D2', 'D3', 'D4'])   
 
 
