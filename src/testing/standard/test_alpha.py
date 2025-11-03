@@ -153,8 +153,8 @@ class TestGame(unittest.TestCase):
         self.game.setCellValue('C3', '2')
 
         # Then check all cells has correct candidates
-        grid_candidate_dict = self.game.getGridCandidateDict()
-        for cell_name, candidates in grid_candidate_dict.items():
+        candidate_dict = self.game.candidate_dict
+        for cell_name, candidates in candidate_dict.items():
             if cell_name == 'A1':
                 self.assertEqual(candidates, '1')
             elif cell_name == 'C3':
@@ -165,8 +165,8 @@ class TestGame(unittest.TestCase):
         # Then remove one of the cells 
         self.game.removeCellValue('C3')
         # And check again
-        grid_candidate_dict = self.game.getGridCandidateDict()
-        for cell_name, candidates in grid_candidate_dict.items():
+        candidate_dict = self.game.candidate_dict
+        for cell_name, candidates in candidate_dict.items():
             if cell_name == 'A1':
                 self.assertEqual(candidates, '1')
             else:

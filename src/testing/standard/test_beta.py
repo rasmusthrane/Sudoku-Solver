@@ -46,7 +46,7 @@ class TestGame(unittest.TestCase):
         status3 = self.game.setCellValue('B2', '3')
         self.assertTrue(status1 == status2 == status3 == Status.OK)
 
-        grid_candidate_dict = self.game.getGridCandidateDict()
+        grid_candidate_dict = self.game.candidate_dict
         
         self.assertEqual(grid_candidate_dict['B1'], '4')
         self.assertEqual(grid_candidate_dict['A3'], '34')
@@ -61,14 +61,14 @@ class TestGame(unittest.TestCase):
         status2 = self.game.setCellValue('A4', '2')
         status3 = self.game.setCellValue('D4', '3')
         # check everything alright
-        grid_candidate_dict = self.game.getGridCandidateDict()
+        grid_candidate_dict = self.game.candidate_dict
         self.assertTrue(status1 == status2 == status3 == Status.OK)
         self.assertEqual(grid_candidate_dict['A4'], '2')
 
         # Then remove the value from a cell
         status4 = self.game.removeCellValue('A4')
         # and check that everything is still alright
-        grid_candidate_dict = self.game.getGridCandidateDict()
+        grid_candidate_dict = self.game.candidate_dict
         self.assertEqual(status4, Status.OK)
         self.assertEqual(grid_candidate_dict['A4'], '24')
 

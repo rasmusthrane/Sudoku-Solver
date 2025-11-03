@@ -43,7 +43,7 @@ class SquareSudokuGame(FormalGameInterface):
         self._validateIfAnyConstraintsAreViolated()
             
         # Initialize grid_candidate_dict
-        self.candidate_dict: Dict[str, str] = {}
+        self._candidate_dict: Dict[str, str] = {}
         self._updateCandidateDict()
 
         # Create list of initial clues
@@ -115,7 +115,7 @@ class SquareSudokuGame(FormalGameInterface):
                     if peer_value_is_candidate:
                         list_of_candidates.remove(self._value_dict[peer_of_cell])
             # create string to represent candidates
-            self.candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
+            self._candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
     def _getCellsWithClues(self) -> List[str]:
         initial_clues: List[str] = []
@@ -177,12 +177,15 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def getGridValues(self) -> List[str]:
         return list(self._value_dict.values())
+    
+    @property
     @override
-    def getGridCandidateDict(self) -> Dict[str, str]:
-        return self.candidate_dict
+    def candidate_dict(self) -> Dict[str, str]:
+        return self._candidate_dict
+    
     @override
     def getGridCandidateValues(self) -> List[str]:
-        return list(self.candidate_dict.values())
+        return list(self._candidate_dict.values())
     @override
     def getUnits(self) -> Dict[str, List[List[str]]]:
         return self.units
@@ -216,7 +219,7 @@ class SquareSudokuGame(FormalGameInterface):
     def placeAllSingleCandidateDigits(self) -> None:
         while True:
             single_candidate_cells: List[str] = []
-            for cell, candidates in self.candidate_dict.items():
+            for cell, candidates in self._candidate_dict.items():
                 cell_value = self._value_dict[cell]
                 if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
                     single_candidate_cells.append(cell)
@@ -245,7 +248,7 @@ if __name__ == "__main__":
     game = SquareSudokuGame(Factory9x9(clues))
     peers = game.peers['E8']
     for peer in peers:
-        for candidate in game.getGridCandidateDict()[peer]:
+        for candidate in game.candidate_dict[peer]:
             if game.value_dict[peer] == GameConstants.EMPTY_CELL:
                 print(f"peer: {peer}, candidate: {candidate}")
 
