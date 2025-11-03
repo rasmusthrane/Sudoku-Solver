@@ -13,7 +13,7 @@ class TestGame(unittest.TestCase):
         self.game = SquareSudokuGame(Factory3x3())
 
     def test_shouldReturnDimensions3x3x1(self):
-        nrows, ncols, nsubgrids = self.game.getSudokuDimension()
+        nrows, ncols, nsubgrids = self.game.sudoku_dims
 
         self.assertEqual(nrows, 3)
         self.assertEqual(ncols, 3)

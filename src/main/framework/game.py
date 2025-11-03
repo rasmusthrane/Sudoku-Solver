@@ -29,9 +29,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
                 - "constraint_violation": if a Sudoku rule is broken (e.g. duplicate digits in a row, column, or block).
         """
         pass
-
+    
+    @property
     @abc.abstractmethod
-    def getSudokuDimension(self) -> Tuple[int, int, int]:
+    def sudoku_dims(self) -> Tuple[int, int, int]:
         """
         Return the dimensions of the Sudoku grid.
 
