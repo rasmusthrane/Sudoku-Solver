@@ -223,9 +223,9 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solveSudoku(self) -> None:
-        self.placeAllSingleCandidateDigits()
+        self._placeAllSingleCandidateDigits()
         
-    def placeAllSingleCandidateDigits(self) -> None:
+    def _placeAllSingleCandidateDigits(self) -> None:
         while True:
             single_candidate_cells: List[str] = []
             for cell, candidates in self._candidate_dict.items():
