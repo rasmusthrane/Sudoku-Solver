@@ -1,31 +1,43 @@
 from main.variants.strategy.sudoku_board import SudokuBoardStrategy
 from main.framework.utility import generate_sudoku_units
 
-from typing import List
+from typing import List, override
 
 class Sudoku4by4(SudokuBoardStrategy):
     def __init__(self, clues:str) -> None:
-        self.clues = clues
+        self._clues = clues
+        self._cols: str = "1234"
+        self._rows: str = "ABCD"
+        self._nsubgrids: int = 4
+        self._unitlist: List[List[str]] = generate_sudoku_units(self._rows, self._cols, self._nsubgrids)
+        self._possible_digits: List[str] = ['1', '2', '3', '4']
 
-    def getGridRepresentation(self) -> str:
-        return self.clues
+    @property
+    @override
+    def initial_grid(self) -> str:
+        return self._clues
 
-    def getCols(self) -> str:
-        return "1234"
+    @property
+    @override
+    def cols(self) -> str:
+        return self._cols 
     
-    def getRows(self) -> str:
-        return "ABCD"
+    @property
+    @override
+    def rows(self) -> str:
+        return self._rows
     
-    def getNumberOfSubGrids(self) -> int:
-        return 4
+    @property
+    @override
+    def nsubgrids(self) -> int:
+        return self._nsubgrids
     
-    def getUnitList(self) -> List[List[str]]:
-        rows: str = self.getRows()
-        cols: str = self.getCols()
-        n_subgrids: int = self.getNumberOfSubGrids()
-        unitlist: List[List[str]] = generate_sudoku_units(rows, cols, n_subgrids)
-
-        return unitlist
+    @property
+    @override
+    def unitlist(self) -> List[List[str]]:
+        return self._unitlist
     
-    def getPossibleDigits(self) -> List[str]:
-        return ['1', '2', '3', '4']
+    @property
+    @override
+    def possible_digits(self) -> List[str]:
+        return self._possible_digits

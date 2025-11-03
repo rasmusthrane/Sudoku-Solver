@@ -6,32 +6,40 @@ from typing import List, override
 
 class Sudoku9x9(SudokuBoardStrategy):
     def __init__(self, clues: str) -> None:
-        self.clues = clues
+        self._clues = clues
+        self._cols: str = '123456789'
+        self._rows: str = 'ABCDEFGHI'
+        self._nsubgrids: int = 9
+        self._unitlist: List[List[str]] = generate_sudoku_units(self._rows, self._cols, self._nsubgrids)
+        self._possible_digits: List[str] = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
     
+    @property
     @override
-    def getGridRepresentation(self) -> str:
-        return self.clues
+    def initial_grid(self) -> str:
+        return self._clues
 
+    @property
     @override
-    def getCols(self) -> str:
-        return '123456789'
+    def cols(self) -> str:
+        return self._cols 
 
+    @property
     @override
-    def getRows(self) -> str:
-        return 'ABCDEFGHI'
+    def rows(self) -> str:
+        return self._rows
     
+    @property
     @override
-    def getNumberOfSubGrids(self) -> int:
-        return 9
+    def nsubgrids(self) -> int:
+        return self._nsubgrids
     
+    @property
     @override
-    def getPossibleDigits(self) -> List[str]:
-        return ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    def possible_digits(self) -> List[str]:
+        return self._possible_digits
     
+    @property
     @override
-    def getUnitList(self) -> List[List[str]]:
-        rows: str = self.getRows()
-        cols: str = self.getCols()
-        n_subgrids: int = self.getNumberOfSubGrids()
-        unitlist: List[List[str]] = generate_sudoku_units(rows, cols, n_subgrids)
-        return unitlist
+    def unitlist(self) -> List[List[str]]:
+        return self._unitlist
+    

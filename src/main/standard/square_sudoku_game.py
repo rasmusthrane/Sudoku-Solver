@@ -11,14 +11,14 @@ import sys #type:ignore
 class SquareSudokuGame(FormalGameInterface):
     def __init__(self, gameFactory: GameFactory) -> None:
         sudokuBoardStrategy = gameFactory.createSudokuBoardStrategy()
-        self.cols: str = sudokuBoardStrategy.getCols()
-        self.rows: str = sudokuBoardStrategy.getRows()
+        self.cols: str = sudokuBoardStrategy.cols
+        self.rows: str = sudokuBoardStrategy.rows
         self.cells: List[str] = cross(self.rows, self.cols)
-        self.unitlist: List[List[str]] = sudokuBoardStrategy.getUnitList() 
-        self.possible_digits: List[str] = sudokuBoardStrategy.getPossibleDigits()
+        self.unitlist: List[List[str]] = sudokuBoardStrategy.unitlist
+        self.possible_digits: List[str] = sudokuBoardStrategy.possible_digits
         self.nrows: int = len(self.rows)
         self.ncols: int = len(self.cols)
-        self.nsubgrids: int = sudokuBoardStrategy.getNumberOfSubGrids()
+        self.nsubgrids: int = sudokuBoardStrategy.nsubgrids
         self.ncells: int = len(self.cells)
 
         # Create a dict that holds all units that each cell belongs to
@@ -27,7 +27,7 @@ class SquareSudokuGame(FormalGameInterface):
         self.peers: Dict[str, List[str]] = self._createPeersDict()
 
         # Initialize grid representation
-        self.initial_grid: str = sudokuBoardStrategy.getGridRepresentation()
+        self.initial_grid: str = sudokuBoardStrategy.initial_grid
 
         # Check if initial injected grid has a valid length
         self._validateInitialGridLength()
@@ -111,7 +111,6 @@ class SquareSudokuGame(FormalGameInterface):
                     peer_value_is_candidate: bool = self.value_dict[peer_of_cell] in list_of_candidates
                     if peer_value_is_candidate:
                         list_of_candidates.remove(self.value_dict[peer_of_cell])
-
             # create string to represent candidates
             self.candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
@@ -221,7 +220,28 @@ if __name__ == "__main__":
     from main.variants.factory.factory_3x3 import Factory3x3 #type:ignore
     from main.variants.factory.factory_4x4 import Factory4x4 #type:ignore
     from main.variants.factory.factory_9x9 import Factory9x9 #type:ignore
+    from testing.utility.TestHelper import TestHelper as th  #type:ignore
 
-    game = SquareSudokuGame(Factory9x9())
-    status = game.setCellValue('A1', '11!')
-    print(status)
+    row_A = ".2.6.8..."
+    row_B = "58...97.."
+    row_C = "....4...."
+    row_D = "37....5.."
+    row_E = "6.......4"
+    row_F = "..8....13"
+    row_G = "....2...."
+    row_H = "..98...36"
+    row_I = "...3.6.9."
+    clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+    game = SquareSudokuGame(Factory9x9(clues))
+    peers = game.peers['E8']
+    for peer in peers:
+        for candidate in game.getGridCandidateDict()[peer]:
+            if game.getGridValueDict()[peer] == GameConstants.EMPTY_CELL:
+                print(f"peer: {peer}, candidate: {candidate}")
+
+
+        print()
+        # sys.exit()
+    # game.solveSudoku()
+    # solution = th.formatGridValuesAsOneString(game.getGridValues())
+    # print(solution)

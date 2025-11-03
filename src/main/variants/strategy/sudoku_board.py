@@ -3,21 +3,32 @@ from typing import List
 
 class SudokuBoardStrategy(metaclass=abc.ABCMeta):
 
+    @property
     @abc.abstractmethod
-    def getGridRepresentation(self) -> str:
+    def initial_grid(self) -> str:
         pass
+
+    @property
     @abc.abstractmethod
-    def getCols(self) -> str:
+    def cols(self) -> str:
         pass
+
+    @property
     @abc.abstractmethod
-    def getRows(self) -> str:
+    def rows(self) -> str:
         pass
+
+    @property
     @abc.abstractmethod
-    def getNumberOfSubGrids(self) -> int:
+    def nsubgrids(self) -> int:
         pass
+    
+    @property
     @abc.abstractmethod
-    def getUnitList(self) -> List[List[str]]:
+    def unitlist(self) -> List[List[str]]:
         pass
+
+    @property
     @abc.abstractmethod
-    def getPossibleDigits(self) -> List[str]:
+    def possible_digits(self) -> List[str]:
         pass
