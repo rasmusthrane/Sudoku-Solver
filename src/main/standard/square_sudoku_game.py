@@ -201,6 +201,11 @@ class SquareSudokuGame(FormalGameInterface):
     def peers(self) -> Dict[str, List[str]]:
         return self._peers
 
+    @property
+    @override
+    def n_empty_cells(self) -> int:
+        return len([cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL])
+
     @override
     def setCellValue(self, cell:str, value:str) -> Status:
         if cell in self.initial_clues:

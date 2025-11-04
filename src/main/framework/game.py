@@ -95,6 +95,11 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         """
         pass
 
+    @property
+    @abc.abstractmethod
+    def n_empty_cells(self) -> int:
+        pass
+
     @abc.abstractmethod
     def setCellValue(self, cell:str, value:str) -> Status:
         pass
