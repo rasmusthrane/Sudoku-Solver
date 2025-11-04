@@ -265,17 +265,23 @@ class SquareSudokuGame(FormalGameInterface):
         hidden_singles = [digit for digit in digit_count.keys() if digit_count[digit] == 1]
         for hidden_single in hidden_singles:
             cell_to_place_in = last_cell_to_see_digit[hidden_single]
-            game.setCellValue(cell_to_place_in, hidden_single)      
+            self.setCellValue(cell_to_place_in, hidden_single)
+        
 
     def _placeAllHiddenSingles(self) -> None:
         """
-        Performs one pass of placing all hidden singles by checking the units of all empty cells
+        Repeatedly places all hidden singles on the board. This method continues to perform passes over the board until  no new hidden singles can be placed, i.e., the board reaches a stable state  with respect to hidden singles.
         """
+        while True:
+            cells_to_investigate = [cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL]
+            n_empty_cells_before = self.n_empty_cells
+            for cell in cells_to_investigate:
+                for unit in self.units[cell]:
+                    self._placeHiddenSingles(unit)
 
-        cells_to_investigate = [cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL]
-        for cell in cells_to_investigate:
-            for unit in self.units[cell]:
-                self._placeHiddenSingles(unit)  
+            n_empty_cells_after = self.n_empty_cells
+            if n_empty_cells_before == n_empty_cells_after:
+                break
 
     
 if __name__ == "__main__":
@@ -296,8 +302,5 @@ if __name__ == "__main__":
     clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
     game = SquareSudokuGame(Factory9x9(clues))
 
-    th.printSudoku(game)
     game.solveSudoku()
-    th.printSudoku(game)
     game.solveSudoku()
-    th.printSudoku(game)
