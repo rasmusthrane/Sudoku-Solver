@@ -32,7 +32,7 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(cell_names, expected_cell_names)
     
     def test_shouldOnlyHaveOneUnitInListOfUnits(self):
-        self.assertEqual(len(self.game.unitlist),1) 
+        self.assertEqual(len(self.game.all_units),1) 
 
     def test_shouldNotRaiseErrorWhenPassingValidCluesAndCellValuesShouldBeUpdated(self):
         clues = "1.......9"

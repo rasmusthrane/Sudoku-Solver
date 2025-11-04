@@ -15,7 +15,7 @@ class SquareSudokuGame(FormalGameInterface):
         self.cols: str = sudokuBoardStrategy.cols
         self.rows: str = sudokuBoardStrategy.rows
         self.cells: List[str] = cross(self.rows, self.cols)
-        self.unitlist: List[List[str]] = sudokuBoardStrategy.unitlist
+        self.all_units: List[List[str]] = sudokuBoardStrategy.all_units
         self.possible_digits: List[str] = sudokuBoardStrategy.possible_digits
         self.nrows: int = len(self.rows)
         self.ncols: int = len(self.cols)
@@ -85,7 +85,7 @@ class SquareSudokuGame(FormalGameInterface):
         units: Dict[str, List[List[str]]] = {}
         for c in self.cells:
             units_for_s: List[List[str]] = []  # List to hold units containing s
-            for u in self.unitlist:
+            for u in self.all_units:
                 if c in u:
                     units_for_s.append(u)
             units[c] = units_for_s

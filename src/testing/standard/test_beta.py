@@ -21,7 +21,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(nsubgrids, 4)
 
     def test_shouldHave12UnitsInUnitList(self):
-        self.assertEqual(len(self.game.unitlist),12) 
+        self.assertEqual(len(self.game.all_units),12) 
     
     def test_unitsOfA1AreCorrect(self):
         units: Dict[str, List[List[str]]] = self.game.units

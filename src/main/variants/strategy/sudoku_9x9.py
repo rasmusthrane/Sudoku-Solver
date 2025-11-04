@@ -10,7 +10,7 @@ class Sudoku9x9(SudokuBoardStrategy):
         self._cols: str = '123456789'
         self._rows: str = 'ABCDEFGHI'
         self._nsubgrids: int = 9
-        self._unitlist: List[List[str]] = generate_sudoku_units(self._rows, self._cols, self._nsubgrids)
+        self._all_units: List[List[str]] = generate_sudoku_units(self._rows, self._cols, self._nsubgrids)
         self._possible_digits: List[str] = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
     
     @property
@@ -40,6 +40,6 @@ class Sudoku9x9(SudokuBoardStrategy):
     
     @property
     @override
-    def unitlist(self) -> List[List[str]]:
-        return self._unitlist
+    def all_units(self) -> List[List[str]]:
+        return self._all_units
     

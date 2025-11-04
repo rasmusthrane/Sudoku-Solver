@@ -9,7 +9,7 @@ class Sudoku3by3(SudokuBoardStrategy):
         self._cols: str = "123"
         self._rows: str = "ABC"
         self._nsubgrids: int = 1
-        self._unitlist: List[List[str]] = [cross(self._rows, self._cols)]
+        self._all_units: List[List[str]] = [cross(self._rows, self._cols)]
         self._possible_digits: List[str] = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
     @property
@@ -34,8 +34,8 @@ class Sudoku3by3(SudokuBoardStrategy):
     
     @property
     @override
-    def unitlist(self) -> List[List[str]]:
-        return self._unitlist
+    def all_units(self) -> List[List[str]]:
+        return self._all_units
     
     @property
     @override

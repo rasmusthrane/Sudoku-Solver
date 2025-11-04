@@ -25,7 +25,7 @@ class SudokuBoardStrategy(metaclass=abc.ABCMeta):
     
     @property
     @abc.abstractmethod
-    def unitlist(self) -> List[List[str]]:
+    def all_units(self) -> List[List[str]]:
         pass
 
     @property

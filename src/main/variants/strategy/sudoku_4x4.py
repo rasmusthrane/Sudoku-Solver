@@ -9,7 +9,7 @@ class Sudoku4by4(SudokuBoardStrategy):
         self._cols: str = "1234"
         self._rows: str = "ABCD"
         self._nsubgrids: int = 4
-        self._unitlist: List[List[str]] = generate_sudoku_units(self._rows, self._cols, self._nsubgrids)
+        self._all_units: List[List[str]] = generate_sudoku_units(self._rows, self._cols, self._nsubgrids)
         self._possible_digits: List[str] = ['1', '2', '3', '4']
 
     @property
@@ -34,8 +34,8 @@ class Sudoku4by4(SudokuBoardStrategy):
     
     @property
     @override
-    def unitlist(self) -> List[List[str]]:
-        return self._unitlist
+    def all_units(self) -> List[List[str]]:
+        return self._all_units
     
     @property
     @override
