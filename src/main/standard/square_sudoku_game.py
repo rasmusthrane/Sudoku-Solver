@@ -21,7 +21,6 @@ class SquareSudokuGame(FormalGameInterface):
         self.ncols: int = len(self.cols)
         self.nsubgrids: int = sudokuBoardStrategy.nsubgrids
         self.ncells: int = len(self.cells)
-        self._sudoku_dims: Tuple[int, int, int] = self.nrows, self.ncols, self.nsubgrids
 
         # Create a dict that holds all units that each cell belongs to
         self._units: Dict[str, List[List[str]]] = self._createUnitDict()
