@@ -78,19 +78,19 @@ class TestGame(unittest.TestCase):
     def test_shouldRaiseStatusIfTryingToOverwriteClue(self):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3x3(clues))
-        status = self.game.setCellValue('A1', '2')
+        status = self.game.set_cell_value('A1', '2')
         self.assertEqual(status, Status.CANNOT_OVERWRITE_CLUE)
     
     def test_shouldRaiseStatusIfUpdatingCellValue(self):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3x3(clues))
-        status = self.game.setCellValue('A2', '2')
+        status = self.game.set_cell_value('A2', '2')
         self.assertEqual(status, Status.OK)
     
     def test_shouldUpdateCellValueIfValid(self):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3x3(clues))
-        self.game.setCellValue('A2', '2')
+        self.game.set_cell_value('A2', '2')
 
         gridvalue_dict = self.game.value_dict
         for cell_name, value in gridvalue_dict.items():
@@ -104,7 +104,7 @@ class TestGame(unittest.TestCase):
     def test_shouldRaiseStatusIfUpdatingCellWithInvalidChar(self):
         clues = "1........"
         self.game = SquareSudokuGame(Factory3x3(clues))
-        status = self.game.setCellValue('A2', '@')
+        status = self.game.set_cell_value('A2', '@')
         self.assertEqual(status, Status.NOT_A_NUMBER)
 
     def test_shouldReturnOngoingGameWhenStartingEmptyGame(self):
@@ -118,21 +118,21 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game_state, 'won')
 
     def test_shouldReturnConstraintViolationWhenDuplicateDigitsPlacedInSameUnit(self):
-        self.game.setCellValue('A1', '1')
-        self.game.setCellValue('A2', '1')
+        self.game.set_cell_value('A1', '1')
+        self.game.set_cell_value('A2', '1')
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')
     
     # Given a game, if the player violates a constraint and then fix the violation by removing the digit, the game state 'ongoing' should be returned
     def test_shouldReturnOngoingAfterFixingConstraintViolation(self):
         # First violate a constraint
-        self.game.setCellValue('A1', '1')
-        self.game.setCellValue('A2', '1')
+        self.game.set_cell_value('A1', '1')
+        self.game.set_cell_value('A2', '1')
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')
 
         # Then fix it
-        status = self.game.removeCellValue('A2')
+        status = self.game.remove_cell_value('A2')
 
         # Check if game is now 'ongoing' again
         game_state: GameState = self.game.game_state
@@ -140,17 +140,17 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game_state, 'ongoing')
 
     def test_shouldRaiseErrorWhenUpdatingACellThatDoesNotExist(self):
-        status = self.game.setCellValue('A4', '1') #does not exist
+        status = self.game.set_cell_value('A4', '1') #does not exist
         self.assertEqual(status, Status.CELL_DOES_NOT_EXIST)
 
     def test_shouldRaiseErrorWhenRemovingValueOfCellThatDoesNotExist(self):
-        status = self.game.removeCellValue('A4') #does not exist
+        status = self.game.remove_cell_value('A4') #does not exist
         self.assertEqual(status, Status.CELL_DOES_NOT_EXIST)
     
     def test_shouldPropagateChangesInCandidatesWhenRemovingValueOfCell(self):
         # First set two cell values
-        self.game.setCellValue('A1', '1')
-        self.game.setCellValue('C3', '2')
+        self.game.set_cell_value('A1', '1')
+        self.game.set_cell_value('C3', '2')
 
         # Then check all cells has correct candidates
         candidate_dict = self.game.candidate_dict
@@ -163,7 +163,7 @@ class TestGame(unittest.TestCase):
                 self.assertEqual(candidates, '3456789')
 
         # Then remove one of the cells 
-        self.game.removeCellValue('C3')
+        self.game.remove_cell_value('C3')
         # And check again
         candidate_dict = self.game.candidate_dict
         for cell_name, candidates in candidate_dict.items():

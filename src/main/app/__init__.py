@@ -37,9 +37,9 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
         value = data.get('value')
         
         if value == "":
-            status: Status = game.removeCellValue(cell)
+            status: Status = game.remove_cell_value(cell)
         else:
-            status: Status = game.setCellValue(cell, value)
+            status: Status = game.set_cell_value(cell, value)
         
         response: Dict[str, str] = {
             'game_update_status': status.name,
@@ -53,7 +53,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
     def get_game_state(): #type: ignore
         return jsonify({
             'game_state': game.game_state,
-            'violating_cells': game.computeViolatingCells()
+            'violating_cells': game.compute_violating_cells()
             })
 
 

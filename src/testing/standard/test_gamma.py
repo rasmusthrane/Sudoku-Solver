@@ -38,15 +38,15 @@ class TestGame(unittest.TestCase):
             self.assertEqual(v, GameConstants.EMPTY_CELL)        
     
     def test_shouldReturnStatusOKIfPlacingDigit9InACell(self):
-        status = self.game.setCellValue('A1', '9')
+        status = self.game.set_cell_value('A1', '9')
         self.assertEqual(status, Status.OK)
 
     def test_shouldReturnStatusINVALID_CHARIfPlacingDigit11InACell(self):
-        status = self.game.setCellValue('I9', '11')
+        status = self.game.set_cell_value('I9', '11')
         self.assertEqual(status, Status.INVALID_DIGIT)
 
     def test_shouldReturnStatusMULTIPLE_CHARACTERSIfPlacingStringContainingMultipleCharactersInACell(self):
-        status = self.game.setCellValue('I9', '!!')
+        status = self.game.set_cell_value('I9', '!!')
         self.assertEqual(status, Status.NOT_A_NUMBER)    
 
     def test_shouldReturnGameStateOngoingWhenTwoValidRowsArePlaced(self):
@@ -77,7 +77,7 @@ class TestGame(unittest.TestCase):
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
         # Place an invalid value
-        self.game.setCellValue('H8', '8') 
+        self.game.set_cell_value('H8', '8') 
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')        
 
@@ -109,9 +109,9 @@ class TestGame(unittest.TestCase):
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
 
-        status1 = self.game.setCellValue('A1', '1')
-        status2 = self.game.setCellValue('B4', '2')
-        status3 = self.game.setCellValue('C6', '9')
+        status1 = self.game.set_cell_value('A1', '1')
+        status2 = self.game.set_cell_value('B4', '2')
+        status3 = self.game.set_cell_value('C6', '9')
         self.assertTrue(status1 == status2 == status3 == Status.OK)
 
         self.assertEqual(self.game.candidate_dict['A2'], '2456789')
@@ -195,7 +195,7 @@ class TestGame(unittest.TestCase):
         row_I = "7.3.18..."
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
-        self.game.solveSudoku()
+        self.game.solve_sudoku()
         solution = th.formatGridValuesAsOneString(self.game.grid_values)
         
         row_A = "435269781"
@@ -223,7 +223,7 @@ class TestGame(unittest.TestCase):
         row_I = "8..512..4"
         clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
         self.game = SquareSudokuGame(Factory9x9(clues))
-        self.game.solveSudoku()
+        self.game.solve_sudoku()
         solution = th.formatGridValuesAsOneString(self.game.grid_values)
 
         row_A = "152489376"

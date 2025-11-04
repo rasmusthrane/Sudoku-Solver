@@ -41,9 +41,9 @@ class TestGame(unittest.TestCase):
         self.assertListEqual(cell_names, expected_cell_names)
 
     def test_shouldHaveCorrectCandidatesAfterPlacingSomeValues(self):
-        status1 = self.game.setCellValue('A1', '1')
-        status2 = self.game.setCellValue('A2', '2')
-        status3 = self.game.setCellValue('B2', '3')
+        status1 = self.game.set_cell_value('A1', '1')
+        status2 = self.game.set_cell_value('A2', '2')
+        status3 = self.game.set_cell_value('B2', '3')
         self.assertTrue(status1 == status2 == status3 == Status.OK)
 
         grid_candidate_dict = self.game.candidate_dict
@@ -57,23 +57,23 @@ class TestGame(unittest.TestCase):
     
     def test_shouldHaveCorrectCandidatesAfterRemovingCellValue(self):
         # First place some values
-        status1 = self.game.setCellValue('A1', '1')
-        status2 = self.game.setCellValue('A4', '2')
-        status3 = self.game.setCellValue('D4', '3')
+        status1 = self.game.set_cell_value('A1', '1')
+        status2 = self.game.set_cell_value('A4', '2')
+        status3 = self.game.set_cell_value('D4', '3')
         # check everything alright
         grid_candidate_dict = self.game.candidate_dict
         self.assertTrue(status1 == status2 == status3 == Status.OK)
         self.assertEqual(grid_candidate_dict['A4'], '2')
 
         # Then remove the value from a cell
-        status4 = self.game.removeCellValue('A4')
+        status4 = self.game.remove_cell_value('A4')
         # and check that everything is still alright
         grid_candidate_dict = self.game.candidate_dict
         self.assertEqual(status4, Status.OK)
         self.assertEqual(grid_candidate_dict['A4'], '24')
 
     def test_shouldReturnStatusINVALID_CHARIfPlacingDigit9InACell(self):
-        status = self.game.setCellValue('A1', '9')
+        status = self.game.set_cell_value('A1', '9')
         self.assertEqual(status, Status.INVALID_DIGIT)
     
     def test_shouldReturnGameStateOngoingWhenTwoValidRowsArePlaced(self):
@@ -87,7 +87,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game_state, 'ongoing')
 
         # check that no violating cells are found
-        violating_cells = self.game.computeViolatingCells()
+        violating_cells = self.game.compute_violating_cells()
         self.assertListEqual(violating_cells, [])
 
     def test_shouldReturnGameStateConstraintViolationWhenAnInvalidRowIsPlacedAndGiveListOfViolatingCells(self):
@@ -98,12 +98,12 @@ class TestGame(unittest.TestCase):
         clues = row_A + row_B + row_C + row_D
         self.game = SquareSudokuGame(Factory4x4(clues))
         # Place invalid values
-        self.game.setCellValue('B1', '2')
-        self.game.setCellValue('B3', '4')
+        self.game.set_cell_value('B1', '2')
+        self.game.set_cell_value('B3', '4')
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')    
 
-        violating_cells = self.game.computeViolatingCells()
+        violating_cells = self.game.compute_violating_cells()
         self.assertListEqual(sorted(violating_cells), ['A2', 'A4', 'B1', 'B3'])   
 
     def test_shouldReturnGameStateWonWhenFourValidRowsArePlaced(self):
@@ -117,7 +117,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game_state, 'won')    
 
         # check that no violating cells are found
-        violating_cells = self.game.computeViolatingCells()
+        violating_cells = self.game.compute_violating_cells()
         self.assertListEqual(violating_cells, [])
         
 
@@ -129,13 +129,13 @@ class TestGame(unittest.TestCase):
         clues = row_A + row_B + row_C + row_D
         self.game = SquareSudokuGame(Factory4x4(clues))
         # Place an invalid row
-        self.game.setCellValue('D2', '2')
-        self.game.setCellValue('D3', '3')
-        self.game.setCellValue('D4', '4')
+        self.game.set_cell_value('D2', '2')
+        self.game.set_cell_value('D3', '3')
+        self.game.set_cell_value('D4', '4')
         game_state: GameState = self.game.game_state
         self.assertEqual(game_state, 'constraint_violation')     
 
-        violating_cells = self.game.computeViolatingCells()
+        violating_cells = self.game.compute_violating_cells()
         self.assertListEqual(sorted(violating_cells), ['A2', 'A3', 'A4', 'D1', 'D2', 'D3', 'D4'])   
 
 

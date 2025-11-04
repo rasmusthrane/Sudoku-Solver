@@ -23,47 +23,47 @@ class SquareSudokuGame(FormalGameInterface):
         self.ncells: int = len(self.cells)
 
         # Create a dict that holds all units that each cell belongs to
-        self._units: Dict[str, List[List[str]]] = self._createUnitDict()
+        self._units: Dict[str, List[List[str]]] = self._create_unit_dict()
         # Create a dict that holds all cells which shares unit with a cell
-        self._peers: Dict[str, List[str]] = self._createPeersDict()
+        self._peers: Dict[str, List[str]] = self._create_peers_dict()
 
         # Initialize grid representation
         self.initial_grid: str = sudokuBoardStrategy.initial_grid
 
         # Check if initial injected grid has a valid length
-        self._validateInitialGridLength()
+        self._validate_initial_grid_length()
         
         # Initialize grid value dict
-        self._value_dict: Dict[str, str] = self._createInitialValueDict()
+        self._value_dict: Dict[str, str] = self._create_initial_value_dict()
         
         # Check if initial injected grid uses valid characters
-        self._validateCharactersInInitialGrid()
+        self._validate_characters_in_initial_grid()
 
         # Check if initial injected grid violates any constraints
-        self._validateIfAnyConstraintsAreViolated()
+        self._validate_if_any_constraints_are_violated()
             
         # Initialize grid_candidate_dict
         self._candidate_dict: Dict[str, str] = {}
-        self._updateCandidateDict()
+        self._update_candidate_dict()
 
         # Create list of initial clues
-        self.initial_clues: List[str] = self._getCellsWithClues()
+        self.initial_clues: List[str] = self._get_cells_with_clues()
 
         # Set the game state to 'ongoing' and check if any updates have happened
         self._game_state: GameState = 'ongoing'
-        self._updateGameState()
+        self._update_game_state()
 
-    def _validateIfAnyConstraintsAreViolated(self):
-        if self._isConstraintViolated():
-            violating_cells = self.computeViolatingCells()
+    def _validate_if_any_constraints_are_violated(self):
+        if self._is_constraint_violated():
+            violating_cells = self.compute_violating_cells()
             raise ValueError(f"Initial clues violate a constraint. Violating cells are {violating_cells}")
 
-    def _validateCharactersInInitialGrid(self):
+    def _validate_characters_in_initial_grid(self):
         invalid_chars = find_invalid_characters(self.initial_grid)
         if invalid_chars:
             raise ValueError(f"Invalid characters in cells: {invalid_chars}")
 
-    def _validateInitialGridLength(self) -> None:
+    def _validate_initial_grid_length(self) -> None:
         expected_n_cells = len(self.cells)
         actual_n_cells = len(self.initial_grid)
         if actual_n_cells > expected_n_cells:
@@ -71,7 +71,7 @@ class SquareSudokuGame(FormalGameInterface):
         if actual_n_cells < expected_n_cells:
             raise ValueError(f"Too few cells. Expected {expected_n_cells} cells, got {actual_n_cells}")
 
-    def _createPeersDict(self) -> Dict[str, List[str]]:
+    def _create_peers_dict(self) -> Dict[str, List[str]]:
         peers: Dict[str, List[str]] = {}
         for c in self.cells:
             all_cells: List[str] = [] # Flattened list to hold all cells that share unit with s
@@ -81,7 +81,7 @@ class SquareSudokuGame(FormalGameInterface):
             peers[c] = peers_of_c
         return peers
 
-    def _createUnitDict(self) -> Dict[str, List[List[str]]]:
+    def _create_unit_dict(self) -> Dict[str, List[List[str]]]:
         units: Dict[str, List[List[str]]] = {}
         for c in self.cells:
             units_for_s: List[List[str]] = []  # List to hold units containing s
@@ -91,7 +91,7 @@ class SquareSudokuGame(FormalGameInterface):
             units[c] = units_for_s
         return units
 
-    def _createInitialValueDict(self) -> Dict[str, str]:
+    def _create_initial_value_dict(self) -> Dict[str, str]:
         value_dict: Dict[str, str] = {}
         for i, c in enumerate(self.cells):
             value = self.initial_grid[i]
@@ -99,7 +99,7 @@ class SquareSudokuGame(FormalGameInterface):
         
         return value_dict
     
-    def _updateCandidateDict(self) -> None:
+    def _update_candidate_dict(self) -> None:
         for cell, value in self._value_dict.items():
 
             # First check if a digit is placed
@@ -118,25 +118,25 @@ class SquareSudokuGame(FormalGameInterface):
             # create string to represent candidates
             self._candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
-    def _getCellsWithClues(self) -> List[str]:
+    def _get_cells_with_clues(self) -> List[str]:
         initial_clues: List[str] = []
         for cell, value in self._value_dict.items():
             if value != '.':
                 initial_clues.append(cell)
         return initial_clues
     
-    def _checkIfCellViolatesConstraint(self, cell:str) -> bool:
+    def _check_if_cell_violates_constraint(self, cell:str) -> bool:
         cell_value = self._value_dict[cell]
         if cell_value == GameConstants.EMPTY_CELL:
             return False
 
         return any(cell_value == self._value_dict[peer] for peer in self.peers[cell])
 
-    def _isConstraintViolated(self) -> bool:
-        return any(self._checkIfCellViolatesConstraint(cell) for cell in self.cells)
+    def _is_constraint_violated(self) -> bool:
+        return any(self._check_if_cell_violates_constraint(cell) for cell in self.cells)
 
-    def _updateGameState(self) -> None:
-        if self._isConstraintViolated():
+    def _update_game_state(self) -> None:
+        if self._is_constraint_violated():
             self._game_state: GameState = 'constraint_violation'
             return
         
@@ -148,7 +148,7 @@ class SquareSudokuGame(FormalGameInterface):
         self._game_state: GameState = 'ongoing'
         
     @override
-    def computeViolatingCells(self) -> List[str]:
+    def compute_violating_cells(self) -> List[str]:
         violating_cells: List[str] = []
         for cell, cell_value in self._value_dict.items():
             if cell_value == GameConstants.EMPTY_CELL: continue 
@@ -206,7 +206,7 @@ class SquareSudokuGame(FormalGameInterface):
         return len([cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL])
 
     @override
-    def setCellValue(self, cell:str, value:str) -> Status:
+    def set_cell_value(self, cell:str, value:str) -> Status:
         if cell in self.initial_clues:
             return Status.CANNOT_OVERWRITE_CLUE
         if cell not in self.cells:
@@ -217,21 +217,21 @@ class SquareSudokuGame(FormalGameInterface):
             return Status.INVALID_DIGIT
         
         self._value_dict[cell] = value
-        self._updateCandidateDict()
-        self._updateGameState()
+        self._update_candidate_dict()
+        self._update_game_state()
 
         return Status.OK
     
     @override
-    def removeCellValue(self, cell: str) -> Status:
-        status = self.setCellValue(cell, GameConstants.EMPTY_CELL)
+    def remove_cell_value(self, cell: str) -> Status:
+        status = self.set_cell_value(cell, GameConstants.EMPTY_CELL)
         return status
     
     @override
-    def solveSudoku(self) -> None:
-        self._placeAllHiddenSingles()        
+    def solve_sudoku(self) -> None:
+        self._place_all_hidden_singles()        
         
-    def _placeHiddenSingles(self, unit: List[str]) -> None:
+    def _place_hidden_singles(self, unit: List[str]) -> None:
         """
         Finds and places hidden singles within a given Sudoku unit (row, column, or box).
 
@@ -251,10 +251,10 @@ class SquareSudokuGame(FormalGameInterface):
         hidden_singles = [digit for digit in digit_count.keys() if digit_count[digit] == 1]
         for hidden_single in hidden_singles:
             cell_to_place_in = last_cell_to_see_digit[hidden_single]
-            self.setCellValue(cell_to_place_in, hidden_single)
+            self.set_cell_value(cell_to_place_in, hidden_single)
         
 
-    def _placeAllHiddenSingles(self) -> None:
+    def _place_all_hidden_singles(self) -> None:
         """
         Repeatedly places all hidden singles on the board. This method continues to perform passes over the board until  no new hidden singles can be placed, i.e., the board reaches a stable state  with respect to hidden singles.
         """
@@ -263,7 +263,7 @@ class SquareSudokuGame(FormalGameInterface):
             n_empty_cells_before = self.n_empty_cells
             for cell in empty_cells:
                 for unit in self.units[cell]:
-                    self._placeHiddenSingles(unit)
+                    self._place_hidden_singles(unit)
 
             n_empty_cells_after = self.n_empty_cells
             if n_empty_cells_before == n_empty_cells_after:
@@ -288,5 +288,5 @@ if __name__ == "__main__":
     clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
     game = SquareSudokuGame(Factory9x9(clues))
 
-    game.solveSudoku()
-    game.solveSudoku()
+    game.solve_sudoku()
+    game.solve_sudoku()

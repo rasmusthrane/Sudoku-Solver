@@ -7,7 +7,7 @@ from typing import Tuple, Dict, List
 class FormalGameInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def computeViolatingCells(self) -> List[str]:
+    def compute_violating_cells(self) -> List[str]:
         """
         Compute the cells that currently violate a constraint. If none are found, return an empty list.
         """
@@ -101,14 +101,14 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def setCellValue(self, cell:str, value:str) -> Status:
+    def set_cell_value(self, cell:str, value:str) -> Status:
         pass
 
     @abc.abstractmethod
-    def removeCellValue(self, cell: str) -> Status:
+    def remove_cell_value(self, cell: str) -> Status:
         pass
 
     @abc.abstractmethod
-    def solveSudoku(self) -> None:
+    def solve_sudoku(self) -> None:
         pass
 
