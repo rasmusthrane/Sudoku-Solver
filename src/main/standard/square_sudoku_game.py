@@ -6,6 +6,7 @@ from main.standard.game_constants import GameConstants
 from main.framework.gamestate import GameState
 
 from typing import Tuple, List, Dict, override
+from collections import defaultdict
 import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface):
@@ -114,6 +115,7 @@ class SquareSudokuGame(FormalGameInterface):
                     peer_value_is_candidate: bool = self._value_dict[peer_of_cell] in list_of_candidates
                     if peer_value_is_candidate:
                         list_of_candidates.remove(self._value_dict[peer_of_cell])
+                
             # create string to represent candidates
             self._candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
 
@@ -223,19 +225,52 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solveSudoku(self) -> None:
-        self._placeAllSingleCandidateDigits()
+        self._placeAllSingleCandidateDigits()              
+        self._placeAllHiddenSingles()        
         
     def _placeAllSingleCandidateDigits(self) -> None:
         while True:
             single_candidate_cells: List[str] = []
-            for cell, candidates in self._candidate_dict.items():
-                cell_value = self._value_dict[cell]
+            for cell, candidates in self.candidate_dict.items():
+                cell_value = self.value_dict[cell]
                 if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
                     single_candidate_cells.append(cell)
                     self.setCellValue(cell, candidates)
                 
             if len(single_candidate_cells) == 0:
                 break
+
+    def _placeHiddenSingles(self, unit: List[str]) -> None:
+        """
+        Finds and places hidden singles within a given Sudoku unit (row, column, or box).
+
+        A hidden single is a digit that appears as a candidate in only one empty cell
+        within the unit. This method scans all empty cells in the unit, identifies digits
+        that are candidates in exactly one cell, and sets that digit in its corresponding cell.
+        """
+        digit_count: Dict[str, int] = defaultdict(int)
+        last_cell_to_see_digit: Dict[str, str] = {}
+        for cell in unit:
+            cell_is_empty: bool = self.value_dict[cell] == GameConstants.EMPTY_CELL
+            if cell_is_empty:
+                for digit in self.candidate_dict[cell]:
+                    digit_count[digit] += 1
+                    last_cell_to_see_digit[digit] = cell 
+        
+        hidden_singles = [digit for digit in digit_count.keys() if digit_count[digit] == 1]
+        for hidden_single in hidden_singles:
+            cell_to_place_in = last_cell_to_see_digit[hidden_single]
+            game.setCellValue(cell_to_place_in, hidden_single)      
+
+    def _placeAllHiddenSingles(self) -> None:
+        """
+        Performs one pass of placing all hidden singles by checking the units of all empty cells
+        """
+
+        cells_to_investigate = [cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL]
+        for cell in cells_to_investigate:
+            for unit in self.units[cell]:
+                self._placeHiddenSingles(unit)  
 
     
 if __name__ == "__main__":
@@ -255,15 +290,9 @@ if __name__ == "__main__":
     row_I = "...3.6.9."
     clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
     game = SquareSudokuGame(Factory9x9(clues))
-    peers = game.peers['E8']
-    for peer in peers:
-        for candidate in game.candidate_dict[peer]:
-            if game.value_dict[peer] == GameConstants.EMPTY_CELL:
-                print(f"peer: {peer}, candidate: {candidate}")
 
-
-        print()
-        # sys.exit()
-    # game.solveSudoku()
-    # solution = th.formatGridValuesAsOneString(game.getGridValues())
-    # print(solution)
+    th.printSudoku(game)
+    game.solveSudoku()
+    th.printSudoku(game)
+    game.solveSudoku()
+    th.printSudoku(game)
