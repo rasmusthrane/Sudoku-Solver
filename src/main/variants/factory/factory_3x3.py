@@ -6,6 +6,6 @@ class Factory3x3(GameFactory):
     def __init__(self, clues:str = '.........') -> None:
         self.clues = clues
 
-    def createSudokuBoardStrategy(self) -> SudokuBoardStrategy:
+    def create_sudoku_board_strategy(self) -> SudokuBoardStrategy:
         return Sudoku3by3(self.clues)
     

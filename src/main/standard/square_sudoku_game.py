@@ -10,16 +10,16 @@ from collections import defaultdict
 import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface):
-    def __init__(self, gameFactory: GameFactory) -> None:
-        sudokuBoardStrategy = gameFactory.createSudokuBoardStrategy()
-        self.cols: str = sudokuBoardStrategy.cols
-        self.rows: str = sudokuBoardStrategy.rows
+    def __init__(self, game_factory: GameFactory) -> None:
+        sudoku_board_strategy = game_factory.create_sudoku_board_strategy()
+        self.cols: str = sudoku_board_strategy.cols
+        self.rows: str = sudoku_board_strategy.rows
         self.cells: List[str] = cross(self.rows, self.cols)
-        self.all_units: List[List[str]] = sudokuBoardStrategy.all_units
-        self.possible_digits: List[str] = sudokuBoardStrategy.possible_digits
+        self.all_units: List[List[str]] = sudoku_board_strategy.all_units
+        self.possible_digits: List[str] = sudoku_board_strategy.possible_digits
         self.nrows: int = len(self.rows)
         self.ncols: int = len(self.cols)
-        self.nsubgrids: int = sudokuBoardStrategy.nsubgrids
+        self.nsubgrids: int = sudoku_board_strategy.nsubgrids
         self.ncells: int = len(self.cells)
 
         # Create a dict that holds all units that each cell belongs to
@@ -28,7 +28,7 @@ class SquareSudokuGame(FormalGameInterface):
         self._peers: Dict[str, List[str]] = self._create_peers_dict()
 
         # Initialize grid representation
-        self.initial_grid: str = sudokuBoardStrategy.initial_grid
+        self.initial_grid: str = sudoku_board_strategy.initial_grid
 
         # Check if initial injected grid has a valid length
         self._validate_initial_grid_length()

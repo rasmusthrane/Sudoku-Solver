@@ -4,5 +4,5 @@ import abc
 class GameFactory(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def createSudokuBoardStrategy(self) -> SudokuBoardStrategy:
+    def create_sudoku_board_strategy(self) -> SudokuBoardStrategy:
         pass

@@ -16,6 +16,6 @@ class Factory9x9(GameFactory):
 
         self.clues = clues
 
-    def createSudokuBoardStrategy(self) -> SudokuBoardStrategy:
+    def create_sudoku_board_strategy(self) -> SudokuBoardStrategy:
         return Sudoku9x9(self.clues)
     
