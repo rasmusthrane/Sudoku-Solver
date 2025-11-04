@@ -11,8 +11,19 @@ from main.variants.factory.factory_4x4 import Factory4x4
 class TestHelper:
 
     @staticmethod
-    def printGameState(game: FormalGameInterface):
-        print("=== Game State Print ===")
+    def printSudoku(game: FormalGameInterface):
+        print("=== Sudoku Print ===")
+        sudoku = game.grid_values
+
+        for i in range(9):
+            row = sudoku[i*9:(i+1)*9]
+            for j in range(9):
+                print(row[j], end=' ')
+                if (j + 1) % 3 == 0 and j < 8:
+                    print('|', end=' ')
+            print()
+            if (i + 1) % 3 == 0 and i < 8:
+                print('-'*21)
 
     @staticmethod
     def printHighlight(any: object):
