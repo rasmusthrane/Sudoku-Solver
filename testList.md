@@ -101,4 +101,3 @@
 ### Solver
 - [Ok] Given an easy Sudoku solver should find the solution
 - [] Given an intermediate Sudoku solver should find the solution
-- [] Given a sudoku where placing a single uncovers a new single, the solver should place both digits
