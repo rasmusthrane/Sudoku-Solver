@@ -256,7 +256,9 @@ class SquareSudokuGame(FormalGameInterface):
 
     def _place_all_hidden_singles(self) -> None:
         """
-        Repeatedly places all hidden singles on the board. This method continues to perform passes over the board until  no new hidden singles can be placed, i.e., the board reaches a stable state  with respect to hidden singles.
+        Repeatedly places all hidden singles on the board. 
+        This method continues to perform passes over the board until no new hidden singles can be placed, 
+        i.e., the board reaches a stable state  with respect to hidden singles.
         """
         while True:
             empty_cells = [cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL]
