@@ -230,21 +230,8 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solveSudoku(self) -> None:
-        self._placeAllSingleCandidateDigits()              
         self._placeAllHiddenSingles()        
         
-    def _placeAllSingleCandidateDigits(self) -> None:
-        while True:
-            single_candidate_cells: List[str] = []
-            for cell, candidates in self.candidate_dict.items():
-                cell_value = self.value_dict[cell]
-                if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
-                    single_candidate_cells.append(cell)
-                    self.setCellValue(cell, candidates)
-                
-            if len(single_candidate_cells) == 0:
-                break
-
     def _placeHiddenSingles(self, unit: List[str]) -> None:
         """
         Finds and places hidden singles within a given Sudoku unit (row, column, or box).
