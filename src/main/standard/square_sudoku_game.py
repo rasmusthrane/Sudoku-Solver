@@ -110,10 +110,10 @@ class SquareSudokuGame(FormalGameInterface):
             # Then elimate all possible candidates
             else:
                 list_of_candidates = self.possible_digits.copy()
-                for peer_of_cell in self.peers[cell]:
-                    peer_value_is_candidate: bool = self._value_dict[peer_of_cell] in list_of_candidates
+                for peer in self.peers_of(cell):
+                    peer_value_is_candidate: bool = self.value_of(peer) in list_of_candidates
                     if peer_value_is_candidate:
-                        list_of_candidates.remove(self._value_dict[peer_of_cell])
+                        list_of_candidates.remove(self.value_of(peer))
                 
             # create string to represent candidates
             self._candidate_dict[cell] = "".join(str(candidate) for candidate in list_of_candidates)           
@@ -126,11 +126,11 @@ class SquareSudokuGame(FormalGameInterface):
         return initial_clues
     
     def _check_if_cell_violates_constraint(self, cell:str) -> bool:
-        cell_value = self._value_dict[cell]
+        cell_value = self.value_of(cell)
         if cell_value == GameConstants.EMPTY_CELL:
             return False
 
-        return any(cell_value == self._value_dict[peer] for peer in self.peers[cell])
+        return any(cell_value == self.value_of(peer) for peer in self.peers_of(cell))
 
     def _is_constraint_violated(self) -> bool:
         return any(self._check_if_cell_violates_constraint(cell) for cell in self.cells)
@@ -152,8 +152,8 @@ class SquareSudokuGame(FormalGameInterface):
         violating_cells: List[str] = []
         for cell, cell_value in self._value_dict.items():
             if cell_value == GameConstants.EMPTY_CELL: continue 
-            for peer in self.peers[cell]:
-                peer_value = self._value_dict[peer]
+            for peer in self.peers_of(cell):
+                peer_value = self.value_of(peer)
                 if cell_value == peer_value:
                     violating_cells.append(cell)
                     break
@@ -203,7 +203,15 @@ class SquareSudokuGame(FormalGameInterface):
     @property
     @override
     def n_empty_cells(self) -> int:
-        return len([cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL])
+        return len([cell for cell in self.cells if self.value_of(cell) == GameConstants.EMPTY_CELL])
+    
+    @override
+    def value_of(self, cell: str) -> str:
+        return self._value_dict[cell]
+    
+    @override
+    def peers_of(self, cell: str) -> List[str]:
+        return self._peers[cell]
 
     @override
     def set_cell_value(self, cell:str, value:str) -> Status:
@@ -242,7 +250,7 @@ class SquareSudokuGame(FormalGameInterface):
         digit_count: Dict[str, int] = defaultdict(int)
         last_cell_to_see_digit: Dict[str, str] = {}
         for cell in unit:
-            cell_is_empty: bool = self.value_dict[cell] == GameConstants.EMPTY_CELL
+            cell_is_empty: bool = self.value_of(cell) == GameConstants.EMPTY_CELL
             if cell_is_empty:
                 for digit in self.candidate_dict[cell]:
                     digit_count[digit] += 1
@@ -261,7 +269,7 @@ class SquareSudokuGame(FormalGameInterface):
         i.e., the board reaches a stable state  with respect to hidden singles.
         """
         while True:
-            empty_cells = [cell for cell in self.value_dict.keys() if self.value_dict[cell] == GameConstants.EMPTY_CELL]
+            empty_cells = [cell for cell in self.value_dict.keys() if self.value_of(cell) == GameConstants.EMPTY_CELL]
             n_empty_cells_before = self.n_empty_cells
             for cell in empty_cells:
                 for unit in self.units[cell]:

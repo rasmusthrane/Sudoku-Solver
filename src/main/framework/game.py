@@ -99,6 +99,14 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def n_empty_cells(self) -> int:
         pass
+    
+    @abc.abstractmethod
+    def value_of(self, cell: str) -> str:
+        pass
+
+    @abc.abstractmethod
+    def peers_of(self, cell: str) -> List[str]:
+        pass
 
     @abc.abstractmethod
     def set_cell_value(self, cell:str, value:str) -> Status:
