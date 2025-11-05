@@ -246,14 +246,13 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solve_sudoku(self) -> None:
+        self._place_all_naked_singles()
         self._place_all_hidden_singles()    
-
-
-    def _apply_hidden_pair_elimination_on_all_units(self) -> None:
+        self._apply_naked_pair_elimination_on_all_units()
         for unit in self.all_units:
-            self._apply_hidden_pair_elimination_on(unit)
+            self._apply_naked_pair_elimination_on(unit)
 
-    def _apply_hidden_pair_elimination_on(self, unit: List[str]):
+    def _apply_naked_pair_elimination_on(self, unit: List[str]):
         empty_cells = [cell for cell in unit if self.value_of(cell) == GameConstants.EMPTY_CELL]
         
         # First find all cells with two digits

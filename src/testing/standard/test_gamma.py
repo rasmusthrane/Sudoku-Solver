@@ -239,7 +239,7 @@ class TestGame(unittest.TestCase):
 
         self.assertEqual(solution, actual_solution)
 
-    def test_shouldDetectHiddenPairAndEliminateCandidates(self):
+    def test_shouldDetectNakedPairAndEliminateCandidates(self):
         row_A = "63......4"
         row_B = ".4......."
         row_C = "..29....5"
@@ -256,18 +256,25 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.candidates_of('A3'), '15789')
         self.assertEqual(self.game.candidates_of('B1'), '179')
         self.assertEqual(self.game.candidates_of('B3'), '15789')
-        self.assertEqual(self.game.candidates_of('C1'), '17') # hidden pair
-        self.assertEqual(self.game.candidates_of('C2'), '17') # hidden pair
+        self.assertEqual(self.game.candidates_of('C1'), '17') # naked pair
+        self.assertEqual(self.game.candidates_of('C2'), '17') # naked pair
 
-        # Then apply hidden pair elimination and check candidates
-        self.game._apply_hidden_pair_elimination_on(unit=['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']) # pyright: ignore[reportPrivateUsage]
+        # Then apply naked pair elimination and check candidates
+        self.game._apply_naked_pair_elimination_on(unit=['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']) # pyright: ignore[reportPrivateUsage]
         self.assertEqual(self.game.candidates_of('A3'), '589')
         self.assertEqual(self.game.candidates_of('B1'), '9')
         self.assertEqual(self.game.candidates_of('B3'), '589')
         self.assertEqual(self.game.candidates_of('C1'), '17') 
         self.assertEqual(self.game.candidates_of('C2'), '17') 
 
-    def test_shouldNotElimateCandidatesIfNotAHiddenPair(self):
+        # At this point the cell should still be empty
+        self.assertEqual(self.game.value_of('B1'), GameConstants.EMPTY_CELL)
+
+
+        self.game._place_all_naked_singles() # pyright: ignore[reportPrivateUsage]
+        self.assertEqual(self.game.value_of('B1'), '9')
+
+    def test_shouldNotElimateCandidatesIfNotANakedPair(self):
         row_A = "63......4"
         row_B = ".4......."
         row_C = "..29....5"
@@ -289,7 +296,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.candidates_of('I5'), '24579') 
 
         # Then check what we get wen eliminating the unit
-        self.game._apply_hidden_pair_elimination_on(unit=['G4', 'G5', 'G6', 'H4', 'H5', 'H6', 'I4', 'I5', 'I6']) # pyright: ignore[reportPrivateUsage]
+        self.game._apply_naked_pair_elimination_on(unit=['G4', 'G5', 'G6', 'H4', 'H5', 'H6', 'I4', 'I5', 'I6']) # pyright: ignore[reportPrivateUsage]
         self.assertEqual(self.game.candidates_of('G4'), '5')
         self.assertEqual(self.game.candidates_of('G6'), '59') # should still have value 59
         self.assertEqual(self.game.candidates_of('H5'), '2479')
