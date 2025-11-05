@@ -99,6 +99,11 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def n_empty_cells(self) -> int:
         pass
+
+    @property
+    @abc.abstractmethod
+    def empty_cells(self) -> List[str]:
+        pass
     
     @abc.abstractmethod
     def value_of(self, cell: str) -> str:

@@ -203,7 +203,12 @@ class SquareSudokuGame(FormalGameInterface):
     @property
     @override
     def n_empty_cells(self) -> int:
-        return len([cell for cell in self.cells if self.value_of(cell) == GameConstants.EMPTY_CELL])
+        return len(self.empty_cells)
+    
+    @property
+    @override
+    def empty_cells(self) -> List[str]:
+        return [cell for cell in self.cells if self.value_of(cell) == GameConstants.EMPTY_CELL]
     
     @override
     def value_of(self, cell: str) -> str:
