@@ -239,7 +239,33 @@ class TestGame(unittest.TestCase):
 
         self.assertEqual(solution, actual_solution)
 
+    def test_shouldDetectHiddenPairAndEliminateCandidates(self):
+        row_A = "63......4"
+        row_B = ".4......."
+        row_C = "..29....5"
+        row_D = ".9......."
+        row_E = "...2..36."
+        row_F = "8...6..5."
+        row_G = ".64.8..27"
+        row_H = "58.3....."
+        row_I = ".....1..." 
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
 
+        # First check if candidates are correct before eliminating some candidates
+        self.assertEqual(self.game.candidates_of('A3'), '15789')
+        self.assertEqual(self.game.candidates_of('B1'), '179')
+        self.assertEqual(self.game.candidates_of('B3'), '15789')
+        self.assertEqual(self.game.candidates_of('C1'), '17') # hidden pair
+        self.assertEqual(self.game.candidates_of('C2'), '17') # hidden pair
+
+        # Then apply hidden pair elimination and check candidates
+        self.game._apply_hidden_pair_elimination_on(unit=['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']) # pyright: ignore[reportPrivateUsage]
+        self.assertEqual(self.game.candidates_of('A3'), '589')
+        self.assertEqual(self.game.candidates_of('B1'), '9')
+        self.assertEqual(self.game.candidates_of('B3'), '589')
+        self.assertEqual(self.game.candidates_of('C1'), '17') 
+        self.assertEqual(self.game.candidates_of('C2'), '17') 
 
 if __name__ == "__main__":
     unittest.main()

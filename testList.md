@@ -101,3 +101,4 @@
 ### Solver
 - [Ok] Given an easy Sudoku solver should find the solution
 - [] Given an intermediate Sudoku solver should find the solution
+- [Ok] Given a sudoku solver should be able to apply `hidden pairs` technique to elimate candidates

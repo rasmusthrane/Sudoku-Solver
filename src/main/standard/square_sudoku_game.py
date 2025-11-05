@@ -241,7 +241,36 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solve_sudoku(self) -> None:
-        self._place_all_hidden_singles()        
+        self._place_all_hidden_singles()    
+
+
+    def _apply_hidden_pair_elimination_on_all_units(self) -> None:
+        for unit in self.all_units:
+            self._apply_hidden_pair_elimination_on(unit)
+
+    def _apply_hidden_pair_elimination_on(self, unit: List[str]):
+
+        cells_with_candidate_pair: List[str] = []
+        pair_candidates_count: Dict[str, int] = defaultdict(int)
+        for cell in unit:
+            cell_is_empty: bool = self.value_of(cell) == GameConstants.EMPTY_CELL
+            if cell_is_empty:
+                candidates = self.candidates_of(cell)
+                if len(candidates) == 2:
+                    pair_candidates_count[candidates] += 1   
+                    cells_with_candidate_pair.append(cell)
+        
+        for cell in unit:
+            cell_is_empty: bool = self.value_of(cell) == GameConstants.EMPTY_CELL
+            if cell_is_empty:
+                if cell not in cells_with_candidate_pair:
+                    candidates = self.candidates_of(cell)
+                    for pair in pair_candidates_count.keys():
+                        for pair_candidate in pair:
+                            candidates = candidates.replace(pair_candidate, '')
+                        
+                        self._candidate_dict[cell] = candidates
+                        
         
     def _place_hidden_singles(self, unit: List[str]) -> None:
         """
