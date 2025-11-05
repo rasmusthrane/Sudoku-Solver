@@ -254,28 +254,28 @@ class SquareSudokuGame(FormalGameInterface):
             self._apply_hidden_pair_elimination_on(unit)
 
     def _apply_hidden_pair_elimination_on(self, unit: List[str]):
-
-        cells_with_candidate_pair: List[str] = []
-        pair_candidates_count: Dict[str, int] = defaultdict(int)
-        for cell in unit:
-            cell_is_empty: bool = self.value_of(cell) == GameConstants.EMPTY_CELL
-            if cell_is_empty:
-                candidates = self.candidates_of(cell)
-                if len(candidates) == 2:
-                    pair_candidates_count[candidates] += 1   
-                    cells_with_candidate_pair.append(cell)
+        empty_cells = [cell for cell in unit if self.value_of(cell) == GameConstants.EMPTY_CELL]
         
-        for cell in unit:
-            cell_is_empty: bool = self.value_of(cell) == GameConstants.EMPTY_CELL
-            if cell_is_empty:
-                if cell not in cells_with_candidate_pair:
-                    candidates = self.candidates_of(cell)
-                    for pair, count in pair_candidates_count.items():
-                        if count > 1:
-                            for pair_candidate in pair:
-                                candidates = candidates.replace(pair_candidate, '')
-                            
-                            self._candidate_dict[cell] = candidates
+        # First find all cells with two digits
+        cells_with_two_digits: List[str] = []
+        double_digit_count: Dict[str, int] = defaultdict(int)
+
+        for cell in empty_cells:
+            candidates = self.candidates_of(cell)
+            if len(candidates) == 2:
+                double_digit_count[candidates] += 1   
+                cells_with_two_digits.append(cell)
+        
+        # Then check if any pairs are found and if so eliminate all other candidates that share values with the pair
+        for cell in empty_cells:
+            if cell not in cells_with_two_digits:
+                candidates = self.candidates_of(cell)
+                for pair_candidate, count in double_digit_count.items():
+                    if count > 1:
+                        for digit in pair_candidate:
+                            candidates = candidates.replace(digit, '')
+                        
+                        self._candidate_dict[cell] = candidates
                         
         
     def _place_hidden_singles(self, unit: List[str]) -> None:
