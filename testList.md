@@ -102,3 +102,4 @@
 - [Ok] Given an easy Sudoku solver should find the solution
 - [] Given an intermediate Sudoku solver should find the solution
 - [Ok] Given a sudoku solver should be able to apply `hidden pairs` technique to elimate candidates
+- [Ok] Given a sudoku solver should not eliminate candidates if it is looking at a candidate of two digits (so not a pair)

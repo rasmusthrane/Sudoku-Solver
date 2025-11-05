@@ -267,5 +267,35 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.candidates_of('C1'), '17') 
         self.assertEqual(self.game.candidates_of('C2'), '17') 
 
+    def test_shouldNotElimateCandidatesIfNotAHiddenPair(self):
+        row_A = "63......4"
+        row_B = ".4......."
+        row_C = "..29....5"
+        row_D = ".9......."
+        row_E = "...2..36."
+        row_F = "8...6..5."
+        row_G = ".64.8..27"
+        row_H = "58.3....."
+        row_I = ".....1..." 
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+
+        # First check if candidates are correct
+        self.assertEqual(self.game.candidates_of('G4'), '5')
+        self.assertEqual(self.game.candidates_of('G6'), '59') # not a pair, just a candidate with two digits
+        self.assertEqual(self.game.candidates_of('H5'), '2479')
+        self.assertEqual(self.game.candidates_of('H6'), '24679') 
+        self.assertEqual(self.game.candidates_of('I4'), '4567') 
+        self.assertEqual(self.game.candidates_of('I5'), '24579') 
+
+        # Then check what we get wen eliminating the unit
+        self.game._apply_hidden_pair_elimination_on(unit=['G4', 'G5', 'G6', 'H4', 'H5', 'H6', 'I4', 'I5', 'I6']) # pyright: ignore[reportPrivateUsage]
+        self.assertEqual(self.game.candidates_of('G4'), '5')
+        self.assertEqual(self.game.candidates_of('G6'), '59') # should still have value 59
+        self.assertEqual(self.game.candidates_of('H5'), '2479')
+        self.assertEqual(self.game.candidates_of('H6'), '24679') 
+        self.assertEqual(self.game.candidates_of('I4'), '4567') 
+        self.assertEqual(self.game.candidates_of('I5'), '24579') 
+
 if __name__ == "__main__":
     unittest.main()

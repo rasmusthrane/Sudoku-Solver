@@ -265,11 +265,12 @@ class SquareSudokuGame(FormalGameInterface):
             if cell_is_empty:
                 if cell not in cells_with_candidate_pair:
                     candidates = self.candidates_of(cell)
-                    for pair in pair_candidates_count.keys():
-                        for pair_candidate in pair:
-                            candidates = candidates.replace(pair_candidate, '')
-                        
-                        self._candidate_dict[cell] = candidates
+                    for pair, count in pair_candidates_count.items():
+                        if count > 1:
+                            for pair_candidate in pair:
+                                candidates = candidates.replace(pair_candidate, '')
+                            
+                            self._candidate_dict[cell] = candidates
                         
         
     def _place_hidden_singles(self, unit: List[str]) -> None:
@@ -317,17 +318,24 @@ if __name__ == "__main__":
     from main.variants.factory.factory_9x9 import Factory9x9 #type:ignore
     from testing.utility.TestHelper import TestHelper as th  #type:ignore
 
-    row_A = ".2.6.8..."
-    row_B = "58...97.."
-    row_C = "....4...."
-    row_D = "37....5.."
-    row_E = "6.......4"
-    row_F = "..8....13"
-    row_G = "....2...."
-    row_H = "..98...36"
-    row_I = "...3.6.9."
+    row_A = "63......4"
+    row_B = ".4......."
+    row_C = "..29....5"
+    row_D = ".9......."
+    row_E = "...2..36."
+    row_F = "8...6..5."
+    row_G = ".64.8..27"
+    row_H = "58.3....."
+    row_I = ".....1..." 
     clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
     game = SquareSudokuGame(Factory9x9(clues))
 
-    game.solve_sudoku()
-    game.solve_sudoku()
+    game._apply_hidden_pair_elimination_on(unit=['G4', 'G5', 'G6', 'H4', 'H5', 'H6', 'I4', 'I5', 'I6']) # pyright: ignore[reportPrivateUsage]
+
+    print(game.candidates_of('G4'))
+    print(game.candidates_of('G6')) # not a pair, just a candidate with two digits
+    print(game.candidates_of('H5'))
+    print(game.candidates_of('H6')) 
+    print(game.candidates_of('I4')) 
+    print(game.candidates_of('I5')) 
+
