@@ -114,9 +114,9 @@ class TestGame(unittest.TestCase):
         status3 = self.game.set_cell_value('C6', '9')
         self.assertTrue(status1 == status2 == status3 == Status.OK)
 
-        self.assertEqual(self.game.candidate_dict['A2'], '2456789')
-        self.assertEqual(self.game.candidate_dict['B5'], '145678')
-        self.assertEqual(self.game.candidate_dict['D9'], '123456789')
+        self.assertEqual(self.game.candidates_of('A2'), '2456789')
+        self.assertEqual(self.game.candidates_of('B5'), '145678')
+        self.assertEqual(self.game.candidates_of('D9'), '123456789')
 
     def test_shouldRaiseErrorWithInvalidClues(self):
         row_A = ".....!..."

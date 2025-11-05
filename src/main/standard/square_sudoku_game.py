@@ -212,6 +212,10 @@ class SquareSudokuGame(FormalGameInterface):
     @override
     def peers_of(self, cell: str) -> List[str]:
         return self._peers[cell]
+    
+    @override
+    def candidates_of(self, cell: str) -> str:
+        return self._candidate_dict[cell]
 
     @override
     def set_cell_value(self, cell:str, value:str) -> Status:
@@ -252,7 +256,7 @@ class SquareSudokuGame(FormalGameInterface):
         for cell in unit:
             cell_is_empty: bool = self.value_of(cell) == GameConstants.EMPTY_CELL
             if cell_is_empty:
-                for digit in self.candidate_dict[cell]:
+                for digit in self.candidates_of(cell):
                     digit_count[digit] += 1
                     last_cell_to_see_digit[digit] = cell 
         

@@ -109,6 +109,10 @@ class FormalGameInterface(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def candidates_of(self, cell: str) -> str:
+        pass
+
+    @abc.abstractmethod
     def set_cell_value(self, cell:str, value:str) -> Status:
         pass
 

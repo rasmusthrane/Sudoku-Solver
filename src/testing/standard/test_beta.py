@@ -45,15 +45,13 @@ class TestGame(unittest.TestCase):
         status2 = self.game.set_cell_value('A2', '2')
         status3 = self.game.set_cell_value('B2', '3')
         self.assertTrue(status1 == status2 == status3 == Status.OK)
-
-        grid_candidate_dict = self.game.candidate_dict
         
-        self.assertEqual(grid_candidate_dict['B1'], '4')
-        self.assertEqual(grid_candidate_dict['A3'], '34')
-        self.assertEqual(grid_candidate_dict['A4'], '34')
-        self.assertEqual(grid_candidate_dict['B3'], '124')
-        self.assertEqual(grid_candidate_dict['B4'], '124')
-        self.assertEqual(grid_candidate_dict['D3'], '1234')
+        self.assertEqual(self.game.candidates_of('B1'), '4')
+        self.assertEqual(self.game.candidates_of('A3'), '34')
+        self.assertEqual(self.game.candidates_of('A4'), '34')
+        self.assertEqual(self.game.candidates_of('B3'), '124')
+        self.assertEqual(self.game.candidates_of('B4'), '124')
+        self.assertEqual(self.game.candidates_of('D3'), '1234')
     
     def test_shouldHaveCorrectCandidatesAfterRemovingCellValue(self):
         # First place some values
@@ -61,16 +59,14 @@ class TestGame(unittest.TestCase):
         status2 = self.game.set_cell_value('A4', '2')
         status3 = self.game.set_cell_value('D4', '3')
         # check everything alright
-        grid_candidate_dict = self.game.candidate_dict
         self.assertTrue(status1 == status2 == status3 == Status.OK)
-        self.assertEqual(grid_candidate_dict['A4'], '2')
+        self.assertEqual(self.game.candidates_of('A4'), '2')
 
         # Then remove the value from a cell
         status4 = self.game.remove_cell_value('A4')
         # and check that everything is still alright
-        grid_candidate_dict = self.game.candidate_dict
         self.assertEqual(status4, Status.OK)
-        self.assertEqual(grid_candidate_dict['A4'], '24')
+        self.assertEqual(self.game.candidates_of('A4'), '24')
 
     def test_shouldReturnStatusINVALID_CHARIfPlacingDigit9InACell(self):
         status = self.game.set_cell_value('A1', '9')
