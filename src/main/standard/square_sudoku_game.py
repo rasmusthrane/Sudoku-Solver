@@ -10,7 +10,7 @@ from collections import defaultdict
 import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface):
-    def __init__(self, game_factory: GameFactory) -> None:
+    def __init__(self, game_factory: GameFactory):
         sudoku_board_strategy = game_factory.create_sudoku_board_strategy()
         self.cols: str = sudoku_board_strategy.cols
         self.rows: str = sudoku_board_strategy.rows
@@ -246,36 +246,70 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solve_sudoku(self) -> None:
-        self._place_all_naked_singles()
-        self._place_all_hidden_singles()    
-        self._apply_naked_pair_elimination_on_all_units()
+
+        # First exhaust basic operations
+        while True:
+            before = self.n_empty_cells
+
+            self._place_all_naked_singles()
+            self._place_all_hidden_singles()    
+            self._apply_naked_pair_elimination_on_all_units()
+
+            after = self.n_empty_cells
+
+            if after >= before:
+                break
+        
+
+
+    def _place_all_naked_singles(self) -> None:
+        while True:
+            single_candidate_cells: List[str] = []
+            for cell, candidates in self.candidate_dict.items():
+                cell_value = self.value_of(cell)
+                if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
+                    single_candidate_cells.append(cell)
+                    self.set_cell_value(cell, candidates)
+                
+            if len(single_candidate_cells) == 0:
+                break
+
+
+    def _apply_naked_pair_elimination_on_all_units(self) -> None:
         for unit in self.all_units:
             self._apply_naked_pair_elimination_on(unit)
 
     def _apply_naked_pair_elimination_on(self, unit: List[str]):
         empty_cells = [cell for cell in unit if self.value_of(cell) == GameConstants.EMPTY_CELL]
         
-        # First find all cells with two digits
-        cells_with_two_digits: List[str] = []
-        double_digit_count: Dict[str, int] = defaultdict(int)
-
+        # Map two digit candidates to cells that hold these
+        two_digit_candidates_to_cells: Dict[str, List[str]] = defaultdict(list)
         for cell in empty_cells:
             candidates = self.candidates_of(cell)
             if len(candidates) == 2:
-                double_digit_count[candidates] += 1   
-                cells_with_two_digits.append(cell)
+                two_digit_candidates_to_cells[candidates].append(cell)
         
-        # Then check if any pairs are found and if so eliminate all other candidates that share values with the pair
+        # find naked pairs (if any)
+        naked_pairs_cells: List[List[str]] = []
+        for candidates, cells in two_digit_candidates_to_cells.items():
+            if len(cells) == 2:
+                naked_pairs_cells.append(cells)
+
+        if not naked_pairs_cells:
+            return 
+        
+        # Eliminate all other candidates that share values with a naked pair
+        all_cells_with_naked_pairs = [cell for pair in naked_pairs_cells for cell in pair ]
         for cell in empty_cells:
-            if cell not in cells_with_two_digits:
+            if cell not in all_cells_with_naked_pairs:
                 candidates = self.candidates_of(cell)
-                for pair_candidate, count in double_digit_count.items():
-                    if count > 1:
-                        for digit in pair_candidate:
-                            candidates = candidates.replace(digit, '')
+                for np in naked_pairs_cells:
+                    naked_pair_cell = np[0]
+                    for digit in self.candidates_of(naked_pair_cell):
+                        candidates = candidates.replace(digit, '')
                         
-                        self._candidate_dict[cell] = candidates
-                        
+                self._candidate_dict[cell] = candidates
+                    
         
     def _place_hidden_singles(self, unit: List[str]) -> None:
         """
