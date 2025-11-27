@@ -274,10 +274,43 @@ class SquareSudokuGame(FormalGameInterface):
             if len(single_candidate_cells) == 0:
                 break
 
+    def _apply_naked_subset_elimination_on(self, unit: List[str]) -> None:
+        """
+        Detects naked subsets and eliminates candidates within a given Sudoku unit (row, column, or box).
 
-    def _apply_naked_pair_elimination_on_all_units(self) -> None:
+        A naked subset of size *k* occurs when exactly *k* cells in the unit collectively
+        contain only *k* distinct candidates. These *k* values must belong exclusively to
+        those cells, so they can be removed as candidates from all other cells in the unit.
+
+        Only *k*=3 and *k*=4 is considered as pairs (*k*=2) are handled seperatly 
+
+        Note:
+            Cells in the subset may have fewer than *k* candidates, but none may have
+            more than *k* candidates, and the union of their candidates must be of size *k*.
+
+        """
+        empty_cells = [cell for cell in unit if self.value_of(cell) == GameConstants.EMPTY_CELL]
+
+        for k in range(3, 5):
+            for cell_combination in combinations(empty_cells, k):
+                cover: Set[str] = set(digit for cell in cell_combination for digit in self.candidates_of(cell))
+
+                # found a naked subset of size k, elimate from all other cells
+                if len(cover) == k:
+                    other_cells = [cell for cell in empty_cells if cell not in cell_combination]
+                    for other_cell in other_cells:
+                        candidates = self.candidates_of(other_cell)
+                        for digit in cover:
+                            candidates = candidates.replace(digit, '')
+
+                        self._candidate_dict[other_cell] = candidates
+
+    def _apply_naked_subset_elimination_on_all_units(self) -> None:
+        """
+        Detects naked subsets and eliminates candidates for all units. 
+        """
         for unit in self.all_units:
-            self._apply_naked_pair_elimination_on(unit)
+            self._apply_naked_subset_elimination_on(unit)
 
     def _apply_naked_pair_elimination_on(self, unit: List[str]):
         empty_cells = [cell for cell in unit if self.value_of(cell) == GameConstants.EMPTY_CELL]
