@@ -267,12 +267,9 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.candidates_of('C1'), '17') 
         self.assertEqual(self.game.candidates_of('C2'), '17') 
 
-        # At this point the cell should still be empty
+        # At this point the cell should still be empty as we are only eliminating candidates
         self.assertEqual(self.game.value_of('B1'), GameConstants.EMPTY_CELL)
 
-
-        self.game._place_all_naked_singles() # pyright: ignore[reportPrivateUsage]
-        self.assertEqual(self.game.value_of('B1'), '9')
 
     def test_shouldNotElimateCandidatesIfNotANakedPair(self):
         row_A = "63......4"
@@ -303,6 +300,63 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.game.candidates_of('H6'), '24679') 
         self.assertEqual(self.game.candidates_of('I4'), '4567') 
         self.assertEqual(self.game.candidates_of('I5'), '24579') 
+
+    def test_shouldSolveIntermediateSudoku1(self):
+        row_A = ".2.6.8..."
+        row_B = "58...97.."
+        row_C = "....4...."
+        row_D = "37....5.."
+        row_E = "6.......4"
+        row_F = "..8....13"
+        row_G = "....2...."
+        row_H = "..98...36"
+        row_I = "...3.6.9."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        self.game.solve_sudoku()
+        solution = th.formatGridValuesAsOneString(self.game.grid_values)
+
+        row_A = "123678945"
+        row_B = "584239761"
+        row_C = "967145328"
+        row_D = "372461589"
+        row_E = "691583274"
+        row_F = "458792613"
+        row_G = "836924157"
+        row_H = "219857436"
+        row_I = "745316892"
+        actual_solution = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        self.assertEqual(solution, actual_solution)
+
+    def test_shouldSolveIntermediateSudoku2(self):
+        row_A = ".....4..."
+        row_B = "...17.6.."
+        row_C = "48.3561.."
+        row_D = "..4..75.."
+        row_E = "....1.7.."
+        row_F = "5...2..34"
+        row_G = "95......6"
+        row_H = "12......8"
+        row_I = "........." 
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        self.game = SquareSudokuGame(Factory9x9(clues))
+        self.game.solve_sudoku()
+        solution = th.formatGridValuesAsOneString(self.game.grid_values)
+
+        row_A = "615294387"
+        row_B = "392178645"
+        row_C = "487356129"
+        row_D = "264837591"
+        row_E = "839415762"
+        row_F = "571629834"
+        row_G = "953782416"
+        row_H = "126543978"
+        row_I = "748961253" 
+
+        actual_solution = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+
+        self.assertEqual(solution, actual_solution)
 
 if __name__ == "__main__":
     unittest.main()
