@@ -5,8 +5,9 @@ from main.variants.factory.game_factory import GameFactory
 from main.standard.game_constants import GameConstants
 from main.framework.gamestate import GameState
 
-from typing import Tuple, List, Dict, override
+from typing import Set, Tuple, List, Dict, override
 from collections import defaultdict
+from itertools import combinations
 import sys #type:ignore
 
 class SquareSudokuGame(FormalGameInterface):
@@ -246,32 +247,34 @@ class SquareSudokuGame(FormalGameInterface):
     
     @override
     def solve_sudoku(self) -> None:
+        while True:
+            before = self.n_empty_cells
+            self._try_basic_methods_for_solving()
+            if self.n_empty_cells == 0:
+                break
+            
+            self._apply_naked_subset_elimination_on_all_units()
+            self._place_all_hidden_singles()    
 
-        # First exhaust basic operations
+            after = self.n_empty_cells
+            if after == before or after == 0:
+                break
+
+    def _try_basic_methods_for_solving(self):
+        self._place_all_hidden_singles()    
+
+        if self.n_empty_cells == 0:
+            return
+
         while True:
             before = self.n_empty_cells
 
-            self._place_all_naked_singles()
-            self._place_all_hidden_singles()    
             self._apply_naked_pair_elimination_on_all_units()
+            self._place_all_hidden_singles()    
 
             after = self.n_empty_cells
 
-            if after >= before:
-                break
-        
-
-
-    def _place_all_naked_singles(self) -> None:
-        while True:
-            single_candidate_cells: List[str] = []
-            for cell, candidates in self.candidate_dict.items():
-                cell_value = self.value_of(cell)
-                if cell_value == GameConstants.EMPTY_CELL and len(candidates) == 1:
-                    single_candidate_cells.append(cell)
-                    self.set_cell_value(cell, candidates)
-                
-            if len(single_candidate_cells) == 0:
+            if after == before or after == 0:
                 break
 
     def _apply_naked_subset_elimination_on(self, unit: List[str]) -> None:
@@ -313,9 +316,14 @@ class SquareSudokuGame(FormalGameInterface):
             self._apply_naked_subset_elimination_on(unit)
 
     def _apply_naked_pair_elimination_on(self, unit: List[str]):
+        """
+        Detects naked pairs and eliminates candidates within a given Sudoku unit (row, column, or box).
+
+        A naked pair is two cells that only have the exact same two candidates left.
+        """
         empty_cells = [cell for cell in unit if self.value_of(cell) == GameConstants.EMPTY_CELL]
         
-        # Map two digit candidates to cells that hold these
+        # Map two-digit candidates to cells that hold these
         two_digit_candidates_to_cells: Dict[str, List[str]] = defaultdict(list)
         for cell in empty_cells:
             candidates = self.candidates_of(cell)
@@ -342,15 +350,19 @@ class SquareSudokuGame(FormalGameInterface):
                         candidates = candidates.replace(digit, '')
                         
                 self._candidate_dict[cell] = candidates
-                    
-        
-    def _place_hidden_singles(self, unit: List[str]) -> None:
+
+    def _apply_naked_pair_elimination_on_all_units(self) -> None:
+        """
+        Detects naked pairs and eliminates candidates for all units. 
+        """
+        for unit in self.all_units:
+            self._apply_naked_pair_elimination_on(unit)
+                            
+    def _place_hidden_singles_in(self, unit: List[str]) -> None:
         """
         Finds and places hidden singles within a given Sudoku unit (row, column, or box).
 
-        A hidden single is a digit that appears as a candidate in only one empty cell
-        within the unit. This method scans all empty cells in the unit, identifies digits
-        that are candidates in exactly one cell, and sets that digit in its corresponding cell.
+        A hidden single is a digit that can only be placed in one cell for a given unit
         """
         digit_count: Dict[str, int] = defaultdict(int)
         last_cell_to_see_digit: Dict[str, str] = {}
@@ -365,21 +377,18 @@ class SquareSudokuGame(FormalGameInterface):
         for hidden_single in hidden_singles:
             cell_to_place_in = last_cell_to_see_digit[hidden_single]
             self.set_cell_value(cell_to_place_in, hidden_single)
-        
 
     def _place_all_hidden_singles(self) -> None:
         """
-        Repeatedly places all hidden singles on the board by looking at all units. 
-        This method continues to perform passes over the board until no new hidden singles can be placed, 
-        i.e., the board reaches a stable state  with respect to hidden singles.
+        Repeatedly places hidden singles (if any) on the board by looking at all units.
         """
         while True:
-            n_empty_cells_before = self.n_empty_cells
+            before = self.n_empty_cells
             for unit in self.all_units:
-                self._place_hidden_singles(unit)
+                self._place_hidden_singles_in(unit)
 
-            n_empty_cells_after = self.n_empty_cells
-            if n_empty_cells_before == n_empty_cells_after:
+            after = self.n_empty_cells
+            if before == after or after == 0:
                 break
 
     
@@ -389,24 +398,20 @@ if __name__ == "__main__":
     from main.variants.factory.factory_9x9 import Factory9x9 #type:ignore
     from testing.utility.TestHelper import TestHelper as th  #type:ignore
 
-    row_A = "63......4"
-    row_B = ".4......."
-    row_C = "..29....5"
-    row_D = ".9......."
-    row_E = "...2..36."
-    row_F = "8...6..5."
-    row_G = ".64.8..27"
-    row_H = "58.3....."
-    row_I = ".....1..." 
+    row_A = "...29438."
+    row_B = "...17864."
+    row_C = "48.3561.."
+    row_D = "..48375.1"
+    row_E = "...4157.."
+    row_F = "5..629834"
+    row_G = "953782416"
+    row_H = "126543978"
+    row_I = ".4.961253"
     clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
     game = SquareSudokuGame(Factory9x9(clues))
-
-    game._apply_hidden_pair_elimination_on(unit=['G4', 'G5', 'G6', 'H4', 'H5', 'H6', 'I4', 'I5', 'I6']) # pyright: ignore[reportPrivateUsage]
-
-    print(game.candidates_of('G4'))
-    print(game.candidates_of('G6')) # not a pair, just a candidate with two digits
-    print(game.candidates_of('H5'))
-    print(game.candidates_of('H6')) 
-    print(game.candidates_of('I4')) 
-    print(game.candidates_of('I5')) 
+    unit = ['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2']
+    game.solve_sudoku()
+    #game._apply_naked_pair_elimination_on(['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9'])
+    # for cell in game.empty_cells:
+    #      print(game.candidates_of(cell))
 
