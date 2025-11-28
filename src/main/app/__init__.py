@@ -5,8 +5,6 @@ from main.standard.game_constants import GameConstants
 from main.variants.factory.factory_9x9 import Factory9x9
 
 from flask import Flask, json, jsonify, render_template, request
-from math import sqrt
-
 
 def create_app(game: SquareSudokuGame | None = None) -> Flask:
     app = Flask(__name__)
@@ -29,13 +27,12 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
     def index(): # type: ignore
         return render_template("template.html", 
                                value_dict=game.value_dict, 
+                               initial_clues=game.initial_clues,
+                               possible_digits=json.dumps(game.possible_digits),
                                row_letters=game.rows, 
                                col_numbers=game.cols,
-                               n_subgrids=game.nsubgrids,
-                               n=int(sqrt(game.nsubgrids)),
-                               EMPTY_CELL=GameConstants.EMPTY_CELL,
-                               possible_digits=json.dumps(game.possible_digits),
-                               initial_clues=game.initial_clues)
+                               EMPTY_CELL=GameConstants.EMPTY_CELL
+                               )
     
     @app.route('/update_cell', methods=['POST'])
     def update_cell(): #type: ignore
