@@ -25,8 +25,8 @@ table {
     background-color: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
+
 /* Define style of table data cells*/
-    
 td {
     width: 50px;
     height: 50px;
@@ -61,12 +61,17 @@ td:focus {
 }
 
 td[contenteditable="true"] {
-    cursor: text;
+    cursor: default;
+    caret-color: transparent;
 }
 
 .initial-clue {
-    background-color: #b0aeae;
-    color: black;
+    color: black;      /* ensure digit is visible */
+}
+
+/* All input digits*/
+td:not(.initial-clue) {
+    color: #0077cc; /* nice blue color for user input */
 }
 
 

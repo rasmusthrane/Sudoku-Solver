@@ -4,7 +4,7 @@ from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants
 from main.variants.factory.factory_9x9 import Factory9x9
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, json, jsonify, render_template, request
 from math import sqrt
 
 
@@ -34,7 +34,7 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
                                n_subgrids=game.nsubgrids,
                                n=int(sqrt(game.nsubgrids)),
                                EMPTY_CELL=GameConstants.EMPTY_CELL,
-                               possible_digits=game.possible_digits,
+                               possible_digits=json.dumps(game.possible_digits),
                                initial_clues=game.initial_clues)
     
     @app.route('/update_cell', methods=['POST'])
