@@ -1,0 +1,26 @@
+<table>
+    {% for row_letter in row_letters %}
+    <tr>
+    {% for col_number in col_numbers %}
+        {% set cell = row_letter + col_number %}
+        {% set cell_value = value_dict[cell] %}
+        <td 
+        id="{{cell}}"
+        onkeydown=" 
+        const allowedKeys = ['Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Tab'];
+        if (allowedKeys.includes(event.key)) return true;  // allow editing keys
+        if (/[{{ possible_digits | join('') }}]/.test(event.key)) {
+            this.innerText = ''; // clear existing content
+            return true
+        }
+        return false
+        "
+        onblur="updateCell('{{cell}}', this.innerText.trim(), '{{violating_cells}}')"
+        contenteditable="{{'false' if cell in initial_clues else 'true'}}"
+        class="{% if cell in initial_clues %}initial-clue{% endif %}"
+        >
+        {{cell_value if cell_value != EMPTY_CELL else ''}}</td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+</table>

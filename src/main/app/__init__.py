@@ -1,11 +1,11 @@
+from typing import Dict
+from main.framework.status import Status
 from main.standard.square_sudoku_game import SquareSudokuGame
 from main.standard.game_constants import GameConstants
-from main.framework.status import Status
-from main.variants.factory.factory_4x4 import Factory4x4
+from main.variants.factory.factory_9x9 import Factory9x9
 
-from flask import Flask, render_template, request, jsonify
-
-from typing import Dict
+from flask import Flask, jsonify, render_template, request
+from math import sqrt
 
 
 def create_app(game: SquareSudokuGame | None = None) -> Flask:
@@ -13,23 +13,30 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
 
     # Default behaviour if no clues are injected
     if game is None:
-        game = SquareSudokuGame(Factory4x4(clues='1...............'))
-    #app.config['game'] = game         
-
-    value_dict = game.value_dict
-    @app.route('/hello')
-    def hello(): # type: ignore
-        return f'Hello, World! And the game state is: {game.initial_grid}'
+        row_A = "...26.7.1"
+        row_B = "68..7..9."
+        row_C = "19...45.."
+        row_D = "82.1...4."
+        row_E = "..46.29.."
+        row_F = ".5...3.28"
+        row_G = "..93...74"
+        row_H = ".4..5..36"
+        row_I = "7.3.18..."
+        clues = row_A + row_B + row_C + row_D + row_E + row_F + row_G + row_H + row_I
+        game = SquareSudokuGame(Factory9x9(clues=clues))      
     
     @app.route('/')
     def index(): # type: ignore
         return render_template("template.html", 
-                               value_dict=value_dict, 
+                               value_dict=game.value_dict, 
                                row_letters=game.rows, 
                                col_numbers=game.cols,
+                               n_subgrids=game.nsubgrids,
+                               n=int(sqrt(game.nsubgrids)),
                                EMPTY_CELL=GameConstants.EMPTY_CELL,
                                possible_digits=game.possible_digits,
                                initial_clues=game.initial_clues)
+    
     @app.route('/update_cell', methods=['POST'])
     def update_cell(): #type: ignore
         data = request.get_json()
@@ -55,6 +62,5 @@ def create_app(game: SquareSudokuGame | None = None) -> Flask:
             'game_state': game.game_state,
             'violating_cells': game.compute_violating_cells()
             })
-
 
     return app

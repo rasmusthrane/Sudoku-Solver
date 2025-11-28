@@ -1,0 +1,73 @@
+body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+.tile {
+    width: 48px; 
+    height: 48px;
+    border: 1px solid lightgray;
+
+    /* Text */
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+/* Define style of table data cells*/
+    
+td {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #555;
+    font-size: 20px;
+}
+
+/* Thicker borders between 3x3 subgrids */
+tr:nth-child(3n) td {
+    border-bottom: 3px solid black;
+}
+
+td:nth-child(3n) {
+    border-right: 3px solid black;
+}
+
+/* Thicker border for top and left border */
+tr:first-child td {
+    border-top: 3px solid black;
+}
+
+td:first-child {
+    border-left: 3px solid black;
+}
+
+/* highlight editable cells */
+td:focus {
+    outline: none;
+    background-color: #d0f0ff;
+}
+
+td[contenteditable="true"] {
+    cursor: text;
+}
+
+.initial-clue {
+    background-color: #b0aeae;
+    color: black;
+}
+
+
+
