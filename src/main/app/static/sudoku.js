@@ -78,14 +78,19 @@ function getGameState() {
         // Reset digit color for all cells
         document.querySelectorAll('td').forEach(td => {
           td.style.color = ''
+          td.style.backgroundColor = ''
         })
 
         // Highlight the violating cells (if any)
         violatingCells.forEach(cellId => {
           const cell = document.getElementById(cellId)
-          if (cell) {
-            cell.style.color = 'lightcoral'
-          }
+            if (cell) {
+                if (cell.classList.contains('initial-clue')) {
+                cell.style.backgroundColor = 'pink'; 
+                } else {
+                cell.style.color = 'lightcoral';
+                }
+            }
           
         });
       })
